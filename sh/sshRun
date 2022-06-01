@@ -1,0 +1,2 @@
+#!/bin/bash
+eval $(eval _sshRun $1 $2 $3)

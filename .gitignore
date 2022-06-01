@@ -1,0 +1,6 @@
+!config**
+!config/.config**
+!example.config.install.sh
+config.install.sh
+release.tar.gz
+!go/go.mod

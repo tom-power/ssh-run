@@ -1,0 +1,22 @@
+#compdef sshRun
+
+_hosts() {
+  compadd $(~/bin/_sshRun hosts | sed 's/echo//')
+}
+
+_scripts() {
+  compadd $(~/bin/_sshRun ${words[2]} scripts | sed 's/echo//')
+}
+
+_arguments -s \
+     '1:hosts:_hosts' \
+     '2:scripts:_scripts' \
+     '*:scripts:->script'
+
+if [[ $state == 'script' ]]; then
+  case $line[1] in
+    repos)
+     _arguments '2:command:(status pull push)'
+     ;;
+  esac
+fi
