@@ -30,11 +30,6 @@ func Run(
 		if scriptName == "ssh" {
 			return sshCommand(host, getCommand)
 		}
-		var prefix = ""
-		if scriptName == "explain" {
-			scriptName = args[0]
-			prefix = "echo "
-		}
 		scriptPath, err := getScriptPath(host, scriptName)
 		if err != nil {
 			return "", err
@@ -47,7 +42,7 @@ func Run(
 		if err != nil {
 			return "", err
 		}
-		return prefix + command, nil
+		return command, nil
 	}
 }
 

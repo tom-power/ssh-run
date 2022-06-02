@@ -1,2 +1,7 @@
 #!/bin/bash
-eval $(eval _sshRun $1 $2 $3)
+command=$(eval _sshRun $1 $2 $3)
+if  [ "$3" == "explain" ]; then
+  echo "$command"
+else
+  eval "$command"
+fi

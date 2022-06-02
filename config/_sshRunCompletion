@@ -11,12 +11,4 @@ _scripts() {
 _arguments -s \
      '1:hosts:_hosts' \
      '2:scripts:_scripts' \
-     '*:scripts:->script'
-
-if [[ $state == 'script' ]]; then
-  case $line[1] in
-    repos)
-     _arguments '2:command:(status pull push)'
-     ;;
-  esac
-fi
+     '3:explain:(explain)'

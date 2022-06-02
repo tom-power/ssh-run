@@ -44,7 +44,7 @@ to discover/explain available scripts:
 
 ```
 <hostName> scripts
-<hostName> explain <scriptName>
+<hostName> <scriptName> explain
 ```
 also start a session with `<hostName> ssh` or list hosts with `sr hosts`.
 

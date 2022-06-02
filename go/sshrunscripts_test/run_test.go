@@ -70,15 +70,6 @@ func Test_run(t *testing.T) {
 		}
 	})
 
-	t.Run("can explain a scripts", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "explain", []string{"sshRunScript"}, "")
-
-		expected := "echo ssh -p 22 testUser@192.0.2.1 -f \"command\""
-		if actual != expected {
-			t.Errorf("'%v' should equal '%v'", actual, expected)
-		}
-	})
-
 	t.Run("can list hosts", func(t *testing.T) {
 		actual, _ := testRun("hosts", "", []string{}, "")
 
