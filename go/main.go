@@ -16,7 +16,7 @@ func main() {
 	}
 	var run = sshrunscripts.Run(
 		sshrunscripts.GetHostFromConf(conf),
-    sshrunscripts.GetScriptPathFromConf,
+		sshrunscripts.GetScriptPathFromConf,
 		sshrunscripts.GetScriptFromConf,
 		sshrunscripts.GetCommandSsh,
 		sshrunscripts.GetScriptsAll,

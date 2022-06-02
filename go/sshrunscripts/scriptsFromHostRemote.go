@@ -11,7 +11,7 @@ func scriptsFromHostLocalRemote(host Host) (string, error) {
 	}
 	var buff bytes.Buffer
 	session.Stdout = &buff
-	scriptsDir := scriptsDir("/home/" + host.User + "host/localhost" )
+	scriptsDir := scriptsDir("/home/" + host.User + "host/localhost")
 	if err := session.Run("find " + scriptsDir + " -type f -printf '%%f ' | sed \"s/.sh//g\""); err != nil {
 		return "", err
 	}

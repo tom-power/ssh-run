@@ -13,4 +13,3 @@ var GetScriptFromConf = func(scriptPath string) (string, error) {
 	}
 	return string(dat), nil
 }
-

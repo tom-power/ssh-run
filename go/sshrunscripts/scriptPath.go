@@ -1,8 +1,8 @@
 package sshrunscripts
 
 import (
-	"os/user"
 	"errors"
+	"os/user"
 	"path/filepath"
 )
 
@@ -14,8 +14,8 @@ var GetScriptPathFromConf = func(host Host, scriptName string) (string, error) {
 	if fileExists(commonScript) {
 		script = commonScript
 	}
-  hostScript := scriptPathFromHostLocal(host, scriptName)
-  // hostScript := scriptFromHostRemote(host, scriptName)
+	hostScript := scriptPathFromHostLocal(host, scriptName)
+	// hostScript := scriptFromHostRemote(host, scriptName)
 	if fileExists(hostScript) {
 		script = hostScript
 	}
@@ -25,7 +25,6 @@ var GetScriptPathFromConf = func(host Host, scriptName string) (string, error) {
 	return script, nil
 }
 
-
 const scriptsPath = "/.config/ssh-run-scripts/scripts/"
 
 func scriptsDir(homeDir string) string {
@@ -33,7 +32,7 @@ func scriptsDir(homeDir string) string {
 }
 
 func homeDir() string {
-  usr, _ := user.Current()
+	usr, _ := user.Current()
 	return usr.HomeDir
 }
 
@@ -42,7 +41,7 @@ func hostsDir(hostsName string) string {
 }
 
 func scriptPathFromHost(scriptsDir string, hostsName string, scriptName string) string {
-  return filePathFromName(scriptsDir + "host/" + hostsName + "/", scriptName)
+	return filePathFromName(scriptsDir+"host/"+hostsName+"/", scriptName)
 }
 
 func commonDir() string {
@@ -54,9 +53,9 @@ func scriptPathFromCommon(scriptName string) string {
 }
 
 func filePathFromName(dir string, name string) string {
-    matches, err := filepath.Glob(dir + name + ".*")
-    if err != nil || len(matches) == 0 {
-        return ""
-    }
-    return matches[0]
+	matches, err := filepath.Glob(dir + name + ".*")
+	if err != nil || len(matches) == 0 {
+		return ""
+	}
+	return matches[0]
 }

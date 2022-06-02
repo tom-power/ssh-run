@@ -22,7 +22,7 @@ func getSession(host Host) (*ssh.Session, error) {
 		Auth: []ssh.AuthMethod{
 			ssh.PublicKeys(signer),
 		},
-    HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 	conn, err := ssh.Dial("tcp", strings.Join([]string{host.Ip, ":", host.PortSsh}, ""), config)
 	if err != nil {

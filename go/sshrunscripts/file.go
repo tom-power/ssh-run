@@ -1,7 +1,7 @@
 package sshrunscripts
 
 import (
-  "os"
+	"os"
 )
 
 func fileExists(path string) bool {

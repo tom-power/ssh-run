@@ -17,4 +17,3 @@ func scriptFromHostRemote(host Host, scriptName string) (string, error) {
 	}
 	return buff.String(), nil
 }
-

@@ -104,7 +104,7 @@ func testRun(
 		testGetScript,
 		sshrunscripts.GetCommandSsh,
 		testGetScripts,
-    sshrunscripts.GetHostsFromConf([]byte(testConfigText)),
+		sshrunscripts.GetHostsFromConf([]byte(testConfigText)),
 	)(hostName, scriptName, args, localUserName)
 }
 
@@ -144,16 +144,16 @@ var testGetScript = func(scriptPath string) (string, error) {
 }
 
 var testGetScriptPath = func(host sshrunscripts.Host, scriptName string) (string, error) {
-  switch scriptName {
-  case "ssh":
-    return "ssh.ssh.sh", nil
-  case "sshRunLocalScript":
-    return "sshRunLocalScript.local.sh", nil
-  case "sshRunSudoScript":
-    return "sshRunSudoScript.sudo.sh", nil
-  case "sshRunX11Script":
-    return "sshRunX11Script.x11.sh", nil
-  default:
-    return  scriptName + ".sh", nil
-  }
+	switch scriptName {
+	case "ssh":
+		return "ssh.ssh.sh", nil
+	case "sshRunLocalScript":
+		return "sshRunLocalScript.local.sh", nil
+	case "sshRunSudoScript":
+		return "sshRunSudoScript.sudo.sh", nil
+	case "sshRunX11Script":
+		return "sshRunX11Script.x11.sh", nil
+	default:
+		return scriptName + ".sh", nil
+	}
 }
