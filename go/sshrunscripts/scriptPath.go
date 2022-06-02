@@ -36,8 +36,8 @@ func homeDir() string {
 	return usr.HomeDir
 }
 
-func hostsDir(hostsName string) string {
-	return scriptsDir(homeDir()) + "host/" + hostsName + "/"
+func hostDir(hostsName string, homeDir string) string {
+	return scriptsDir(homeDir) + "host/" + hostsName + "/"
 }
 
 func scriptPathFromHost(scriptsDir string, hostsName string, scriptName string) string {

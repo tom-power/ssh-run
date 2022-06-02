@@ -1,6 +1,7 @@
 package sshrunscripts
 
 import (
+	"bytes"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -29,4 +30,17 @@ func getSession(host Host) (*ssh.Session, error) {
 		log.Println(err)
 	}
 	return conn.NewSession()
+}
+
+func runCommandOn(host Host, command string) (string, error) {
+	session, err := getSession(host)
+	if err != nil {
+		return "", err
+	}
+	var buff bytes.Buffer
+	session.Stdout = &buff
+	if err := session.Run(command); err != nil {
+		return "", err
+	}
+	return buff.String(), nil
 }

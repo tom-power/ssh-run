@@ -6,7 +6,7 @@ import (
 
 func scriptPathFromHostLocal(host Host, scriptName string) string {
 	script := ""
-	hostDir := hostsDir(host.Name)
+	hostDir := hostDir(host.Name, homeDir())
 	hostFiles, _ := ioutil.ReadDir(hostDir)
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {

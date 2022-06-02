@@ -7,7 +7,7 @@ import (
 
 func scriptsFromHostLocal(host Host) (string, error) {
 	var files []os.FileInfo
-	err := filepath.Walk(hostsDir(host.Name), appendFiles(&files))
+	err := filepath.Walk(hostDir(host.Name, homeDir()), appendFiles(&files))
 	return filesToFileNames(filterKeep(files)), err
 }
 

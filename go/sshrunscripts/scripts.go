@@ -53,7 +53,7 @@ func getScriptsFromCommon() (string, error) {
 
 func getScriptsFromShared(host Host) (string, error) {
 	var files []os.FileInfo
-	hostFiles, _ := ioutil.ReadDir(hostsDir(host.Name))
+	hostFiles, _ := ioutil.ReadDir(hostDir(host.Name, homeDir()))
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
 			sharedDir := scriptsDir(homeDir()) + "shared/" + hostFile.Name()
