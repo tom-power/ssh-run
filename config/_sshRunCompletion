@@ -5,7 +5,7 @@ _hosts() {
 }
 
 _scripts() {
-  compadd $(~/bin/_sshRun ${words[2]} scripts | sed 's/echo//')
+  compadd $(~/bin/_sshRun ${words[2]} scripts | sed 's/echo//' | sed 's/$/ explain/')
 }
 
 _arguments -s \

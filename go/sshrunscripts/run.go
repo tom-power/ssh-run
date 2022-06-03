@@ -1,6 +1,7 @@
 package sshrunscripts
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -24,6 +25,9 @@ func Run(
 		if err != nil {
 			return "", err
 		}
+		if scriptName == "explain" {
+			return toString(host)
+		}
 		if scriptName == "scripts" {
 			return echo(func() (string, error) { return getScripts(host) })
 		}
@@ -44,6 +48,10 @@ func Run(
 		}
 		return command, nil
 	}
+}
+
+func toString(host Host) (string, error) {
+	return strings.ReplaceAll(fmt.Sprintf("%#v", host), "sshrunscripts.", ""), nil
 }
 
 func echo(fn func() (string, error)) (string, error) {

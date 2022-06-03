@@ -36,17 +36,21 @@ hosts:
 
 ### Running scripts
 
-With shell integration run a script against a configured host like:
+Run a script against a configured host like:
 
-`<hostName> <scriptName>`
+`sshRun <hostName> <scriptName>`
 
-to discover/explain available scripts:
+to discover/explain hosts/scripts or start an ssh session:
 
 ```
-<hostName> scripts
-<hostName> <scriptName> explain
+sshRun hosts
+sshRun <hostName> explain
+sshRun <hostName> scripts
+sshRun <hostName> <scriptName> explain
+sshRun <hostName> ssh
 ```
-also start a session with `<hostName> ssh` or list hosts with `sr hosts`.
+
+`sshRun` can be dropped from the above using provided `bash_aliases` + your hosts.
 
 ### Writing scripts
 

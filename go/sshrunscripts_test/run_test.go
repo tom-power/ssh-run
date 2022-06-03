@@ -10,7 +10,6 @@ import (
 func Test_run(t *testing.T) {
 	t.Run("can ssh", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "ssh", []string{}, "")
-
 		expected := "ssh -p 22 testUser@192.0.2.1"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -19,7 +18,6 @@ func Test_run(t *testing.T) {
 
 	t.Run("can run local", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "sshRunLocalScript", []string{}, "")
-
 		if actual != "command" {
 			t.Errorf("'%v' should equal '%v'", actual, "command")
 		}
@@ -27,7 +25,6 @@ func Test_run(t *testing.T) {
 
 	t.Run("can run ssh", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "sshRunScript", []string{}, "")
-
 		expected := "ssh -p 22 testUser@192.0.2.1 -f \"command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -36,7 +33,6 @@ func Test_run(t *testing.T) {
 
 	t.Run("can run ssh with args", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "sshRunScriptWithArgs", []string{"arg1", "arg2"}, "")
-
 		expected := "ssh -p 22 testUser@192.0.2.1 -f \"command arg1 arg2\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -45,7 +41,6 @@ func Test_run(t *testing.T) {
 
 	t.Run("can run ssh with sudo", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "sshRunSudoScript", []string{}, "")
-
 		expected := "ssh -p 22 testUser@192.0.2.1 -t \"sudo command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -63,7 +58,6 @@ func Test_run(t *testing.T) {
 
 	t.Run("can list scripts", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "scripts", []string{}, "")
-
 		expected := "echo script anotherScript"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -72,8 +66,15 @@ func Test_run(t *testing.T) {
 
 	t.Run("can list hosts", func(t *testing.T) {
 		actual, _ := testRun("hosts", "", []string{}, "")
-
 		expected := "echo testHostName1 testHostName testHostName3"
+		if actual != expected {
+			t.Errorf("'%v' should equal '%v'", actual, expected)
+		}
+	})
+
+	t.Run("can explain host", func(t *testing.T) {
+		actual, _ := testRun("testHostName", "explain", []string{}, "")
+		expected := "Host{Name:\"testHostName\", User:\"testUser\", Ip:\"192.0.2.1\", PortSsh:\"22\", PortTunnel:\"1081\"}"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}

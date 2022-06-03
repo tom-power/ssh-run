@@ -3,7 +3,6 @@ package sshrunscripts
 import (
 	"bytes"
 	"io/ioutil"
-	"log"
 	"strings"
 
 	"golang.org/x/crypto/ssh"
@@ -12,11 +11,11 @@ import (
 func getSession(host Host) (*ssh.Session, error) {
 	keyBytes, err := ioutil.ReadFile(homeDir() + "/.ssh/id_rsa")
 	if err != nil {
-		log.Println("Failed to load private key: ", err)
+		return nil, err
 	}
 	signer, err := ssh.ParsePrivateKey(keyBytes)
 	if err != nil {
-		log.Println(err)
+		return nil, err
 	}
 	config := &ssh.ClientConfig{
 		User: host.User,
@@ -27,7 +26,7 @@ func getSession(host Host) (*ssh.Session, error) {
 	}
 	conn, err := ssh.Dial("tcp", strings.Join([]string{host.Ip, ":", host.PortSsh}, ""), config)
 	if err != nil {
-		log.Println(err)
+		return nil, err
 	}
 	return conn.NewSession()
 }
