@@ -1,4 +1,8 @@
-# write, read and **_RUN_** scripts over ssh
+# write/read/**_RUN_** scripts over ssh
+
+This must exist elsewhere, or is easy enough to configure so isn't needed..
+
+but I couldn't find either, so started writing this nonsense and use it everyday now, ymmv!
 
 ![demo]()
 
