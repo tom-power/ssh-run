@@ -24,7 +24,7 @@ var GetCommandSsh = func(
 		return cleanup(withSubs(command, host, args)), nil
 	case "":
 		return sshRun(sshTo(host), "-f", cleanup(withSubs(command, host, args))), nil
-	case "sudo":
+	case "pty":
 		return sshRun(sshTo(host), "-t", cleanup(withSubs(command, host, args))), nil
 	case "x11":
 		return sshRun(sshTo(host), "-Y", cleanup(withSubs(command, host, args))), nil

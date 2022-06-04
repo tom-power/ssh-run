@@ -40,9 +40,9 @@ func Test_run(t *testing.T) {
 		}
 	})
 
-	t.Run("can run ssh with sudo", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "sshRunSudoScript", []string{}, "")
-		expected := "ssh -p 22 testUser@192.0.2.1 -t \"sudo command\""
+	t.Run("can run ssh with pty", func(t *testing.T) {
+		actual, _ := testRun("testHostName", "sshRunPtyScript", []string{}, "")
+		expected := "ssh -p 22 testUser@192.0.2.1 -t \"pty command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
@@ -127,8 +127,8 @@ var testGetScript = func(host shared.Host, scriptPath string) (string, error) {
 		return "command $1 $2", nil
 	case "sshRunScriptWithArgs.sh":
 		return "command $1 $2", nil
-	case "sshRunSudoScript.sudo.sh":
-		return "sudo command", nil
+	case "sshRunPtyScript.pty.sh":
+		return "pty command", nil
 	case "sshRunX11Script.x11.sh":
 		return "command", nil
 	default:
@@ -142,8 +142,8 @@ var testGetScriptPath = func(host shared.Host, scriptName string) (string, error
 		return "ssh.ssh.sh", nil
 	case "sshRunLocalScript":
 		return "sshRunLocalScript.local.sh", nil
-	case "sshRunSudoScript":
-		return "sshRunSudoScript.sudo.sh", nil
+	case "sshRunPtyScript":
+		return "sshRunPtyScript.pty.sh", nil
 	case "sshRunX11Script":
 		return "sshRunX11Script.x11.sh", nil
 	default:

@@ -33,7 +33,7 @@ var GetScriptsAll = func(host shared.Host) (string, error) {
 
 func removeCommandTypes(scripts string) string {
 	scripts = strings.ReplaceAll(scripts, ".local", "")
-	scripts = strings.ReplaceAll(scripts, ".sudo", "")
+	scripts = strings.ReplaceAll(scripts, ".pty", "")
 	scripts = strings.ReplaceAll(scripts, ".x11", "")
 	scripts = strings.ReplaceAll(scripts, ".ssh", "")
 	return scripts

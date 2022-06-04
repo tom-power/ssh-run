@@ -17,7 +17,7 @@ var testHost = shared.Host{
 	false,
 }
 
-var commandTypes = []string{"local", "sudo", "x11", ""}
+var commandTypes = []string{"local", "pty", "x11", ""}
 
 func Test_command(t *testing.T) {
 	t.Run("can run commandTypes with newlines", func(t *testing.T) {
