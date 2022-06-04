@@ -23,7 +23,7 @@ var GetCommandSsh = func(
 	case "local":
 		return cleanup(withSubs(command, host, args)), nil
 	case "":
-		return sshRun(sshTo(host), "-f", cleanup(withSubs(command, host, args))), nil
+		return sshRun(sshTo(host), "", cleanup(withSubs(command, host, args))), nil
 	case "pty":
 		return sshRun(sshTo(host), "-t", cleanup(withSubs(command, host, args))), nil
 	case "x11":
@@ -38,6 +38,9 @@ func sshTo(host shared.Host) string {
 }
 
 func sshRun(ssh string, option string, command string) string {
+	if option == "" {
+		return fmt.Sprintf("%s \"%s\"", ssh, command)
+	}
 	return fmt.Sprintf("%s %s \"%s\"", ssh, option, command)
 }
 

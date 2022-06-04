@@ -26,7 +26,7 @@ func Test_run(t *testing.T) {
 
 	t.Run("can run ssh", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "sshRunScript", []string{}, "")
-		expected := "ssh -p 22 testUser@192.0.2.1 -f \"command\""
+		expected := "ssh -p 22 testUser@192.0.2.1 \"command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
@@ -34,7 +34,7 @@ func Test_run(t *testing.T) {
 
 	t.Run("can run ssh with args", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "sshRunScriptWithArgs", []string{"arg1", "arg2"}, "")
-		expected := "ssh -p 22 testUser@192.0.2.1 -f \"command arg1 arg2\""
+		expected := "ssh -p 22 testUser@192.0.2.1 \"command arg1 arg2\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}

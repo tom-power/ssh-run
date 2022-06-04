@@ -65,7 +65,7 @@ Write scripts as you would normally for the target shell.
 
 use the following file name convention to indicate how your scripts should be run:
 
-- `<scriptName>.sh` _with -f_
+- `<scriptName>.sh` _with no flags_
 - `<scriptName>.pty.sh` _with -t_
 - `<scriptName>.x11.sh` _with -Y_
 - `<scriptName>.local.sh` _locally_
