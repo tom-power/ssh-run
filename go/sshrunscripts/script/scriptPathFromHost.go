@@ -3,16 +3,10 @@ package script
 import "github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 
 func getScriptPathFromHost(host shared.Host, scriptName string) string {
-	hostScriptPath := ""
-	hostScriptPathLocal := scriptPathFromHostLocal(host, scriptName)
-	if fileExists(hostScriptPathLocal) {
-		hostScriptPath = hostScriptPathLocal
-	}
+	scriptPath := ""
+	shared.UpdateIf(&scriptPath, scriptPathFromHostLocal(host, scriptName), fileExists)
 	if host.CheckForScripts {
-		hostScriptPathRemote := scriptPathFromHostRemote(host, scriptName)
-		if hostScriptPathRemote != "" {
-			hostScriptPath = hostScriptPathRemote
-		}
+		shared.UpdateIf(&scriptPath, scriptPathFromHostRemote(host, scriptName), isNotEmpty)
 	}
-	return hostScriptPath
+	return scriptPath
 }

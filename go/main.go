@@ -11,23 +11,10 @@ import (
 )
 
 func main() {
-	conf, err := sshrunscripts.ReadConfig()
-	if err != nil {
-		log.Println(err)
+	hostName := ""
+	if len(os.Args) > 1 {
+		hostName = os.Args[1]
 	}
-	var run = sshrunscripts.Run(
-		sshrunscripts.GetHostFromConf(conf),
-		script.GetScriptPathFromConf,
-		script.GetScriptContentsFromHost,
-		sshrunscripts.GetCommandSsh,
-		script.GetScriptsAll,
-		sshrunscripts.GetHostsFromConf(conf),
-	)
-	usr, err := user.Current()
-	if err != nil {
-		log.Println(err)
-	}
-	hostName := os.Args[1]
 	scriptName := ""
 	if len(os.Args) > 2 {
 		scriptName = os.Args[2]
@@ -36,9 +23,28 @@ func main() {
 	if len(os.Args) > 3 {
 		args = os.Args[3:]
 	}
-	sshRun, err := run(hostName, scriptName, args, usr.Username)
+	usr, err := user.Current()
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
+	}
+	sshRun, err := getRun()(hostName, scriptName, args, usr.Username)
+	if err != nil {
+		log.Fatal(err)
 	}
 	fmt.Printf(sshRun)
+}
+
+func getRun() sshrunscripts.Run {
+	conf, err := sshrunscripts.ReadConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return sshrunscripts.GetRun(
+		sshrunscripts.GetHostFromConf(conf),
+		script.GetScriptPathFromConf,
+		script.GetScriptContentsFromHost,
+		sshrunscripts.GetCommandSsh,
+		script.GetScriptsAll,
+		sshrunscripts.GetHostsFromConf(conf),
+	)
 }

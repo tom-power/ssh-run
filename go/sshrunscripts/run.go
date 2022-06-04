@@ -7,14 +7,20 @@ import (
 	"strings"
 )
 
-func Run(
+type Run = func(
+	hostName string,
+	scriptName string,
+	args []string,
+	localUserName string) (string, error)
+
+func GetRun(
 	getHost GetHost,
 	getScriptPath script.GetScriptPath,
 	getScriptContents script.GetScriptContents,
 	getCommand GetCommand,
 	getScripts script.GetScripts,
 	getHosts GetHosts,
-) func(string, string, []string, string) (string, error) {
+) Run {
 	return func(
 		hostName string,
 		scriptName string,
@@ -27,13 +33,12 @@ func Run(
 		if err != nil {
 			return "", err
 		}
-		if scriptName == "explain" {
+		switch scriptName {
+		case "explain":
 			return hostToString(host)
-		}
-		if scriptName == "scripts" {
+		case "scripts":
 			return echo(func() (string, error) { return getScripts(host) })
-		}
-		if scriptName == "ssh" {
+		case "ssh":
 			return sshCommand(host, getCommand)
 		}
 		scriptPath, err := getScriptPath(host, scriptName)

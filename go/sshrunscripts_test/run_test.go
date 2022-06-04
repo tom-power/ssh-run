@@ -91,7 +91,7 @@ func testRun(
 	scriptName string,
 	args []string,
 	localUserName string) (string, error) {
-	return sshrunscripts.Run(
+	return sshrunscripts.GetRun(
 		sshrunscripts.GetHostFromConf([]byte(testConfigText)),
 		testGetScriptPath,
 		testGetScript,

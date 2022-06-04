@@ -10,7 +10,7 @@ but I couldn't find either, so started writing this nonsense and use it everyday
 ## Installation
 
 ```bash
-wget https://github.com/tom-power/ssh-run-scripts/releases/download/latest/release_linuxamd64.tar.gz &&  
+wget https://github.com/tom-power/ssh-run-scripts/releases/download/latest/release_linuxamd64.tar.gz&&  
 tar -xvzf release_linuxamd64.tar.gz &&
 cd ./release_linuxamd64
 

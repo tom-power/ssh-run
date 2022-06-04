@@ -20,7 +20,7 @@ func Filter[V any](vs []V, predicate func(V) bool) []V {
 
 func Unique(strSlice []string) []string {
 	keys := make(map[string]bool)
-	list := []string{}
+	var list []string
 	for _, entry := range strSlice {
 		if _, value := keys[entry]; !value {
 			keys[entry] = true
@@ -28,4 +28,10 @@ func Unique(strSlice []string) []string {
 		}
 	}
 	return list
+}
+
+func UpdateIf[V any](v *V, newV V, predicate func(V) bool) {
+	if predicate(newV) {
+		*v = newV
+	}
 }

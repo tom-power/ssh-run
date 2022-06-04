@@ -11,14 +11,8 @@ type GetScriptPath = func(host shared.Host, scriptName string) (string, error)
 
 var GetScriptPathFromConf = func(host shared.Host, scriptName string) (string, error) {
 	script := ""
-	commonScriptPath := scriptPathFromCommon(scriptName)
-	if fileExists(commonScriptPath) {
-		script = commonScriptPath
-	}
-	hostScriptPath := getScriptPathFromHost(host, scriptName)
-	if hostScriptPath != "" {
-		script = hostScriptPath
-	}
+	shared.UpdateIf(&script, scriptPathFromCommon(scriptName), fileExists)
+	shared.UpdateIf(&script, getScriptPathFromHost(host, scriptName), fileExists)
 	if script == "" {
 		return "", errors.New("couldn't find script \"" + scriptName + ".sh\" for host \"" + host.Name + "\"")
 	}

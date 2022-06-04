@@ -11,20 +11,11 @@ func scriptPathFromHostLocal(host shared.Host, scriptName string) string {
 	hostFiles, _ := ioutil.ReadDir(hostDir)
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
-			sharedScript := scriptPathFromShared(hostFile.Name(), scriptName)
-			if fileExists(sharedScript) {
-				script = sharedScript
-			}
-			hostSubDirScript := scriptPathFromHostSubDir(host.Name, hostFile.Name(), scriptName)
-			if fileExists(hostSubDirScript) {
-				script = hostSubDirScript
-			}
+			shared.UpdateIf(&script, scriptPathFromShared(hostFile.Name(), scriptName), fileExists)
+			shared.UpdateIf(&script, scriptPathFromHostSubDir(host.Name, hostFile.Name(), scriptName), fileExists)
 		}
 	}
-	hostScript := scriptPathFromHost(scriptsDir(homeDir()), host.Name, scriptName)
-	if fileExists(hostScript) {
-		script = hostScript
-	}
+	shared.UpdateIf(&script, scriptPathFromHost(scriptsDir(homeDir()), host.Name, scriptName), fileExists)
 	return script
 }
 
