@@ -1,10 +1,11 @@
-package sshrunscripts
+package script
 
 import (
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"io/ioutil"
 )
 
-func scriptPathFromHostLocal(host Host, scriptName string) string {
+func scriptPathFromHostLocal(host shared.Host, scriptName string) string {
 	script := ""
 	hostDir := hostDir(host.Name, homeDir())
 	hostFiles, _ := ioutil.ReadDir(hostDir)

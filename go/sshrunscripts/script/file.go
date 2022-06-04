@@ -1,4 +1,4 @@
-package sshrunscripts
+package script
 
 import (
 	"os"

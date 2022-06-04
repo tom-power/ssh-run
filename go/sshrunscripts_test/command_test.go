@@ -1,13 +1,21 @@
 package sshrunscripts_test
 
 import (
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"strings"
 	"testing"
 
 	"github.com/tom-power/ssh-run-scripts/sshrunscripts"
 )
 
-var testHost = sshrunscripts.Host{"testName", "testUser", "192.0.2.1", "22", "1081"}
+var testHost = shared.Host{
+	"testName",
+	"testUser",
+	"192.0.2.1",
+	"22",
+	"1081",
+	false,
+}
 
 var commandTypes = []string{"local", "sudo", "x11", ""}
 

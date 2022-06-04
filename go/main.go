@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/script"
 	"log"
 	"os"
 	"os/user"
@@ -16,10 +17,10 @@ func main() {
 	}
 	var run = sshrunscripts.Run(
 		sshrunscripts.GetHostFromConf(conf),
-		sshrunscripts.GetScriptPathFromConf,
-		sshrunscripts.GetScriptFromHostLocal,
+		script.GetScriptPathFromConf,
+		script.GetScriptContentsFromHost,
 		sshrunscripts.GetCommandSsh,
-		sshrunscripts.GetScriptsAll,
+		script.GetScriptsAll,
 		sshrunscripts.GetHostsFromConf(conf),
 	)
 	usr, err := user.Current()

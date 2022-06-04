@@ -1,14 +1,15 @@
-package sshrunscripts
+package script
 
 import (
 	"bytes"
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"io/ioutil"
 	"strings"
 
 	"golang.org/x/crypto/ssh"
 )
 
-func getSession(host Host) (*ssh.Session, error) {
+func getSession(host shared.Host) (*ssh.Session, error) {
 	keyBytes, err := ioutil.ReadFile(homeDir() + "/.ssh/id_rsa")
 	if err != nil {
 		return nil, err
@@ -31,7 +32,7 @@ func getSession(host Host) (*ssh.Session, error) {
 	return conn.NewSession()
 }
 
-func runCommandOn(host Host, command string) (string, error) {
+func runCommandOn(host shared.Host, command string) (string, error) {
 	session, err := getSession(host)
 	if err != nil {
 		return "", err

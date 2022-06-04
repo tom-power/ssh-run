@@ -1,4 +1,4 @@
-package sshrunscripts
+package shared
 
 func Map[T any, S any](arr []T, f func(T) S) []S {
 	tmp := make([]S, len(arr))
@@ -16,4 +16,16 @@ func Filter[V any](vs []V, predicate func(V) bool) []V {
 		}
 	}
 	return filtered
+}
+
+func Unique(strSlice []string) []string {
+	keys := make(map[string]bool)
+	list := []string{}
+	for _, entry := range strSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
 }

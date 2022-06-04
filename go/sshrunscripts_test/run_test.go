@@ -2,6 +2,7 @@ package sshrunscripts_test
 
 import (
 	"errors"
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"testing"
 
 	"github.com/tom-power/ssh-run-scripts/sshrunscripts"
@@ -74,14 +75,14 @@ func Test_run(t *testing.T) {
 
 	t.Run("can explain host", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "explain", []string{}, "")
-		expected := "Host{Name:\"testHostName\", User:\"testUser\", Ip:\"192.0.2.1\", PortSsh:\"22\", PortTunnel:\"1081\"}"
+		expected := "Host{Name:\"testHostName\", User:\"testUser\", Ip:\"192.0.2.1\", PortSsh:\"22\", PortTunnel:\"1081\", CheckForScripts:false}"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
 	})
 }
 
-var testGetScripts = func(host sshrunscripts.Host) (string, error) {
+var testGetScripts = func(host shared.Host) (string, error) {
 	return "script anotherScript", nil
 }
 
@@ -116,7 +117,7 @@ hosts:
     ip: 192.0.2.3
     portSsh: 24`
 
-var testGetScript = func(scriptPath string) (string, error) {
+var testGetScript = func(host shared.Host, scriptPath string) (string, error) {
 	switch scriptPath {
 	case "sshRunLocalScript.local.sh":
 		return "command", nil
@@ -135,7 +136,7 @@ var testGetScript = func(scriptPath string) (string, error) {
 	}
 }
 
-var testGetScriptPath = func(host sshrunscripts.Host, scriptName string) (string, error) {
+var testGetScriptPath = func(host shared.Host, scriptName string) (string, error) {
 	switch scriptName {
 	case "ssh":
 		return "ssh.ssh.sh", nil

@@ -2,15 +2,17 @@ package sshrunscripts
 
 import (
 	"fmt"
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/script"
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"strings"
 )
 
 func Run(
 	getHost GetHost,
-	getScriptPath GetScriptPath,
-	getScript GetScript,
+	getScriptPath script.GetScriptPath,
+	getScriptContents script.GetScriptContents,
 	getCommand GetCommand,
-	getScripts GetScripts,
+	getScripts script.GetScripts,
 	getHosts GetHosts,
 ) func(string, string, []string, string) (string, error) {
 	return func(
@@ -26,7 +28,7 @@ func Run(
 			return "", err
 		}
 		if scriptName == "explain" {
-			return toString(host)
+			return hostToString(host)
 		}
 		if scriptName == "scripts" {
 			return echo(func() (string, error) { return getScripts(host) })
@@ -38,7 +40,7 @@ func Run(
 		if err != nil {
 			return "", err
 		}
-		scriptContents, err := getScript(scriptPath)
+		scriptContents, err := getScriptContents(host, scriptPath)
 		if err != nil {
 			return "", err
 		}
@@ -50,8 +52,8 @@ func Run(
 	}
 }
 
-func toString(host Host) (string, error) {
-	return strings.ReplaceAll(fmt.Sprintf("%#v", host), "sshrunscripts.", ""), nil
+func hostToString(host shared.Host) (string, error) {
+	return strings.ReplaceAll(fmt.Sprintf("%#v", host), "shared.", ""), nil
 }
 
 func echo(fn func() (string, error)) (string, error) {
@@ -62,7 +64,7 @@ func echo(fn func() (string, error)) (string, error) {
 	return "echo " + command, nil
 }
 
-func sshCommand(host Host, getCommand GetCommand) (string, error) {
+func sshCommand(host shared.Host, getCommand GetCommand) (string, error) {
 	command, err := getCommand("ssh", "", host, []string{""})
 	if err != nil {
 		return "", err

@@ -1,23 +1,23 @@
-package sshrunscripts
+package script
 
 import (
 	"errors"
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"os/user"
 	"path/filepath"
 )
 
-type GetScriptPath = func(host Host, scriptName string) (string, error)
+type GetScriptPath = func(host shared.Host, scriptName string) (string, error)
 
-var GetScriptPathFromConf = func(host Host, scriptName string) (string, error) {
+var GetScriptPathFromConf = func(host shared.Host, scriptName string) (string, error) {
 	script := ""
-	commonScript := scriptPathFromCommon(scriptName)
-	if fileExists(commonScript) {
-		script = commonScript
+	commonScriptPath := scriptPathFromCommon(scriptName)
+	if fileExists(commonScriptPath) {
+		script = commonScriptPath
 	}
-	hostScript := scriptPathFromHostLocal(host, scriptName)
-	// hostScript := scriptFromHostRemote(host, scriptName)
-	if fileExists(hostScript) {
-		script = hostScript
+	hostScriptPath := getScriptPathFromHost(host, scriptName)
+	if hostScriptPath != "" {
+		script = hostScriptPath
 	}
 	if script == "" {
 		return "", errors.New("couldn't find script \"" + scriptName + ".sh\" for host \"" + host.Name + "\"")

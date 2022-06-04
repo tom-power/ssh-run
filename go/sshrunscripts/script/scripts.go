@@ -1,6 +1,7 @@
-package sshrunscripts
+package script
 
 import (
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"strings"
 
 	"io/ioutil"
@@ -8,14 +9,9 @@ import (
 	"path/filepath"
 )
 
-type GetScripts = func(host Host) (string, error)
+type GetScripts = func(host shared.Host) (string, error)
 
-var getHostScripts = func(host Host) (string, error) {
-	return scriptsFromHostLocal(host)
-	// return scriptsFromHostRemote(host)
-}
-
-var GetScriptsAll = func(host Host) (string, error) {
+var GetScriptsAll = func(host shared.Host) (string, error) {
 	commonScripts, err := getScriptsFromCommon()
 	if err != nil {
 		return "", err
@@ -24,7 +20,7 @@ var GetScriptsAll = func(host Host) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	hostScripts, err := getHostScripts(host)
+	hostScripts, err := getScriptsFromHost(host)
 	if err != nil {
 		return "", err
 	}
@@ -32,7 +28,7 @@ var GetScriptsAll = func(host Host) (string, error) {
 	out += commonScripts
 	out += " " + shared
 	out += " " + hostScripts
-	return removeCommandTypes(out), nil
+	return removeSh(removeCommandTypes(out)), nil
 }
 
 func removeCommandTypes(scripts string) string {
@@ -43,6 +39,10 @@ func removeCommandTypes(scripts string) string {
 	return scripts
 }
 
+func removeSh(scripts string) string {
+	return strings.ReplaceAll(scripts, ".sh", "")
+}
+
 func getScriptsFromCommon() (string, error) {
 	files, err := ioutil.ReadDir(commonDir())
 	if err != nil {
@@ -51,7 +51,7 @@ func getScriptsFromCommon() (string, error) {
 	return filesToFileNames(files), nil
 }
 
-func getScriptsFromShared(host Host) (string, error) {
+func getScriptsFromShared(host shared.Host) (string, error) {
 	var files []os.FileInfo
 	hostFiles, _ := ioutil.ReadDir(hostDir(host.Name, homeDir()))
 	for _, hostFile := range hostFiles {
@@ -69,12 +69,8 @@ func getScriptsFromShared(host Host) (string, error) {
 }
 
 func filesToFileNames(files []os.FileInfo) string {
-	filesToFileName := func(file os.FileInfo) string { return fileName(file) }
-	return strings.Join(Map(files, filesToFileName), " ")
-}
-
-func fileName(file os.FileInfo) string {
-	return strings.ReplaceAll(file.Name(), ".sh", "")
+	filesToFileName := func(file os.FileInfo) string { return file.Name() }
+	return strings.Join(shared.Map(files, filesToFileName), " ")
 }
 
 func appendFiles(files *[]os.FileInfo) func(string, os.FileInfo, error) error {

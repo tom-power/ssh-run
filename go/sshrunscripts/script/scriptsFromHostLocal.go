@@ -1,11 +1,12 @@
-package sshrunscripts
+package script
 
 import (
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"os"
 	"path/filepath"
 )
 
-func scriptsFromHostLocal(host Host) (string, error) {
+func scriptsFromHostLocal(host shared.Host) (string, error) {
 	var files []os.FileInfo
 	err := filepath.Walk(hostDir(host.Name, homeDir()), appendFiles(&files))
 	return filesToFileNames(filterKeep(files)), err
@@ -13,5 +14,5 @@ func scriptsFromHostLocal(host Host) (string, error) {
 
 func filterKeep(files []os.FileInfo) []os.FileInfo {
 	var noKeep = func(file os.FileInfo) bool { return file.Name() != ".keep" }
-	return Filter(files, noKeep)
+	return shared.Filter(files, noKeep)
 }

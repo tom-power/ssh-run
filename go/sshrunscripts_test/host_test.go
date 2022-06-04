@@ -1,6 +1,7 @@
 package sshrunscripts
 
 import (
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"testing"
 
 	"github.com/tom-power/ssh-run-scripts/sshrunscripts"
@@ -28,7 +29,7 @@ func Test_host(t *testing.T) {
 	t.Run("can get host from conf", func(t *testing.T) {
 		host, _ := testGetHostFromConf("testName2", "")
 
-		var expectedHost = sshrunscripts.Host{
+		var expectedHost = shared.Host{
 			Name:       "testName2",
 			User:       "testUser2",
 			Ip:         "192.0.2.2",

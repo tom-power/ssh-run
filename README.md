@@ -32,6 +32,7 @@ hosts:
     ip: 192.168.0.1
     portSsh: 22
     portTunnel: 1080
+    checkForScripts: true
 ```
 
 ### Running scripts
@@ -50,7 +51,7 @@ sshRun <hostName> <scriptName> explain
 sshRun <hostName> ssh
 ```
 
-`sshRun` can be dropped from the above using provided `bash_aliases` + your hosts.
+drop `sshRun` from the above using the provided `bash_aliases` + your hosts.
 
 ### Writing scripts
 
@@ -58,20 +59,20 @@ Write scripts as you would normally for the target shell.
 
 `$host`, `$ip`, `$user`, `$portSsh`, `$portTunnel` will be replaced with host configuration values.
 
-Use the following file name convention to indicate how your scripts should be run:
+use the following file name convention to indicate how your scripts should be run:
 
 - `<scriptName>.sh` _with -f_
 - `<scriptName>.sudo.sh` _with -t_
 - `<scriptName>.x11.sh` _with -Y_
 - `<scriptName>.local.sh` _locally_
 
-Save to the following directories in `.config/ssh-run-scripts/scripts` so the script can be found:
+save to the following directories under `.config/ssh-run-scripts/scripts` so the script can be found:
 
 - `common`
-- `host/<hostName>`
+- `host/<hostName>` also checked on the host if `Host.checkForScripts` is `true` 
 - `shared/<sharedDir>` where `sharedDir` is also found in `host/<hostName>`
 
-See scripts [here](https:#github.com/tom-power/ssh-run-scripts/tree/master/config/.config/ssh-run-scripts/scripts) for examples.
+see scripts [here](https:#github.com/tom-power/ssh-run-scripts/tree/master/config/.config/ssh-run-scripts/scripts) for examples.
 
 ## Install from source
 
