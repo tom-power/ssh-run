@@ -4,7 +4,7 @@ This must exist elsewhere, or is easy enough to configure so isn't needed..
 
 but I couldn't find either, so started writing this nonsense and use it everyday now, ymmv!
 
-![demo]()
+![demo](https://github.com/tom-power/ssh-run-scripts/blob/master/assets/demo.gif)
 
 
 ## Installation
