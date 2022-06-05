@@ -5,10 +5,14 @@ _hosts() {
 }
 
 _scripts() {
-  compadd $(~/bin/_sshRun ${words[2]} scripts | sed 's/echo//' | sed 's/$/ explain/')
+  compadd $(~/bin/_sshRun "${words[2]}" scripts | sed 's/echo//' | sed 's/$/ explain/')
 }
 
 _arguments -s \
-     '1:hosts:_hosts' \
-     '2:scripts:_scripts' \
-     '3:explain:(explain)'
+  '1:hosts:_hosts' \
+  '2:scripts:_scripts' \
+  '3:explain:->explain'
+
+if [[ $state == 'explain' && ${line[2]} != "explain" ]]; then
+  _arguments '3:explain:(explain)'
+fi
