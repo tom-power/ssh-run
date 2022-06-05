@@ -1,18 +1,18 @@
 package shared
 
-func Map[T any, S any](arr []T, f func(T) S) []S {
-	tmp := make([]S, len(arr))
-	for i, v := range arr {
-		tmp[i] = f(v)
+func Map[V any, W any](values []V, fn func(V) W) []W {
+	tmp := make([]W, len(values))
+	for i, value := range values {
+		tmp[i] = fn(value)
 	}
 	return tmp
 }
 
-func Filter[V any](vs []V, predicate func(V) bool) []V {
+func Filter[V any](values []V, predicate func(V) bool) []V {
 	var filtered []V
-	for _, v := range vs {
-		if predicate(v) {
-			filtered = append(filtered, v)
+	for _, value := range values {
+		if predicate(value) {
+			filtered = append(filtered, value)
 		}
 	}
 	return filtered
@@ -30,8 +30,15 @@ func Unique(strSlice []string) []string {
 	return list
 }
 
-func UpdateIf[V any](v *V, newV V, predicate func(V) bool) {
-	if predicate(newV) {
-		*v = newV
+func UpdateIf[V any](value *V, newValue V, predicate func(V) bool) {
+	if predicate(newValue) {
+		*value = newValue
 	}
+}
+
+func SafeSlice[V any](slice []V, at int, defaultValue V) V {
+	if len(slice) > at {
+		return slice[at]
+	}
+	return defaultValue
 }

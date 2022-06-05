@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/tom-power/ssh-run-scripts/sshrunscripts/script"
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"log"
 	"os"
 	"os/user"
@@ -11,14 +12,8 @@ import (
 )
 
 func main() {
-	hostName := ""
-	if len(os.Args) > 1 {
-		hostName = os.Args[1]
-	}
-	scriptName := ""
-	if len(os.Args) > 2 {
-		scriptName = os.Args[2]
-	}
+	hostName := shared.SafeSlice(os.Args, 1, "")
+	scriptName := shared.SafeSlice(os.Args, 2, "")
 	args := []string{""}
 	if len(os.Args) > 3 {
 		args = os.Args[3:]
