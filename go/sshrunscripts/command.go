@@ -57,9 +57,8 @@ func withSubs(command string, host shared.Host, args []string) string {
 }
 
 func cleanup(command string) string {
-	command = strings.Replace(command, "\n", "", -1)
+	command = strings.Replace(command, "\n", " ", -1)
 	command = strings.Replace(command, "\\", "", -1)
-	command = strings.Trim(command, "\"")
 	command = strings.TrimSpace(command)
 	space := regexp.MustCompile(`\s+`)
 	command = space.ReplaceAllString(command, " ")

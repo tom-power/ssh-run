@@ -32,12 +32,11 @@ func Test_command(t *testing.T) {
 		for _, commandType := range commandTypes {
 			multilineCommand := `
       multiline \
-      command \
-      \"escaped\"
+      command   
       `
 			sshRun, _ := sshrunscripts.GetCommandSsh(commandType, multilineCommand, testHost, []string{})
 
-			expected := "multiline command \"escaped\""
+			expected := "multiline command"
 			if !strings.Contains(sshRun, expected) {
 				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, expected)
 			}

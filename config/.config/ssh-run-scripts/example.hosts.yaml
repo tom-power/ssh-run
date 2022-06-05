@@ -1,6 +1,0 @@
-hosts:
-  - name: example
-    user: exampleUser
-    ip: 192.168.0.1
-    portSsh: 22
-    portTunnel: 1080
