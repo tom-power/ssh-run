@@ -12,18 +12,9 @@ import (
 type GetScripts = func(host shared.Host) (string, error)
 
 var GetScriptsAll = func(host shared.Host) (string, error) {
-	commonScripts, err := getScriptsFromCommon()
-	if err != nil {
-		return "", err
-	}
-	shared, err := getScriptsFromShared(host)
-	if err != nil {
-		return "", err
-	}
-	hostScripts, err := getScriptsFromHost(host)
-	if err != nil {
-		return "", err
-	}
+	commonScripts, _ := getScriptsFromCommon()
+	shared, _ := getScriptsFromShared(host)
+	hostScripts, _ := getScriptsFromHost(host)
 	var out = ""
 	out += commonScripts
 	out += " " + shared
