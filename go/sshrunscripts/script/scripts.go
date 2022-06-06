@@ -13,11 +13,11 @@ type GetScripts = func(host shared.Host) (string, error)
 
 var GetScriptsAll = func(host shared.Host) (string, error) {
 	commonScripts, _ := getScriptsFromCommon()
-	shared, _ := getScriptsFromShared(host)
+	sharedScripts, _ := getScriptsFromShared(host)
 	hostScripts, _ := getScriptsFromHost(host)
 	var out = ""
 	out += commonScripts
-	out += " " + shared
+	out += " " + sharedScripts
 	out += " " + hostScripts
 	return removeSh(removeCommandTypes(out)), nil
 }
