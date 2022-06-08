@@ -9,19 +9,19 @@ import (
 
 var configText = `
 hosts:
-  - name: testName1
+  - host: 192.0.2.1
     user: testUser1
-    ip: 192.0.2.1
-    portSsh: 22
-  - name: testName2
+    name: testName1
+    port: 22
+  - host: 192.0.2.2
     user: testUser2
-    ip: 192.0.2.2
-    portSsh: 23
+    name: testName2
+    port: 23
     portTunnel: 1081
-  - name: testName3
+  - host: 192.0.2.3
     user: testUser3
-    ip: 192.0.2.3
-    portSsh: 24`
+    name: testName3
+    port: 24`
 
 var testGetHostFromConf = sshrunscripts.GetHostFromConf([]byte(configText))
 
@@ -32,8 +32,8 @@ func Test_host(t *testing.T) {
 		var expectedHost = shared.Host{
 			Name:       "testName2",
 			User:       "testUser2",
-			Ip:         "192.0.2.2",
-			PortSsh:    "23",
+			Host:       "192.0.2.2",
+			Port:       "23",
 			PortTunnel: "1081",
 		}
 		if host != expectedHost {

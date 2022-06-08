@@ -75,7 +75,7 @@ func Test_run(t *testing.T) {
 
 	t.Run("can explain host", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "explain", []string{}, "")
-		expected := "Host{Name:\"testHostName\", User:\"testUser\", Ip:\"192.0.2.1\", PortSsh:\"22\", PortTunnel:\"1081\", CheckForScripts:false}"
+		expected := `Host{Host:"192.0.2.1", User:"testUser", Name:"testHostName", Port:"22", PortTunnel:"1081", CheckForScripts:false}`
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
@@ -103,19 +103,19 @@ func testRun(
 
 var testConfigText = `
 hosts:
-  - name: testHostName1
+  - host: 192.0.2.1
     user: testUser1
-    ip: 192.0.2.1
-    portSsh: 22
-  - name: testHostName
+    name: testHostName1
+    port: 22
+  - host: 192.0.2.1
     user: testUser
-    ip: 192.0.2.1
-    portSsh: 22
+    name: testHostName
+    port: 22
     portTunnel: 1081
-  - name: testHostName3
+  - host: 192.0.2.3
     user: testUser3
-    ip: 192.0.2.3
-    portSsh: 24`
+    name: testHostName3
+    port: 24`
 
 var testGetScript = func(host shared.Host, scriptPath string) (string, error) {
 	switch scriptPath {

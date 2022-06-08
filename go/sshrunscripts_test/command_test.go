@@ -9,9 +9,9 @@ import (
 )
 
 var testHost = shared.Host{
-	"testName",
-	"testUser",
 	"192.0.2.1",
+	"testUser",
+	"testName",
 	"22",
 	"1081",
 	false,
@@ -45,9 +45,9 @@ func Test_command(t *testing.T) {
 
 	t.Run("can run commands with replacements", func(t *testing.T) {
 		for _, commandType := range commandTypes {
-			sshRun, _ := sshrunscripts.GetCommandSsh(commandType, "$ip$host$user$portSsh$portTunnel$1$2", testHost, []string{"arg1", "arg2"})
-			if !strings.Contains(sshRun, testHost.Ip) {
-				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.Ip)
+			sshRun, _ := sshrunscripts.GetCommandSsh(commandType, "$host$user$hostName$port$portTunnel$1$2", testHost, []string{"arg1", "arg2"})
+			if !strings.Contains(sshRun, testHost.Host) {
+				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.Host)
 			}
 			if !strings.Contains(sshRun, testHost.Name) {
 				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.Name)
@@ -55,8 +55,8 @@ func Test_command(t *testing.T) {
 			if !strings.Contains(sshRun, testHost.User) {
 				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.User)
 			}
-			if !strings.Contains(sshRun, testHost.PortSsh) {
-				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.PortSsh)
+			if !strings.Contains(sshRun, testHost.Port) {
+				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.Port)
 			}
 			if !strings.Contains(sshRun, testHost.PortTunnel) {
 				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.PortTunnel)

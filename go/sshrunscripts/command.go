@@ -34,7 +34,7 @@ var GetCommandSsh = func(
 }
 
 func sshTo(host shared.Host) string {
-	return fmt.Sprintf("ssh -p %s %s@%s", host.PortSsh, host.User, host.Ip)
+	return fmt.Sprintf("ssh -p %s %s@%s", host.Port, host.User, host.Host)
 }
 
 func sshRun(ssh string, option string, command string) string {
@@ -45,11 +45,11 @@ func sshRun(ssh string, option string, command string) string {
 }
 
 func withSubs(command string, host shared.Host, args []string) string {
-	command = strings.Replace(command, "$ip", host.Ip, -1)
-	command = strings.Replace(command, "$host", host.Name, -1)
+	command = strings.Replace(command, "$hostName", host.Name, -1)
+	command = strings.Replace(command, "$host", host.Host, -1)
 	command = strings.Replace(command, "$user", host.User, -1)
-	command = strings.Replace(command, "$portSsh", host.PortSsh, -1)
 	command = strings.Replace(command, "$portTunnel", host.PortTunnel, -1)
+	command = strings.Replace(command, "$port", host.Port, -1)
 	for i := range args {
 		command = strings.Replace(command, "$"+strconv.Itoa(i+1), args[i], -1)
 	}

@@ -1,10 +1,10 @@
 package shared
 
 type Host struct {
-	Name            string
+	Host            string
 	User            string
-	Ip              string
-	PortSsh         string `yaml:"portSsh"`
+	Name            string
+	Port            string
 	PortTunnel      string `yaml:"portTunnel"`
 	CheckForScripts bool   `yaml:"checkForScripts"`
 }

@@ -31,10 +31,10 @@ Add hosts to `~/.config/ssh-run-scripts/config.yaml`:
 
 ```yaml
 hosts:
-  - name: example
+  - host: 192.168.0.1
     user: exampleUser
-    ip: 192.168.0.1
-    portSsh: 22
+    hostName: example
+    port: 22
     portTunnel: 1080
     checkForScripts: true
 ```
@@ -61,7 +61,7 @@ drop `sshRun` from the above using the provided `bash_aliases` + your hosts.
 
 Write scripts as you would normally for the target shell.
 
-`$host`, `$ip`, `$user`, `$portSsh`, `$portTunnel` will be replaced with host configuration values.
+`$host`, `$user`, `$hostName`, `$port`, `$portTunnel` will be replaced with host configuration values.
 
 use the following file name convention to indicate how your scripts should be run:
 

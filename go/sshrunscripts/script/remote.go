@@ -25,7 +25,7 @@ func getSession(host shared.Host) (*ssh.Session, error) {
 		},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
-	conn, err := ssh.Dial("tcp", strings.Join([]string{host.Ip, ":", host.PortSsh}, ""), config)
+	conn, err := ssh.Dial("tcp", strings.Join([]string{host.Host, ":", host.Port}, ""), config)
 	if err != nil {
 		return nil, err
 	}
