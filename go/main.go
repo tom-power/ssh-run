@@ -2,14 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/tom-power/ssh-run-scripts/sshrunscripts"
 	"github.com/tom-power/ssh-run-scripts/sshrunscripts/config"
 	"github.com/tom-power/ssh-run-scripts/sshrunscripts/script"
 	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 	"log"
 	"os"
-	"os/user"
-
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts"
 )
 
 func main() {
@@ -19,11 +17,7 @@ func main() {
 	if len(os.Args) > 3 {
 		args = os.Args[3:]
 	}
-	usr, err := user.Current()
-	if err != nil {
-		log.Fatal(err)
-	}
-	sshRun, err := getRun()(hostName, scriptName, args, usr.Username)
+	sshRun, err := getRun()(hostName, scriptName, args)
 	if err != nil {
 		log.Fatal(err)
 	}

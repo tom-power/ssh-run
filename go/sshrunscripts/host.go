@@ -5,10 +5,10 @@ import (
 	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
 )
 
-type GetHost = func(hostName string, localUserName string) (shared.Host, error)
+type GetHost = func(hostName string) (shared.Host, error)
 
 var GetHostFromConfig = func(config shared.Config) GetHost {
-	return func(hostName string, localUserName string) (shared.Host, error) {
+	return func(hostName string) (shared.Host, error) {
 		return getHost(hostName, config.Hosts)
 	}
 }

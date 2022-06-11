@@ -10,8 +10,7 @@ import (
 type Run = func(
 	hostName string,
 	scriptName string,
-	args []string,
-	localUserName string) (string, error)
+	args []string) (string, error)
 
 func GetRun(
 	getHost GetHost,
@@ -24,12 +23,11 @@ func GetRun(
 	return func(
 		hostName string,
 		scriptName string,
-		args []string,
-		localUserName string) (string, error) {
+		args []string) (string, error) {
 		if hostName == "hosts" {
 			return echo(getHosts)
 		}
-		host, err := getHost(hostName, localUserName)
+		host, err := getHost(hostName)
 		if err != nil {
 			return "", err
 		}
