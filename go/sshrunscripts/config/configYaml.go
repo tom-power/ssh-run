@@ -7,15 +7,13 @@ import (
 	"os/user"
 )
 
-var GetConfigFromYaml = func(configBytes []byte) GetConfig {
-	return func() (shared.Config, error) {
-		config := shared.Config{}
-		err := yaml.Unmarshal(configBytes, &config)
-		if err != nil {
-			return config, err
-		}
-		return config, nil
+func GetConfigFromYaml(configBytes []byte) (shared.Config, error) {
+	config := shared.Config{}
+	err := yaml.Unmarshal(configBytes, &config)
+	if err != nil {
+		return config, err
 	}
+	return config, nil
 }
 
 const configPathRelative = "/.config/ssh-run-scripts/config.yaml"

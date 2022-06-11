@@ -11,5 +11,5 @@ var GetConfigFromFileSystem = func() (shared.Config, error) {
 	if err != nil {
 		return shared.Config{}, err
 	}
-	return GetConfigFromYaml(bytes)()
+	return GetConfigFromYaml(bytes)
 }

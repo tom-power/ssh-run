@@ -22,11 +22,9 @@ hosts:
     name: testName3
     port: 24`
 
-var testGetConfig = config.GetConfigFromYaml([]byte(configText))
-
 func Test_config(t *testing.T) {
 	t.Run("can get host from conf", func(t *testing.T) {
-		config, _ := testGetConfig()
+		config, _ := config.GetConfigFromYaml([]byte(configText))
 
 		var expectedConfig = shared.Config{
 			Hosts: []shared.Host{
