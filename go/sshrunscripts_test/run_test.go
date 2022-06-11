@@ -92,30 +92,38 @@ func testRun(
 	args []string,
 	localUserName string) (string, error) {
 	return sshrunscripts.GetRun(
-		sshrunscripts.GetHostFromConf([]byte(testConfigText)),
+		sshrunscripts.GetHostFromConfig(testConfig),
 		testGetScriptPath,
 		testGetScript,
 		sshrunscripts.GetCommandSsh,
 		testGetScripts,
-		sshrunscripts.GetHostsFromConf([]byte(testConfigText)),
+		sshrunscripts.GetHostsFromConfig(testConfig),
 	)(hostName, scriptName, args, localUserName)
 }
 
-var testConfigText = `
-hosts:
-  - host: 192.0.2.1
-    user: testUser1
-    name: testHostName1
-    port: 22
-  - host: 192.0.2.1
-    user: testUser
-    name: testHostName
-    port: 22
-    portTunnel: 1081
-  - host: 192.0.2.3
-    user: testUser3
-    name: testHostName3
-    port: 24`
+var testConfig = shared.Config{
+	Hosts: []shared.Host{
+		{
+			Name: "testHostName1",
+			User: "testUser1",
+			Host: "192.0.2.1",
+			Port: "22",
+		},
+		{
+			Name:       "testHostName",
+			User:       "testUser",
+			Host:       "192.0.2.1",
+			Port:       "22",
+			PortTunnel: "1081",
+		},
+		{
+			Name: "testHostName3",
+			User: "testUser3",
+			Host: "192.0.2.1",
+			Port: "22",
+		},
+	},
+}
 
 var testGetScript = func(host shared.Host, scriptPath string) (string, error) {
 	switch scriptPath {

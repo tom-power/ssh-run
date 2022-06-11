@@ -1,5 +1,9 @@
 package shared
 
+import (
+	"errors"
+)
+
 func Map[V any, W any](values []V, fn func(V) W) []W {
 	tmp := make([]W, len(values))
 	for i, value := range values {
@@ -16,6 +20,15 @@ func Filter[V any](values []V, predicate func(V) bool) []V {
 		}
 	}
 	return filtered
+}
+
+func Single[V any](values []V, predicate func(V) bool) (*V, error) {
+	for _, value := range values {
+		if predicate(value) {
+			return &value, nil
+		}
+	}
+	return nil, errors.New("couldn't find value")
 }
 
 func Unique(strSlice []string) []string {

@@ -3,35 +3,25 @@ package sshrunscripts
 import (
 	"errors"
 	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
-	"strings"
 )
 
 type GetHost = func(hostName string, localUserName string) (shared.Host, error)
 
-var GetHostFromConf = func(configBytes []byte) GetHost {
+var GetHostFromConfig = func(config shared.Config) GetHost {
 	return func(hostName string, localUserName string) (shared.Host, error) {
-		hosts, err := GetHostsFromConfig(configBytes)
-		if err != nil {
-			return shared.Host{}, err
-		}
-		return getHost(hostName, hosts)
+		return getHost(hostName, config.Hosts)
 	}
 }
 
 func getHost(hostName string, hosts []shared.Host) (shared.Host, error) {
-	for i := range hosts {
-		host := hosts[i]
-		if host.Name == hostName {
-			return host, nil
-		}
+	var hasHostName = func(host shared.Host) bool { return host.Name == hostName }
+	host, err := shared.Single(hosts, hasHostName)
+	if err != nil {
+		return shared.Host{}, getError(hostName, hosts)
 	}
-	return shared.Host{}, errors.New("couldn't find host " + hostName + " in " + strings.Join(names(hosts), ", "))
+	return *host, nil
 }
 
-func names(hosts []shared.Host) []string {
-	var names []string
-	for i := range hosts {
-		names = append(names, hosts[i].Name)
-	}
-	return names
+func getError(hostName string, hosts []shared.Host) error {
+	return errors.New("couldn't find host " + hostName + " in " + shared.HostsToHostNames(hosts, ", "))
 }
