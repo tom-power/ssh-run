@@ -25,7 +25,9 @@ func Test_config(t *testing.T) {
 		getFromSshConfig := func() ([]shared.Host, error) {
 			return []shared.Host{extraHost}, nil
 		}
+
 		actual, _ := config.GetConfigFromFileSystem(getFromYaml, getFromSshConfig)
+
 		assertConfigEqual(t, actual, shared.Config{
 			Hosts:              append(hostsFromSshConfigYamlConfig.Hosts, extraHost),
 			SshOnNoCommand:     hostsFromSshConfigYamlConfig.SshOnNoCommand,

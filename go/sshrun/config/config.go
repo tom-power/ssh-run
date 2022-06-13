@@ -10,20 +10,21 @@ var GetConfigFromFileSystem = func(
 	getConfigFromYaml GetConfigFrom,
 	getHostsFromSshConfig GetHostsFrom,
 ) (shared.Config, error) {
-	yaml, err := getConfigFromYaml()
+	yamlConfig, err := getConfigFromYaml()
 	if err != nil {
 		return shared.Config{}, err
 	}
-	if yaml.HostsFromSshConfig {
+	if yamlConfig.HostsFromSshConfig {
 		sshConfigHosts, err := GetSshConfigHosts()
 		if err != nil {
 			return shared.Config{}, err
 		}
-		return shared.Config{
-			Hosts:              append(yaml.Hosts, sshConfigHosts...),
-			SshOnNoCommand:     yaml.SshOnNoCommand,
-			HostsFromSshConfig: yaml.HostsFromSshConfig,
-		}, nil
+		config := shared.Config{
+			Hosts:              append(yamlConfig.Hosts, sshConfigHosts...),
+			SshOnNoCommand:     yamlConfig.SshOnNoCommand,
+			HostsFromSshConfig: yamlConfig.HostsFromSshConfig,
+		}
+		return config, nil
 	}
-	return yaml, nil
+	return yamlConfig, nil
 }
