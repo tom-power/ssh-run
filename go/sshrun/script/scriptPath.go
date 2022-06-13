@@ -2,7 +2,7 @@ package script
 
 import (
 	"errors"
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 	"os/user"
 	"path/filepath"
 )
@@ -19,7 +19,7 @@ var GetScriptPathFromConf = func(host shared.Host, scriptName string) (string, e
 	return script, nil
 }
 
-const scriptsPath = "/.config/ssh-run-scripts/scripts/"
+const scriptsPath = "/.config/ssh-run/scripts/"
 
 func scriptsDir(homeDir string) string {
 	return homeDir + scriptsPath

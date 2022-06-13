@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts"
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/config"
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/script"
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun"
+	"github.com/tom-power/ssh-run/sshrun/config"
+	"github.com/tom-power/ssh-run/sshrun/script"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 	"log"
 	"os"
 )
@@ -24,17 +24,17 @@ func main() {
 	fmt.Printf(sshRun)
 }
 
-func getRun() sshrunscripts.Run {
+func getRun() sshrun.Run {
 	config, err := config.GetConfigFromFileSystem()
 	if err != nil {
 		log.Fatal(err)
 	}
-	return sshrunscripts.GetRun(
-		sshrunscripts.GetHostFromConfig(config),
+	return sshrun.GetRun(
+		sshrun.GetHostFromConfig(config),
 		script.GetScriptPathFromConf,
 		script.GetScriptContentsFromHost,
-		sshrunscripts.GetCommandSsh,
+		sshrun.GetCommandSsh,
 		script.GetScriptsAll,
-		sshrunscripts.GetHostsFromConfig(config),
+		sshrun.GetHostsFromConfig(config),
 	)
 }

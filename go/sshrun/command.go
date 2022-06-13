@@ -1,9 +1,9 @@
-package sshrunscripts
+package sshrun
 
 import (
 	"errors"
 	"fmt"
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 	"regexp"
 	"strconv"
 	"strings"

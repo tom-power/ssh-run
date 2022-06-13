@@ -1,8 +1,8 @@
-package sshrunscripts
+package sshrun
 
 import (
 	"errors"
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
 type GetHost = func(hostName string) (shared.Host, error)

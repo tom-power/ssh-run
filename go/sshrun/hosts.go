@@ -1,7 +1,7 @@
-package sshrunscripts
+package sshrun
 
 import (
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
 type GetHosts = func() (string, error)

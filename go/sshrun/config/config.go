@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
 type GetConfig = func() (shared.Config, error)

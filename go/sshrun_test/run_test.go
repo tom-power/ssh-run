@@ -1,11 +1,10 @@
-package sshrunscripts_test
+package sshrun_test
 
 import (
 	"errors"
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 	"testing"
-
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts"
 )
 
 func Test_run(t *testing.T) {
@@ -25,7 +24,7 @@ func Test_run(t *testing.T) {
 	})
 
 	t.Run("can run ssh", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "sshRunScript", []string{})
+		actual, _ := testRun("testHostName", "sshruncript", []string{})
 		expected := "ssh -p 22 testUser@192.0.2.1 \"command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -33,7 +32,7 @@ func Test_run(t *testing.T) {
 	})
 
 	t.Run("can run ssh with args", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "sshRunScriptWithArgs", []string{"arg1", "arg2"})
+		actual, _ := testRun("testHostName", "sshruncriptWithArgs", []string{"arg1", "arg2"})
 		expected := "ssh -p 22 testUser@192.0.2.1 \"command arg1 arg2\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -90,13 +89,13 @@ func testRun(
 	hostName string,
 	scriptName string,
 	args []string) (string, error) {
-	return sshrunscripts.GetRun(
-		sshrunscripts.GetHostFromConfig(testConfig),
+	return sshrun.GetRun(
+		sshrun.GetHostFromConfig(testConfig),
 		testGetScriptPath,
 		testGetScript,
-		sshrunscripts.GetCommandSsh,
+		sshrun.GetCommandSsh,
 		testGetScripts,
-		sshrunscripts.GetHostsFromConfig(testConfig),
+		sshrun.GetHostsFromConfig(testConfig),
 	)(hostName, scriptName, args)
 }
 
@@ -128,11 +127,11 @@ var testGetScript = func(host shared.Host, scriptPath string) (string, error) {
 	switch scriptPath {
 	case "sshRunLocalScript.local.sh":
 		return "command", nil
-	case "sshRunScript.sh":
+	case "sshruncript.sh":
 		return "command", nil
 	case "sshRunX11Script.sh":
 		return "command $1 $2", nil
-	case "sshRunScriptWithArgs.sh":
+	case "sshruncriptWithArgs.sh":
 		return "command $1 $2", nil
 	case "sshRunPtyScript.pty.sh":
 		return "pty command", nil

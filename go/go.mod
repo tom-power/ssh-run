@@ -1,4 +1,4 @@
-module github.com/tom-power/ssh-run-scripts
+module github.com/tom-power/ssh-run
 
 go 1.18
 

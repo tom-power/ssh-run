@@ -1,6 +1,6 @@
 #!/bin/bash
-go test -count=1 ./sshrunscripts/ &&
-go test -count=1 ./sshrunscripts_test/ &&
+go test -count=1 ./sshrun/ &&
+go test -count=1 ./sshrun_test/ &&
 if [[ ! -d ./build ]]; then
   mkdir -p ./build
 fi

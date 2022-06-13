@@ -4,13 +4,13 @@ Assume this either already exists, or is easy enough to configure so isn't neede
 
 ..but I couldn't find either, so wrote this nonsense and use it everyday now, ymmv!
 
-![demo](https://github.com/tom-power/ssh-run-scripts/blob/master/assets/demo.gif)
+![demo](https://github.com/tom-power/ssh-run/blob/master/assets/demo.gif)
 
 
 ## Installation
 
 ```bash
-wget https://github.com/tom-power/ssh-run-scripts/releases/download/latest/release_linuxamd64.tar.gz&&  
+wget https://github.com/tom-power/ssh-run/releases/download/latest/release_linuxamd64.tar.gz&&  
 tar -xvzf release_linuxamd64.tar.gz &&
 cd ./release_linuxamd64
 
@@ -27,7 +27,7 @@ cp _sshRunCompletion ~/.oh-my-zsh/custom/completions/_sshRun
 
 ### Configuring hosts
 
-Add hosts to `~/.config/ssh-run-scripts/config.yaml`:
+Add hosts to `~/.config/ssh-run/config.yaml`:
 
 ```yaml
 hosts:
@@ -70,13 +70,13 @@ use the following file name convention to indicate how your scripts should be ru
 - `<scriptName>.x11.sh` _with -Y_
 - `<scriptName>.local.sh` _locally_
 
-save to the following directories under `.config/ssh-run-scripts/scripts` so the script can be found:
+save to the following directories under `.config/ssh-run/scripts` so the script can be found:
 
 - `common`
 - `host/<hostName>` also checked on the host if `Host.checkForScripts` is `true` 
 - `shared/<sharedDir>` where `sharedDir` is also found in `host/<hostName>`
 
-see scripts [here](https:#github.com/tom-power/ssh-run-scripts/tree/master/config/.config/ssh-run-scripts/scripts) for examples.
+see scripts [here](https:#github.com/tom-power/ssh-run/tree/master/config/.config/ssh-run/scripts) for examples.
 
 ## Install from source
 
@@ -84,8 +84,8 @@ Install [go](https:#golang.org/), oh-my-zsh with fzf-tab.
 
 ```bash
 # get repo
-git clone https://github.com/tom-power/ssh-run-scripts.git &&
-cd ./ssh-run-scripts &&
+git clone https://github.com/tom-power/ssh-run.git &&
+cd ./ssh-run &&
 
 # build
 cp ./example.install.config.sh ./install.config.sh && # update config first

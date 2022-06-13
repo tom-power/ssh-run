@@ -2,7 +2,7 @@ package script
 
 import (
 	"bytes"
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 	"io/ioutil"
 	"strings"
 

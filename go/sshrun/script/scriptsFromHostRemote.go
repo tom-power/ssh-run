@@ -1,7 +1,7 @@
 package script
 
 import (
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
 func scriptsFromHostRemote(host shared.Host) (string, error) {

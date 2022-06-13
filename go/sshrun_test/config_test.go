@@ -1,8 +1,8 @@
-package sshrunscripts
+package sshrun
 
 import (
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/config"
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun/config"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 	"testing"
 )
 

@@ -1,6 +1,6 @@
 package script
 
-import "github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+import "github.com/tom-power/ssh-run/sshrun/shared"
 
 func getScriptPathFromHost(host shared.Host, scriptName string) string {
 	scriptPath := ""

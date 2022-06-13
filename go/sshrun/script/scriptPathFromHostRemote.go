@@ -1,6 +1,6 @@
 package script
 
-import "github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+import "github.com/tom-power/ssh-run/sshrun/shared"
 
 func scriptPathFromHostRemote(host shared.Host, scriptName string) string {
 	hostDir := hostDir(host.Name, "/home/"+host.User)

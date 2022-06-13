@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/tom-power/ssh-run-scripts/sshrunscripts/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os/user"
@@ -16,7 +16,7 @@ func GetConfigFromYaml(configBytes []byte) (shared.Config, error) {
 	return config, nil
 }
 
-const configPathRelative = "/.config/ssh-run-scripts/config.yaml"
+const configPathRelative = "/.config/ssh-run/config.yaml"
 
 func GetConfigYamlBytes() ([]byte, error) {
 	usr, err := user.Current()
