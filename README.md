@@ -33,7 +33,7 @@ Add hosts to `~/.config/ssh-run/config.yaml`:
 hosts:
   - host: 192.168.0.1
     user: exampleUser
-    hostName: example
+    name: example
     port: 22
     portTunnel: 1080
     checkForScripts: true
