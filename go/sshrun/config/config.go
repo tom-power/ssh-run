@@ -14,7 +14,7 @@ var GetConfigFromFileSystem = func(
 	if err != nil {
 		return shared.Config{}, err
 	}
-	if yamlConfig.IncludeSshConfig {
+	if yamlConfig.IncludeSshConfig == true || len(yamlConfig.Hosts) == 0 {
 		sshConfigHosts, err := getHostsFromSshConfig()
 		if err != nil {
 			return shared.Config{}, err

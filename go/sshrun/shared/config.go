@@ -2,7 +2,7 @@ package shared
 
 type Config struct {
 	Hosts            []Host `yaml:"hosts"`
-	IncludeSshConfig bool   `yaml:"includeSshConfig" default:"true"`
+	IncludeSshConfig bool   `yaml:"includeSshConfig"`
 }
 
 type Host struct {
