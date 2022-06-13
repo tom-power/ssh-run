@@ -16,6 +16,14 @@ func Test_run(t *testing.T) {
 		}
 	})
 
+	t.Run("can ssh on no command", func(t *testing.T) {
+		actual, _ := testRun("testHostName", "", []string{}, testConfig)
+		expected := "ssh -p 22 testUser@192.0.2.1"
+		if actual != expected {
+			t.Errorf("'%v' should equal '%v'", actual, expected)
+		}
+	})
+
 	t.Run("can run local", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "sshRunLocalScript", []string{}, testConfig)
 		if actual != "command" {
@@ -79,22 +87,6 @@ func Test_run(t *testing.T) {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
 	})
-
-	t.Run("can ssh on no command if sshOnNoCommand is true", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "", []string{}, testConfigSshOnNoCommand)
-		expected := "ssh -p 22 testUser@192.0.2.1"
-		if actual != expected {
-			t.Errorf("'%v' should equal '%v'", actual, expected)
-		}
-	})
-
-	t.Run("error on no command if sshOnNoCommand is false", func(t *testing.T) {
-		_, err := testRun("testHostName", "", []string{}, testConfig)
-		expected := "no command provided"
-		if err == nil || err.Error() != expected {
-			t.Errorf("'%v' should equal '%v'", err, expected)
-		}
-	})
 }
 
 var testGetScripts = func(host shared.Host) (string, error) {
@@ -141,13 +133,7 @@ var testHosts = []shared.Host{
 }
 
 var testConfig = shared.Config{
-	Hosts:          testHosts,
-	SshOnNoCommand: false,
-}
-
-var testConfigSshOnNoCommand = shared.Config{
-	Hosts:          testHosts,
-	SshOnNoCommand: true,
+	Hosts: testHosts,
 }
 
 var testGetScript = func(host shared.Host, scriptPath string) (string, error) {

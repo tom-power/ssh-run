@@ -7,7 +7,6 @@ import (
 )
 
 var configText = `
-sshOnNoCommand: true
 hostsFromSshConfig: true
 hosts:
   - host: 192.0.2.1
@@ -32,9 +31,6 @@ func Test_configYaml(t *testing.T) {
 }
 
 func assertConfigEqual(t *testing.T, actual shared.Config, expected shared.Config) {
-	if actual.SshOnNoCommand != expected.SshOnNoCommand {
-		t.Errorf("'%v' should equal '%v'", actual.SshOnNoCommand, expected.SshOnNoCommand)
-	}
 	if actual.HostsFromSshConfig != expected.HostsFromSshConfig {
 		t.Errorf("'%v' should equal '%v'", actual.HostsFromSshConfig, expected.HostsFromSshConfig)
 	}
@@ -44,7 +40,6 @@ func assertConfigEqual(t *testing.T, actual shared.Config, expected shared.Confi
 }
 
 var expectedConfigFromYaml = shared.Config{
-	SshOnNoCommand:     true,
 	HostsFromSshConfig: true,
 	Hosts: []shared.Host{
 		{

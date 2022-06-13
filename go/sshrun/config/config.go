@@ -21,7 +21,6 @@ var GetConfigFromFileSystem = func(
 		}
 		config := shared.Config{
 			Hosts:              append(yamlConfig.Hosts, sshConfigHosts...),
-			SshOnNoCommand:     yamlConfig.SshOnNoCommand,
 			HostsFromSshConfig: yamlConfig.HostsFromSshConfig,
 		}
 		return config, nil

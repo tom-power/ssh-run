@@ -10,7 +10,6 @@ func Test_config(t *testing.T) {
 	t.Run("can get config from files system with ssh config", func(t *testing.T) {
 		hostsFromSshConfigYamlConfig := shared.Config{
 			Hosts:              expectedConfigFromYaml.Hosts,
-			SshOnNoCommand:     expectedConfigFromYaml.SshOnNoCommand,
 			HostsFromSshConfig: true,
 		}
 		getFromYaml := func() (shared.Config, error) {
@@ -30,7 +29,6 @@ func Test_config(t *testing.T) {
 
 		assertConfigEqual(t, actual, shared.Config{
 			Hosts:              append(hostsFromSshConfigYamlConfig.Hosts, extraHost),
-			SshOnNoCommand:     hostsFromSshConfigYamlConfig.SshOnNoCommand,
 			HostsFromSshConfig: hostsFromSshConfigYamlConfig.HostsFromSshConfig,
 		})
 	})

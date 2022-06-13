@@ -35,8 +35,7 @@ hosts:
     user: exampleUser
     name: example
     port: 22
-    portTunnel: 1080    
-sshOnNoCommand: true
+    portTunnel: 1080
 ```
 
 ### Running scripts
@@ -54,12 +53,7 @@ sshRun <hostName> scripts
 sshRun <hostName> <scriptName> explain
 ```
 
-to start an ssh session
-
-```
-sshRun <hostName> ssh
-sshRun <hostName> // if sshOnNoCommand is true in config
-```
+`sshRun <hostName>` or `sshRun <hostName> ssh` to start an ssh session
 
 drop `sshRun` from the above using the provided `bash_aliases` + your hosts.
 

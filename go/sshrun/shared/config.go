@@ -2,7 +2,6 @@ package shared
 
 type Config struct {
 	Hosts              []Host `yaml:"hosts"`
-	SshOnNoCommand     bool   `yaml:"sshOnNoCommand" default:"false"`
 	HostsFromSshConfig bool   `yaml:"hostsFromSshConfig" default:"false"`
 }
 
