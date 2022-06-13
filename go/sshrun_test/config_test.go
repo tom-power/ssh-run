@@ -7,29 +7,29 @@ import (
 )
 
 func Test_config(t *testing.T) {
-	t.Run("can get config from files system with ssh config", func(t *testing.T) {
-		hostsFromSshConfigYamlConfig := shared.Config{
-			Hosts:              expectedConfigFromYaml.Hosts,
-			HostsFromSshConfig: true,
-		}
-		getFromYaml := func() (shared.Config, error) {
-			return hostsFromSshConfigYamlConfig, nil
-		}
-		extraHost := shared.Host{
+	t.Run("can get config from files system with yaml config", func(t *testing.T) {
+		sshConfigHosts := []shared.Host{{
 			Name: "testNameExtra",
 			User: "testUserExtra",
 			Host: "192.0.2.9",
 			Port: "22",
+		}}
+		getHostsFromSshConfig := func() ([]shared.Host, error) {
+			return sshConfigHosts, nil
 		}
-		getFromSshConfig := func() ([]shared.Host, error) {
-			return []shared.Host{extraHost}, nil
+		configFromYaml := shared.Config{
+			Hosts:            expectedConfigFromYaml.Hosts,
+			IncludeSshConfig: true,
+		}
+		getConfigFromYaml := func() (shared.Config, error) {
+			return configFromYaml, nil
 		}
 
-		actual, _ := config.GetConfigFromFileSystem(getFromYaml, getFromSshConfig)
+		actual, _ := config.GetConfigFromFileSystem(getHostsFromSshConfig, getConfigFromYaml)
 
 		assertConfigEqual(t, actual, shared.Config{
-			Hosts:              append(hostsFromSshConfigYamlConfig.Hosts, extraHost),
-			HostsFromSshConfig: hostsFromSshConfigYamlConfig.HostsFromSshConfig,
+			Hosts:            append(configFromYaml.Hosts, sshConfigHosts...),
+			IncludeSshConfig: configFromYaml.IncludeSshConfig,
 		})
 	})
 }

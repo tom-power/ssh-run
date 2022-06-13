@@ -7,7 +7,7 @@ import (
 )
 
 var configText = `
-hostsFromSshConfig: true
+includeSshConfig: true
 hosts:
   - host: 192.0.2.1
     user: testUser1
@@ -31,16 +31,21 @@ func Test_configYaml(t *testing.T) {
 }
 
 func assertConfigEqual(t *testing.T, actual shared.Config, expected shared.Config) {
-	if actual.HostsFromSshConfig != expected.HostsFromSshConfig {
-		t.Errorf("'%v' should equal '%v'", actual.HostsFromSshConfig, expected.HostsFromSshConfig)
+	if actual.IncludeSshConfig != expected.IncludeSshConfig {
+		t.Errorf("actual.IncludeSshConfig '%v' should equal '%v'", actual.IncludeSshConfig, expected.IncludeSshConfig)
 	}
-	if actual.Hosts[0] != expected.Hosts[0] {
-		t.Errorf("'%v' should equal '%v'", actual.Hosts[0], expected.Hosts[0])
+	if len(actual.Hosts) != len(expected.Hosts) {
+		t.Errorf("len(actual.Hosts) '%v' should equal '%v'", len(actual.Hosts), len(expected.Hosts))
+	}
+	for i, host := range actual.Hosts {
+		if host != expected.Hosts[i] {
+			t.Errorf("actual host '%v' should equal '%v'", host, expected.Hosts[i])
+		}
 	}
 }
 
 var expectedConfigFromYaml = shared.Config{
-	HostsFromSshConfig: true,
+	IncludeSshConfig: true,
 	Hosts: []shared.Host{
 		{
 			Name: "testName1",

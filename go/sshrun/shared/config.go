@@ -1,8 +1,8 @@
 package shared
 
 type Config struct {
-	Hosts              []Host `yaml:"hosts"`
-	HostsFromSshConfig bool   `yaml:"hostsFromSshConfig" default:"false"`
+	Hosts            []Host `yaml:"hosts"`
+	IncludeSshConfig bool   `yaml:"includeSshConfig" default:"true"`
 }
 
 type Host struct {
