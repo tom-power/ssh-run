@@ -36,5 +36,6 @@ func getRun() sshrun.Run {
 		sshrun.GetCommandSsh,
 		script.GetScriptsAll,
 		sshrun.GetHostsFromConfig(config),
+		config,
 	)
 }

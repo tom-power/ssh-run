@@ -1,6 +1,7 @@
 package sshrun
 
 import (
+	"errors"
 	"fmt"
 	"github.com/tom-power/ssh-run/sshrun/script"
 	"github.com/tom-power/ssh-run/sshrun/shared"
@@ -19,6 +20,7 @@ func GetRun(
 	getCommand GetCommand,
 	getScripts script.GetScripts,
 	getHosts GetHosts,
+	config shared.Config,
 ) Run {
 	return func(
 		hostName string,
@@ -37,6 +39,11 @@ func GetRun(
 		case "scripts":
 			return echo(func() (string, error) { return getScripts(host) })
 		case "ssh":
+			return sshCommand(host, getCommand)
+		case "":
+			if config.SshOnNoCommand != true {
+				return "", errors.New("no command provided")
+			}
 			return sshCommand(host, getCommand)
 		}
 		scriptPath, err := getScriptPath(host, scriptName)

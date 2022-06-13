@@ -35,8 +35,8 @@ hosts:
     user: exampleUser
     name: example
     port: 22
-    portTunnel: 1080
-    checkForScripts: true
+    portTunnel: 1080    
+sshOnNoCommand: true
 ```
 
 ### Running scripts
@@ -45,14 +45,20 @@ Run a script against a configured host like:
 
 `sshRun <hostName> <scriptName>`
 
-to discover/explain hosts/scripts or start an ssh session:
+to discover/explain hosts/scripts:
 
 ```
 sshRun hosts
 sshRun <hostName> explain
 sshRun <hostName> scripts
 sshRun <hostName> <scriptName> explain
+```
+
+to start an ssh session
+
+```
 sshRun <hostName> ssh
+sshRun <hostName> // if sshOnNoCommand is true in config
 ```
 
 drop `sshRun` from the above using the provided `bash_aliases` + your hosts.
