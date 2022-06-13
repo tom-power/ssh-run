@@ -6,10 +6,24 @@ import (
 
 type GetConfig = func() (shared.Config, error)
 
-var GetConfigFromFileSystem = func() (shared.Config, error) {
-	bytes, err := GetConfigYamlBytes()
+var GetConfigFromFileSystem = func(
+	getConfigFromYaml GetConfigFrom,
+	getHostsFromSshConfig GetHostsFrom,
+) (shared.Config, error) {
+	yaml, err := getConfigFromYaml()
 	if err != nil {
 		return shared.Config{}, err
 	}
-	return GetConfigFromYaml(bytes)
+	if yaml.HostsFromSshConfig {
+		sshConfigHosts, err := GetSshConfigHosts()
+		if err != nil {
+			return shared.Config{}, err
+		}
+		return shared.Config{
+			Hosts:              append(yaml.Hosts, sshConfigHosts...),
+			SshOnNoCommand:     yaml.SshOnNoCommand,
+			HostsFromSshConfig: yaml.HostsFromSshConfig,
+		}, nil
+	}
+	return yaml, nil
 }

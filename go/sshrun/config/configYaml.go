@@ -7,7 +7,21 @@ import (
 	"os/user"
 )
 
-func GetConfigFromYaml(configBytes []byte) (shared.Config, error) {
+type GetConfigFrom = func() (shared.Config, error)
+
+func GetConfigFromYaml() (shared.Config, error) {
+	bytes, err := getConfigYamlBytes()
+	if err != nil {
+		return shared.Config{}, err
+	}
+	yaml, err := GetConfigFromYamlBytes(bytes)
+	if err != nil {
+		return shared.Config{}, err
+	}
+	return yaml, nil
+}
+
+func GetConfigFromYamlBytes(configBytes []byte) (shared.Config, error) {
 	config := shared.Config{}
 	err := yaml.Unmarshal(configBytes, &config)
 	if err != nil {
@@ -18,7 +32,7 @@ func GetConfigFromYaml(configBytes []byte) (shared.Config, error) {
 
 const configPathRelative = "/.config/ssh-run/config.yaml"
 
-func GetConfigYamlBytes() ([]byte, error) {
+func getConfigYamlBytes() ([]byte, error) {
 	usr, err := user.Current()
 	if err != nil {
 		return []byte{}, err

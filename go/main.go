@@ -25,7 +25,11 @@ func main() {
 }
 
 func getRun() sshrun.Run {
-	config, err := config.GetConfigFromFileSystem()
+	config, err :=
+		config.GetConfigFromFileSystem(
+			config.GetConfigFromYaml,
+			config.GetSshConfigHosts,
+		)
 	if err != nil {
 		log.Fatal(err)
 	}
