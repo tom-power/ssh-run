@@ -5,11 +5,11 @@ import (
 	"io/ioutil"
 )
 
-type GetScriptContents = func(host shared.Host, scriptPath string) (string, error)
+type GetScriptContents = func(host shared.Host, scriptPath string, config shared.Config) (string, error)
 
-var GetScriptContentsFromHost = func(host shared.Host, scriptPath string) (string, error) {
+var GetScriptContentsFromHost = func(host shared.Host, scriptPath string, config shared.Config) (string, error) {
 	script, err := getScriptContentsFromHostLocal(scriptPath)
-	if host.CheckForScripts {
+	if config.CheckForScripts {
 		script, err = getScriptContentsFromHostRemote(host, scriptPath)
 	}
 	if err != nil {

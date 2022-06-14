@@ -9,12 +9,12 @@ import (
 	"path/filepath"
 )
 
-type GetScripts = func(host shared.Host) (string, error)
+type GetScripts = func(host shared.Host, config shared.Config) (string, error)
 
-var GetScriptsAll = func(host shared.Host) (string, error) {
+var GetScriptsAll = func(host shared.Host, config shared.Config) (string, error) {
 	commonScripts, _ := getScriptsFromCommon()
 	sharedScripts, _ := getScriptsFromShared(host)
-	hostScripts, _ := getScriptsFromHost(host)
+	hostScripts, _ := getScriptsFromHost(host, config)
 	var out = ""
 	out += commonScripts
 	out += " " + sharedScripts

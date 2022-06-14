@@ -13,7 +13,6 @@ var testHost = shared.Host{
 	"testName",
 	"22",
 	"1081",
-	false,
 }
 
 var commandTypes = []string{"local", "pty", "x11", ""}

@@ -36,15 +36,15 @@ func GetRun(
 		case "explain":
 			return hostToString(host)
 		case "scripts":
-			return echo(func() (string, error) { return getScripts(host) })
+			return echo(func() (string, error) { return getScripts(host, config) })
 		case "ssh", "":
 			return sshCommand(host, getCommand)
 		}
-		scriptPath, err := getScriptPath(host, scriptName)
+		scriptPath, err := getScriptPath(host, scriptName, config)
 		if err != nil {
 			return "", err
 		}
-		scriptContents, err := getScriptContents(host, scriptPath)
+		scriptContents, err := getScriptContents(host, scriptPath, config)
 		if err != nil {
 			return "", err
 		}

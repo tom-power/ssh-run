@@ -5,13 +5,13 @@ import (
 	"strings"
 )
 
-func getScriptsFromHost(host shared.Host) (string, error) {
+func getScriptsFromHost(host shared.Host, config shared.Config) (string, error) {
 	local, err := scriptsFromHostLocal(host)
 	if err != nil {
 		return "", err
 	}
 	var remote = ""
-	if host.CheckForScripts {
+	if config.CheckForScripts {
 		remote, err = scriptsFromHostRemote(host)
 		if err == nil {
 			remote = " " + remote

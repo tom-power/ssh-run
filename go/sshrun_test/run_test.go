@@ -82,14 +82,14 @@ func Test_run(t *testing.T) {
 
 	t.Run("can explain host", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "explain", []string{}, testConfig)
-		expected := `Host{Host:"192.0.2.1", User:"testUser", Name:"testHostName", Port:"22", PortTunnel:"1081", CheckForScripts:false}`
+		expected := `Host{Host:"192.0.2.1", User:"testUser", Name:"testHostName", Port:"22", PortTunnel:"1081"}`
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
 	})
 }
 
-var testGetScripts = func(host shared.Host) (string, error) {
+var testGetScripts = func(host shared.Host, config shared.Config) (string, error) {
 	return "script anotherScript", nil
 }
 
@@ -136,7 +136,7 @@ var testConfig = shared.Config{
 	Hosts: testHosts,
 }
 
-var testGetScript = func(host shared.Host, scriptPath string) (string, error) {
+var testGetScript = func(host shared.Host, scriptPath string, config shared.Config) (string, error) {
 	switch scriptPath {
 	case "sshRunLocalScript.local.sh":
 		return "command", nil
@@ -155,7 +155,7 @@ var testGetScript = func(host shared.Host, scriptPath string) (string, error) {
 	}
 }
 
-var testGetScriptPath = func(host shared.Host, scriptName string) (string, error) {
+var testGetScriptPath = func(host shared.Host, scriptName string, config shared.Config) (string, error) {
 	switch scriptName {
 	case "ssh":
 		return "ssh.ssh.sh", nil

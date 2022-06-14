@@ -7,12 +7,12 @@ import (
 	"path/filepath"
 )
 
-type GetScriptPath = func(host shared.Host, scriptName string) (string, error)
+type GetScriptPath = func(host shared.Host, scriptName string, config shared.Config) (string, error)
 
-var GetScriptPathFromConf = func(host shared.Host, scriptName string) (string, error) {
+var GetScriptPathFromConf = func(host shared.Host, scriptName string, config shared.Config) (string, error) {
 	script := ""
 	shared.UpdateIf(&script, scriptPathFromCommon(scriptName), fileExists)
-	shared.UpdateIf(&script, getScriptPathFromHost(host, scriptName), fileExists)
+	shared.UpdateIf(&script, getScriptPathFromHost(host, scriptName, config), fileExists)
 	if script == "" {
 		return "", errors.New("couldn't find script \"" + scriptName + ".sh\" for host \"" + host.Name + "\"")
 	}
