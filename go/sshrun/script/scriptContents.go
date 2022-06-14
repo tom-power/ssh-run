@@ -9,7 +9,7 @@ type GetScriptContents = func(host shared.Host, scriptPath string, config shared
 
 var GetScriptContentsFromHost = func(host shared.Host, scriptPath string, config shared.Config) (string, error) {
 	script, err := getScriptContentsFromHostLocal(scriptPath)
-	if config.CheckForScripts {
+	if config.CheckRemoteForScripts {
 		script, err = getScriptContentsFromHostRemote(host, scriptPath)
 	}
 	if err != nil {

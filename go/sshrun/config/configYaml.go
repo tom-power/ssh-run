@@ -5,29 +5,16 @@ import (
 	"github.com/tom-power/ssh-run/sshrun/shared"
 	"gopkg.in/yaml.v2"
 	"io"
-	"os"
-	"os/user"
 )
 
 type GetConfigFrom = func() (shared.Config, error)
 
 func GetConfigFromYaml() (shared.Config, error) {
-	reader, err := getReader()
+	reader, err := getConfigReader("/.config/ssh-run/config.yaml")
 	if err != nil {
 		return shared.Config{}, err
 	}
-	defer reader.Close()
 	return GetConfigFromYamlReader(reader)
-}
-
-const configPathRelative = "/.config/ssh-run/config.yaml"
-
-func getReader() (*os.File, error) {
-	user, err := user.Current()
-	if err != nil {
-		return nil, err
-	}
-	return os.Open(user.HomeDir + configPathRelative)
 }
 
 func GetConfigFromYamlReader(reader io.Reader) (shared.Config, error) {

@@ -17,10 +17,10 @@ func Test_config(t *testing.T) {
 		return sshConfigHosts, nil
 	}
 
-	t.Run("get hosts from ssh config when IncludeSshConfig", func(t *testing.T) {
+	t.Run("get hosts from ssh config when IncludeSshConfigHosts", func(t *testing.T) {
 		configFromYaml := shared.Config{
-			Hosts:            expectedConfigFromYaml.Hosts,
-			IncludeSshConfig: true,
+			Hosts:                 expectedConfigFromYaml.Hosts,
+			IncludeSshConfigHosts: true,
 		}
 		getConfigFromYaml := func() (shared.Config, error) {
 			return configFromYaml, nil
@@ -29,14 +29,14 @@ func Test_config(t *testing.T) {
 		actual, _ := config.GetConfigFromFileSystem(getHostsFromSshConfig, getConfigFromYaml)
 
 		assertConfigEqual(t, actual, shared.Config{
-			Hosts:            append(configFromYaml.Hosts, sshConfigHosts...),
-			IncludeSshConfig: configFromYaml.IncludeSshConfig,
+			Hosts:                 append(configFromYaml.Hosts, sshConfigHosts...),
+			IncludeSshConfigHosts: configFromYaml.IncludeSshConfigHosts,
 		})
 	})
-	t.Run("don't get hosts from ssh config when not IncludeSshConfig", func(t *testing.T) {
+	t.Run("don't get hosts from ssh config when not IncludeSshConfigHosts", func(t *testing.T) {
 		configFromYaml := shared.Config{
-			Hosts:            expectedConfigFromYaml.Hosts,
-			IncludeSshConfig: false,
+			Hosts:                 expectedConfigFromYaml.Hosts,
+			IncludeSshConfigHosts: false,
 		}
 		getConfigFromYaml := func() (shared.Config, error) {
 			return configFromYaml, nil
@@ -45,8 +45,8 @@ func Test_config(t *testing.T) {
 		actual, _ := config.GetConfigFromFileSystem(getHostsFromSshConfig, getConfigFromYaml)
 
 		assertConfigEqual(t, actual, shared.Config{
-			Hosts:            append(configFromYaml.Hosts),
-			IncludeSshConfig: configFromYaml.IncludeSshConfig,
+			Hosts:                 append(configFromYaml.Hosts),
+			IncludeSshConfigHosts: configFromYaml.IncludeSshConfigHosts,
 		})
 	})
 	t.Run("get hosts from ssh config when nothing in yaml", func(t *testing.T) {

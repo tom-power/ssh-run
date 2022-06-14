@@ -14,14 +14,14 @@ var GetConfigFromFileSystem = func(
 	if err != nil {
 		return shared.Config{}, err
 	}
-	if yamlConfig.IncludeSshConfig == true || len(yamlConfig.Hosts) == 0 {
+	if yamlConfig.IncludeSshConfigHosts == true || len(yamlConfig.Hosts) == 0 {
 		sshConfigHosts, err := getHostsFromSshConfig()
 		if err != nil {
 			return shared.Config{}, err
 		}
 		config := shared.Config{
-			Hosts:            append(yamlConfig.Hosts, sshConfigHosts...),
-			IncludeSshConfig: yamlConfig.IncludeSshConfig,
+			Hosts:                 append(yamlConfig.Hosts, sshConfigHosts...),
+			IncludeSshConfigHosts: yamlConfig.IncludeSshConfigHosts,
 		}
 		return config, nil
 	}

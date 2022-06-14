@@ -25,11 +25,13 @@ cp _sshRunCompletion ~/.oh-my-zsh/custom/completions/_sshRun
 
 ## Usage
 
-### Configuring hosts
+### Configuration
 
-Add hosts to `~/.config/ssh-run/config.yaml`:
+Hosts will be read from `.ssh/config`. Additionally, you can add to `~/.config/ssh-run/config.yaml` with sshRun specific config: 
 
 ```yaml
+includeSshConfigHosts: true
+checkRemoteForScripts: true
 hosts:
   - host: 192.168.0.1
     user: exampleUser
@@ -73,7 +75,7 @@ use the following file name convention to indicate how your scripts should be ru
 save to the following directories under `.config/ssh-run/scripts` so the script can be found:
 
 - `common`
-- `host/<hostName>` also checked on the host if `Host.checkForScripts` is `true` 
+- `host/<hostName>` also checked on the remote host if `Config.checkHostsForScripts` is `true` 
 - `shared/<sharedDir>` where `sharedDir` is also found in `host/<hostName>`
 
 see scripts [here](https:#github.com/tom-power/ssh-run/tree/master/config/.config/ssh-run/scripts) for examples.

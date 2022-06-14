@@ -11,7 +11,7 @@ func getScriptsFromHost(host shared.Host, config shared.Config) (string, error) 
 		return "", err
 	}
 	var remote = ""
-	if config.CheckForScripts {
+	if config.CheckRemoteForScripts {
 		remote, err = scriptsFromHostRemote(host)
 		if err == nil {
 			remote = " " + remote

@@ -1,9 +1,9 @@
 package shared
 
 type Config struct {
-	Hosts            []Host `yaml:"hosts"`
-	IncludeSshConfig bool   `yaml:"includeSshConfig"`
-	CheckForScripts  bool   `yaml:"checkForScripts" default:"false"`
+	Hosts                 []Host `yaml:"hosts"`
+	IncludeSshConfigHosts bool   `yaml:"includeSshConfigHosts" default:"true"`
+	CheckRemoteForScripts bool   `yaml:"checkRemoteForScripts" default:"false"`
 }
 
 type Host struct {
