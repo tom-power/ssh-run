@@ -19,11 +19,15 @@ var GetConfigFromFileSystem = func(
 		if err != nil {
 			return shared.Config{}, err
 		}
-		config := shared.Config{
-			Hosts:                 append(yamlConfig.Hosts, sshConfigHosts...),
-			IncludeSshConfigHosts: yamlConfig.IncludeSshConfigHosts,
-		}
-		return config, nil
+		return withHosts(yamlConfig, sshConfigHosts), nil
 	}
 	return yamlConfig, nil
+}
+
+func withHosts(config shared.Config, hosts []shared.Host) shared.Config {
+	return shared.Config{
+		Hosts:                 append(config.Hosts, hosts...),
+		IncludeSshConfigHosts: config.IncludeSshConfigHosts,
+		CheckRemoteForScripts: config.CheckRemoteForScripts,
+	}
 }

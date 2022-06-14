@@ -8,7 +8,8 @@ import (
 )
 
 var configText = `
-includeSshConfigHosts: true
+includeSshConfigHosts: false
+checkRemoteForScripts: true
 hosts:
   - host: 192.0.2.1
     user: testUser1
@@ -38,11 +39,15 @@ func assertConfigEqual(t *testing.T, actual shared.Config, expected shared.Confi
 	if actual.IncludeSshConfigHosts != expected.IncludeSshConfigHosts {
 		t.Errorf("actual.IncludeSshConfigHosts '%v' should equal '%v'", actual.IncludeSshConfigHosts, expected.IncludeSshConfigHosts)
 	}
+	if actual.CheckRemoteForScripts != expected.CheckRemoteForScripts {
+		t.Errorf("actual.CheckRemoteForScripts '%v' should equal '%v'", actual.CheckRemoteForScripts, expected.CheckRemoteForScripts)
+	}
 	assertHostsEqual(t, actual.Hosts, expected.Hosts)
 }
 
 var expectedConfigFromYaml = shared.Config{
-	IncludeSshConfigHosts: true,
+	IncludeSshConfigHosts: false,
+	CheckRemoteForScripts: true,
 	Hosts: []shared.Host{
 		{
 			Name: "testName1",
