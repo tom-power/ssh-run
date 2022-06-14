@@ -1,25 +1,24 @@
 # read/write/**_RUN_** scripts over ssh
 
-Assume this either already exists, or is easy enough to configure so isn't needed..
+You have some **hosts** you connect to regularly, and some **scripts** you run against them, and you want them to be **discoverable** from the command line without remembering the details..
 
-..but I couldn't find either, so wrote this nonsense and use it everyday now, ymmv!
+..me too and I couldn't find anything that did quite what I wanted, so wrote this nonsense and use it most days now, **ymmv**!
 
 ![demo](https://github.com/tom-power/ssh-run/blob/master/assets/demo.gif)
-
 
 ## Installation
 
 ```bash
-wget https://github.com/tom-power/ssh-run/releases/download/latest/release_linuxamd64.tar.gz&&  
-tar -xvzf release_linuxamd64.tar.gz &&
+wget https://github.com/tom-power/ssh-run/releases/download/latest/release_linuxamd64.tar.gz
+tar -xvzf release_linuxamd64.tar.gz
 cd ./release_linuxamd64
 
 # executables
-cp sshRun /path/to/bin/ &&
+cp sshRun /path/to/bin/
 cp _sshRun /path/to/bin/
 
 # shell integration, first install oh-my-zsh with fzf-tab
-cat .bash_aliases | tee -a ~/.bash_aliases &&
+cat .bash_aliases | tee -a ~/.bash_aliases
 cp _sshRunCompletion ~/.oh-my-zsh/custom/completions/_sshRun
 ```
 
@@ -27,7 +26,7 @@ cp _sshRunCompletion ~/.oh-my-zsh/custom/completions/_sshRun
 
 ### Configuration
 
-Hosts will be read from `.ssh/config`. Additionally, you can add to `~/.config/ssh-run/config.yaml` with sshRun specific config: 
+Hosts will be read from `~/.ssh/config` and `~/.config/ssh-run/config.yaml` which has sshRun specific config:
 
 ```yaml
 includeSshConfigHosts: true
@@ -75,7 +74,7 @@ use the following file name convention to indicate how your scripts should be ru
 save to the following directories under `.config/ssh-run/scripts` so the script can be found:
 
 - `common`
-- `host/<hostName>` also checked on the remote host if `Config.checkHostsForScripts` is `true` 
+- `host/<hostName>` also checked on the remote host if `Config.checkHostsForScripts` is `true`
 - `shared/<sharedDir>` where `sharedDir` is also found in `host/<hostName>`
 
 see scripts [here](https:#github.com/tom-power/ssh-run/tree/master/config/.config/ssh-run/scripts) for examples.
@@ -86,11 +85,11 @@ Install [go](https:#golang.org/), oh-my-zsh with fzf-tab.
 
 ```bash
 # get repo
-git clone https://github.com/tom-power/ssh-run.git &&
-cd ./ssh-run &&
+git clone https://github.com/tom-power/ssh-run.git
+cd ./ssh-run
 
 # build
-cp ./example.install.config.sh ./install.config.sh && # update config first
+cp ./example.install.config.sh ./install.config.sh # update config first
 ./install.sh
 
 # shell integration
