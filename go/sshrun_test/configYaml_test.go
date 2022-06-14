@@ -3,6 +3,7 @@ package sshrun
 import (
 	"github.com/tom-power/ssh-run/sshrun/config"
 	"github.com/tom-power/ssh-run/sshrun/shared"
+	"strings"
 	"testing"
 )
 
@@ -25,7 +26,10 @@ hosts:
 
 func Test_configYaml(t *testing.T) {
 	t.Run("can get config from yaml", func(t *testing.T) {
-		actual, _ := config.GetConfigFromYamlBytes([]byte(configText))
+		actual, err := config.GetConfigFromYamlReader(strings.NewReader(configText))
+		if err != nil {
+			t.Errorf(err.Error())
+		}
 		assertConfigEqual(t, actual, expectedConfigFromYaml)
 	})
 }
