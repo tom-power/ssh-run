@@ -3,21 +3,21 @@ package config
 import (
 	"github.com/kevinburke/ssh_config"
 	"github.com/tom-power/ssh-run/sshrun/shared"
-	"io"
+	"io/fs"
 )
 
 type GetHostsFrom = func() ([]shared.Host, error)
 
-func GetHostsFromSshConfig() ([]shared.Host, error) {
-	reader, err := getConfigReader(".ssh/config")
+func GetHostsFromSshConfig(path string, fs fs.FS) ([]shared.Host, error) {
+	file, err := fs.Open(path)
 	if err != nil {
 		return []shared.Host{}, err
 	}
-	return GetHostsFromSshConfigReader(reader)
-}
-
-func GetHostsFromSshConfigReader(reader io.Reader) ([]shared.Host, error) {
-	config, err := ssh_config.Decode(reader)
+	bytes, err := getBytes(file)
+	if err != nil {
+		return []shared.Host{}, err
+	}
+	config, err := ssh_config.DecodeBytes(bytes)
 	if err != nil {
 		return []shared.Host{}, err
 	}
