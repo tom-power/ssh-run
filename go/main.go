@@ -25,10 +25,19 @@ func main() {
 }
 
 func getRun() sshrun.Run {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var getConfigFromYaml = func() (shared.Config, error) {
+		return config.GetConfigFromYaml(homeDir+"/.config/ssh-run/config.yaml", os.DirFS(""))
+	}
+
 	config, err :=
 		config.GetConfigFromFileSystem(
 			config.GetHostsFromSshConfig,
-			config.GetConfigFromYaml,
+			getConfigFromYaml,
 		)
 	if err != nil {
 		log.Fatal(err)

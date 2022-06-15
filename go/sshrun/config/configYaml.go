@@ -1,24 +1,23 @@
 package config
 
 import (
-	"bytes"
 	"github.com/tom-power/ssh-run/sshrun/shared"
 	"gopkg.in/yaml.v2"
-	"io"
+	"io/fs"
 )
 
 type GetConfigFrom = func() (shared.Config, error)
 
-func GetConfigFromYaml() (shared.Config, error) {
-	reader, err := getConfigReader("/.config/ssh-run/config.yaml")
+func GetConfigFromYaml(path string, fs fs.FS) (shared.Config, error) {
+	file, err := fs.Open(path)
 	if err != nil {
 		return shared.Config{}, err
 	}
-	return GetConfigFromYamlReader(reader)
-}
-
-func GetConfigFromYamlReader(reader io.Reader) (shared.Config, error) {
-	yaml, err := getConfigFromYamlBytes(getBytes(reader))
+	bytes, err := getBytes(file)
+	if err != nil {
+		return shared.Config{}, err
+	}
+	yaml, err := getConfigFromYamlBytes(bytes)
 	if err != nil {
 		return shared.Config{}, err
 	}
@@ -34,8 +33,12 @@ func getConfigFromYamlBytes(configBytes []byte) (shared.Config, error) {
 	return config, nil
 }
 
-func getBytes(reader io.Reader) []byte {
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(reader)
-	return buf.Bytes()
+func getBytes(file fs.File) ([]byte, error) {
+	stat, _ := file.Stat()
+	bytes := make([]byte, stat.Size())
+	_, err := file.Read(bytes)
+	if err != nil {
+		return bytes, err
+	}
+	return bytes, nil
 }

@@ -3,8 +3,8 @@ package sshrun
 import (
 	"github.com/tom-power/ssh-run/sshrun/config"
 	"github.com/tom-power/ssh-run/sshrun/shared"
-	"strings"
 	"testing"
+	"testing/fstest"
 )
 
 var configText = `
@@ -27,7 +27,12 @@ hosts:
 
 func Test_configYaml(t *testing.T) {
 	t.Run("can get config from yaml", func(t *testing.T) {
-		actual, err := config.GetConfigFromYamlReader(strings.NewReader(configText))
+		testFs := fstest.MapFS{
+			"config.yaml": {
+				Data: []byte(configText),
+			},
+		}
+		actual, err := config.GetConfigFromYaml("config.yaml", testFs)
 		if err != nil {
 			t.Errorf(err.Error())
 		}
