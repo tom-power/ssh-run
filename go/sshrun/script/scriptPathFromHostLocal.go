@@ -14,21 +14,19 @@ func scriptPathFromHostLocal(host shared.Host, scriptName string, fsys fs.FS) (s
 	}
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
-			fromShared, _ := scriptPathFromShared(hostFile.Name(), scriptName, fsys)
-			shared.UpdateIf(&script, fromShared, fileExistsFs(fsys))
-			subDir, _ := scriptPathFromHostSubDir(host.Name, hostFile.Name(), scriptName, fsys)
-			shared.UpdateIf(&script, subDir, fileExistsFs(fsys))
+			subDir, _ := firstFileInHostSubDir(host.Name, hostFile.Name(), scriptName, fsys)
+			shared.UpdateIf(&script, subDir, fileExists(fsys))
 		}
 	}
 	fromHost, err := scriptPathFromHost(scriptsPath, host.Name, scriptName, fsys)
-	shared.UpdateIf(&script, fromHost, fileExistsFs(fsys))
+	shared.UpdateIf(&script, fromHost, fileExists(fsys))
 	return script, nil
 }
 
-func scriptPathFromHostSubDir(hostsName string, dirName string, scriptName string, fs fs.FS) (string, error) {
+func firstFileInHostSubDir(hostsName string, dirName string, scriptName string, fs fs.FS) (string, error) {
 	return firstFileInDir(scriptsPath+"host/"+hostsName+"/"+dirName+"/", scriptName, fs)
 }
 
-func scriptPathFromShared(sharedDir string, scriptName string, fs fs.FS) (string, error) {
-	return firstFileInDir(scriptsPath+"shared/"+sharedDir+"/", scriptName, fs)
+func scriptPathFromHost(scriptsDir string, hostsName string, scriptName string, fs fs.FS) (string, error) {
+	return firstFileInDir(scriptsDir+"host/"+hostsName+"/", scriptName, fs)
 }

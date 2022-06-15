@@ -4,10 +4,16 @@ import (
 	"bytes"
 	"github.com/tom-power/ssh-run/sshrun/shared"
 	"io/ioutil"
+	"os/user"
 	"strings"
 
 	"golang.org/x/crypto/ssh"
 )
+
+func homeDir() string {
+	usr, _ := user.Current()
+	return usr.HomeDir
+}
 
 func getSession(host shared.Host) (*ssh.Session, error) {
 	keyBytes, err := ioutil.ReadFile(homeDir() + "/.ssh/id_rsa")
