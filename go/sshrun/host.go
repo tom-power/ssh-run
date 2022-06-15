@@ -7,7 +7,7 @@ import (
 
 type GetHost = func(hostName string) (shared.Host, error)
 
-var GetHostFromConfig = func(config shared.Config) GetHost {
+func GetHostFromConfig(config shared.Config) GetHost {
 	return func(hostName string) (shared.Host, error) {
 		return getHost(hostName, config.Hosts)
 	}

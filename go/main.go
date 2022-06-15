@@ -26,17 +26,17 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	sshRun, err := getRun(config)(hostName, scriptName, args)
+	sshRun, err := getRun(config, dir)(hostName, scriptName, args)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf(sshRun)
 }
 
-func getRun(config shared.Config) sshrun.Run {
+func getRun(config shared.Config, homeDirFs fs.FS) sshrun.Run {
 	return sshrun.GetRun(
 		sshrun.GetHostFromConfig(config),
-		script.GetScriptPathFromConf,
+		script.GetScriptPathFromConf(homeDirFs),
 		script.GetScriptContentsFromHost,
 		sshrun.GetCommandSsh,
 		script.GetScriptsAll,

@@ -13,7 +13,7 @@ func GetHostsFromSshConfig(path string, fs fs.FS) ([]shared.Host, error) {
 	if err != nil {
 		return []shared.Host{}, err
 	}
-	bytes, err := getBytes(file)
+	bytes, err := shared.GetBytes(file)
 	if err != nil {
 		return []shared.Host{}, err
 	}

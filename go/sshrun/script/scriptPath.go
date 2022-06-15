@@ -3,23 +3,29 @@ package script
 import (
 	"errors"
 	"github.com/tom-power/ssh-run/sshrun/shared"
+	"io/fs"
 	"os/user"
 	"path/filepath"
 )
 
 type GetScriptPath = func(host shared.Host, scriptName string, config shared.Config) (string, error)
 
-var GetScriptPathFromConf = func(host shared.Host, scriptName string, config shared.Config) (string, error) {
-	script := ""
-	shared.UpdateIf(&script, scriptPathFromCommon(scriptName), fileExists)
-	shared.UpdateIf(&script, getScriptPathFromHost(host, scriptName, config), fileExists)
-	if script == "" {
-		return "", errors.New("couldn't find script \"" + scriptName + ".sh\" for host \"" + host.Name + "\"")
+func GetScriptPathFromConf(fs fs.FS) GetScriptPath {
+	return func(host shared.Host, scriptName string, config shared.Config) (string, error) {
+		script := ""
+		fileExistsFs := fileExistsFs(fs)
+		common, _ := scriptPathFromCommon(scriptName, fs)
+		shared.UpdateIf(&script, common, fileExistsFs)
+		fromHost, _ := getScriptPathFromHost(host, scriptName, config, fs)
+		shared.UpdateIf(&script, fromHost, fileExistsFs)
+		if script == "" {
+			return "", errors.New("couldn't find script \"" + scriptName + ".sh\" for host \"" + host.Name + "\"")
+		}
+		return script, nil
 	}
-	return script, nil
 }
 
-const scriptsPath = "/.config/ssh-run/scripts/"
+const scriptsPath = ".config/ssh-run/scripts/"
 
 func scriptsDir(homeDir string) string {
 	return homeDir + scriptsPath
@@ -34,16 +40,20 @@ func hostDir(hostsName string, homeDir string) string {
 	return scriptsDir(homeDir) + "host/" + hostsName + "/"
 }
 
-func scriptPathFromHost(scriptsDir string, hostsName string, scriptName string) string {
-	return filePathFromName(scriptsDir+"host/"+hostsName+"/", scriptName)
+func hostDirRel(hostsName string) string {
+	return scriptsPath + "host/" + hostsName
+}
+
+func scriptPathFromHost(scriptsDir string, hostsName string, scriptName string, fs fs.FS) (string, error) {
+	return filePathFromNameFs(scriptsDir+"host/"+hostsName+"/", scriptName, fs)
 }
 
 func commonDir() string {
-	return scriptsDir(homeDir()) + "common/"
+	return scriptsPath + "common/"
 }
 
-func scriptPathFromCommon(scriptName string) string {
-	return filePathFromName(commonDir(), scriptName)
+func scriptPathFromCommon(scriptName string, fs fs.FS) (string, error) {
+	return filePathFromNameFs(commonDir(), scriptName, fs)
 }
 
 func filePathFromName(dir string, name string) string {
@@ -52,4 +62,15 @@ func filePathFromName(dir string, name string) string {
 		return ""
 	}
 	return matches[0]
+}
+
+func filePathFromNameFs(dir string, name string, fsys fs.FS) (string, error) {
+	matches, err := fs.Glob(fsys, dir+name+".*")
+	if err != nil {
+		return "", err
+	}
+	if len(matches) == 0 {
+		return "", errors.New("no match")
+	}
+	return matches[0], nil
 }

@@ -13,7 +13,7 @@ func GetConfigFromYaml(path string, fs fs.FS) (shared.Config, error) {
 	if err != nil {
 		return shared.Config{}, err
 	}
-	bytes, err := getBytes(file)
+	bytes, err := shared.GetBytes(file)
 	if err != nil {
 		return shared.Config{}, err
 	}
