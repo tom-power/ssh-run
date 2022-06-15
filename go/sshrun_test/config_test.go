@@ -26,7 +26,7 @@ func Test_config(t *testing.T) {
 			return configFromYaml, nil
 		}
 
-		actual, _ := config.GetConfigFromFileSystem(getHostsFromSshConfig, getConfigFromYaml)
+		actual, _ := config.GetConfigUsing(getHostsFromSshConfig, getConfigFromYaml)
 
 		assertConfigEqual(t, actual, shared.Config{
 			Hosts:                 append(configFromYaml.Hosts, sshConfigHosts...),
@@ -42,7 +42,7 @@ func Test_config(t *testing.T) {
 			return configFromYaml, nil
 		}
 
-		actual, _ := config.GetConfigFromFileSystem(getHostsFromSshConfig, getConfigFromYaml)
+		actual, _ := config.GetConfigUsing(getHostsFromSshConfig, getConfigFromYaml)
 
 		assertConfigEqual(t, actual, shared.Config{
 			Hosts:                 append(configFromYaml.Hosts),
@@ -54,7 +54,7 @@ func Test_config(t *testing.T) {
 			return shared.Config{}, nil
 		}
 
-		actual, _ := config.GetConfigFromFileSystem(getHostsFromSshConfig, getConfigFromYaml)
+		actual, _ := config.GetConfigUsing(getHostsFromSshConfig, getConfigFromYaml)
 
 		assertConfigEqual(t, actual, shared.Config{Hosts: sshConfigHosts})
 	})

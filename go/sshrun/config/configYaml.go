@@ -6,7 +6,7 @@ import (
 	"io/fs"
 )
 
-type GetConfigFrom = func() (shared.Config, error)
+type GetConfig = func() (shared.Config, error)
 
 func GetConfigFromYaml(path string, fs fs.FS) (shared.Config, error) {
 	file, err := fs.Open(path)

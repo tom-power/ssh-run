@@ -6,7 +6,7 @@ import (
 	"io/fs"
 )
 
-type GetHostsFrom = func() ([]shared.Host, error)
+type GetHosts = func() ([]shared.Host, error)
 
 func GetHostsFromSshConfig(path string, fs fs.FS) ([]shared.Host, error) {
 	file, err := fs.Open(path)

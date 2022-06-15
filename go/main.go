@@ -60,7 +60,7 @@ func getConfig(homeDirFs fs.FS) (shared.Config, error) {
 	var getConfigFromYaml = func() (shared.Config, error) {
 		return config.GetConfigFromYaml(".config/ssh-run/config.yaml", homeDirFs)
 	}
-	return config.GetConfigFromFileSystem(
+	return config.GetConfigUsing(
 		getHostsFromSshConfig,
 		getConfigFromYaml,
 	)

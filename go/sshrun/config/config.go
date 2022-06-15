@@ -4,18 +4,16 @@ import (
 	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
-type GetConfig = func() (shared.Config, error)
-
-var GetConfigFromFileSystem = func(
-	getHostsFromSshConfig GetHostsFrom,
-	getConfigFromYaml GetConfigFrom,
+func GetConfigUsing(
+	hostsFromSshConfig GetHosts,
+	configFromYaml GetConfig,
 ) (shared.Config, error) {
-	yamlConfig, err := getConfigFromYaml()
+	yamlConfig, err := configFromYaml()
 	if err != nil {
 		return shared.Config{}, err
 	}
 	if yamlConfig.IncludeSshConfigHosts == true || len(yamlConfig.Hosts) == 0 {
-		sshConfigHosts, err := getHostsFromSshConfig()
+		sshConfigHosts, err := hostsFromSshConfig()
 		if err != nil {
 			return shared.Config{}, err
 		}
