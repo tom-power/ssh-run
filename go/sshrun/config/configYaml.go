@@ -6,18 +6,12 @@ import (
 	"io/fs"
 )
 
-type GetConfig = func() (shared.Config, error)
-
-func GetConfigFromYaml(path string, fs fs.FS) (shared.Config, error) {
-	file, err := fs.Open(path)
+func (fsys FileSys) getConfigFromYaml() (shared.Config, error) {
+	file, err := fs.ReadFile(fsys.Fsys, fsys.ConfigPath)
 	if err != nil {
 		return shared.Config{}, err
 	}
-	bytes, err := shared.GetBytes(file)
-	if err != nil {
-		return shared.Config{}, err
-	}
-	yaml, err := getConfigFromYamlBytes(bytes)
+	yaml, err := getConfigFromYamlBytes(file)
 	if err != nil {
 		return shared.Config{}, err
 	}

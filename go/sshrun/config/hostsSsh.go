@@ -6,18 +6,12 @@ import (
 	"io/fs"
 )
 
-type GetHosts = func() ([]shared.Host, error)
-
-func GetHostsFromSshConfig(path string, fs fs.FS) ([]shared.Host, error) {
-	file, err := fs.Open(path)
+func (fsys FileSys) getHostsFromSshConfig() ([]shared.Host, error) {
+	file, err := fs.ReadFile(fsys.Fsys, fsys.SshPath)
 	if err != nil {
 		return []shared.Host{}, err
 	}
-	bytes, err := shared.GetBytes(file)
-	if err != nil {
-		return []shared.Host{}, err
-	}
-	config, err := ssh_config.DecodeBytes(bytes)
+	config, err := ssh_config.DecodeBytes(file)
 	if err != nil {
 		return []shared.Host{}, err
 	}

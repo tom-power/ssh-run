@@ -18,48 +18,40 @@ func main() {
 	if len(os.Args) > 3 {
 		args = os.Args[3:]
 	}
-	dir, err := homeDirFs()
+	homeDirFs, err := getHomeDirFs()
 	if err != nil {
 		log.Fatal(err)
 	}
-	config, err := getConfig(dir)
-	if err != nil {
-		log.Fatal(err)
+	configFs := config.FileSys{
+		Fsys:       homeDirFs,
+		ConfigPath: ".config/ssh-run/config.yaml",
+		SshPath:    ".ssh/config",
 	}
-	sshRun, err := getRun(config, dir)(hostName, scriptName, args)
+	sshRun, err := getRun(configFs, homeDirFs)(hostName, scriptName, args)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf(sshRun)
 }
 
-func getRun(config shared.Config, homeDirFs fs.FS) sshrun.Run {
+func getRun(configFs config.FileSys, fsys fs.FS) sshrun.Run {
+	config, err := configFs.GetConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
 	return sshrun.GetRun(
-		script.GetScriptPathFromConf(homeDirFs),
-		script.GetScriptContentsFromHost(homeDirFs),
+		script.GetScriptPathFromConf(fsys),
+		script.GetScriptContentsFromHost(fsys),
 		sshrun.GetCommandSsh,
-		script.GetScriptsFromConf(homeDirFs),
+		script.GetScriptsFromConf(fsys),
 		config,
 	)
 }
 
-func homeDirFs() (fs.FS, error) {
+func getHomeDirFs() (fs.FS, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return nil, err
 	}
 	return os.DirFS(homeDir), nil
-}
-
-func getConfig(homeDirFs fs.FS) (shared.Config, error) {
-	var getHostsFromSshConfig = func() ([]shared.Host, error) {
-		return config.GetHostsFromSshConfig(".ssh/config", homeDirFs)
-	}
-	var getConfigFromYaml = func() (shared.Config, error) {
-		return config.GetConfigFromYaml(".config/ssh-run/config.yaml", homeDirFs)
-	}
-	return config.GetConfigUsing(
-		getHostsFromSshConfig,
-		getConfigFromYaml,
-	)
 }
