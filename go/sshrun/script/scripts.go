@@ -2,24 +2,23 @@ package script
 
 import (
 	"github.com/tom-power/ssh-run/sshrun/shared"
+	"io/fs"
 	"strings"
-
-	"io/ioutil"
-	"os"
-	"path/filepath"
 )
 
 type GetScripts = func(host shared.Host, config shared.Config) (string, error)
 
-var GetScriptsAll = func(host shared.Host, config shared.Config) (string, error) {
-	commonScripts, _ := getScriptsFromCommon()
-	sharedScripts, _ := getScriptsFromShared(host)
-	hostScripts, _ := getScriptsFromHost(host, config)
-	var out = ""
-	out += commonScripts
-	out += " " + sharedScripts
-	out += " " + hostScripts
-	return removeSh(removeCommandTypes(out)), nil
+func GetScriptsFromConf(fs fs.FS) GetScripts {
+	return func(host shared.Host, config shared.Config) (string, error) {
+		commonScripts, _ := getScriptsFromCommon(fs)
+		sharedScripts, _ := getScriptsFromShared(host, fs)
+		hostScripts, _ := getScriptsFromHost(host, config, fs)
+		var out = ""
+		out += commonScripts
+		out += " " + sharedScripts
+		out += " " + hostScripts
+		return removeSh(removeCommandTypes(out)), nil
+	}
 }
 
 func removeCommandTypes(scripts string) string {
@@ -34,22 +33,22 @@ func removeSh(scripts string) string {
 	return strings.ReplaceAll(scripts, ".sh", "")
 }
 
-func getScriptsFromCommon() (string, error) {
-	files, err := ioutil.ReadDir(commonDir())
+func getScriptsFromCommon(fsys fs.FS) (string, error) {
+	files, err := fs.ReadDir(fsys, commonDir())
 	if err != nil {
 		return "", err
 	}
 	return filesToFileNames(files), nil
 }
 
-func getScriptsFromShared(host shared.Host) (string, error) {
-	var files []os.FileInfo
-	hostFiles, _ := ioutil.ReadDir(hostDir(host.Name, homeDir()))
+func getScriptsFromShared(host shared.Host, fsys fs.FS) (string, error) {
+	var files []fs.DirEntry
+	hostFiles, _ := fs.ReadDir(fsys, hostDir(host.Name))
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
-			sharedDir := scriptsDir(homeDir()) + "shared/" + hostFile.Name()
-			if fileExists(sharedDir) {
-				err := filepath.Walk(sharedDir, appendFiles(&files))
+			sharedDir := scriptsPath + "shared/" + hostFile.Name()
+			if fileExistsFs(fsys)(sharedDir) {
+				err := fs.WalkDir(fsys, sharedDir, appendFiles(&files))
 				if err != nil {
 					return "", err
 				}
@@ -59,13 +58,13 @@ func getScriptsFromShared(host shared.Host) (string, error) {
 	return filesToFileNames(files), nil
 }
 
-func filesToFileNames(files []os.FileInfo) string {
-	filesToFileName := func(file os.FileInfo) string { return file.Name() }
+func filesToFileNames(files []fs.DirEntry) string {
+	filesToFileName := func(dir fs.DirEntry) string { return dir.Name() }
 	return strings.Join(shared.Map(files, filesToFileName), " ")
 }
 
-func appendFiles(files *[]os.FileInfo) func(string, os.FileInfo, error) error {
-	return func(path string, info os.FileInfo, err error) error {
+func appendFiles(files *[]fs.DirEntry) func(string, fs.DirEntry, error) error {
+	return func(path string, info fs.DirEntry, err error) error {
 		if info != nil && !info.IsDir() {
 			*files = append(*files, info)
 		}

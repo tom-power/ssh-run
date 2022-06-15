@@ -39,7 +39,7 @@ func getRun(config shared.Config, homeDirFs fs.FS) sshrun.Run {
 		script.GetScriptPathFromConf(homeDirFs),
 		script.GetScriptContentsFromHost,
 		sshrun.GetCommandSsh,
-		script.GetScriptsAll,
+		script.GetScriptsFromConf(homeDirFs),
 		sshrun.GetHostsFromConfig(config),
 		config,
 	)

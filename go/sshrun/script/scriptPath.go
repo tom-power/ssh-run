@@ -5,7 +5,6 @@ import (
 	"github.com/tom-power/ssh-run/sshrun/shared"
 	"io/fs"
 	"os/user"
-	"path/filepath"
 )
 
 type GetScriptPath = func(host shared.Host, scriptName string, config shared.Config) (string, error)
@@ -27,44 +26,28 @@ func GetScriptPathFromConf(fs fs.FS) GetScriptPath {
 
 const scriptsPath = ".config/ssh-run/scripts/"
 
-func scriptsDir(homeDir string) string {
-	return homeDir + scriptsPath
-}
-
 func homeDir() string {
 	usr, _ := user.Current()
 	return usr.HomeDir
 }
 
-func hostDir(hostsName string, homeDir string) string {
-	return scriptsDir(homeDir) + "host/" + hostsName + "/"
-}
-
-func hostDirRel(hostsName string) string {
+func hostDir(hostsName string) string {
 	return scriptsPath + "host/" + hostsName
 }
 
 func scriptPathFromHost(scriptsDir string, hostsName string, scriptName string, fs fs.FS) (string, error) {
-	return filePathFromNameFs(scriptsDir+"host/"+hostsName+"/", scriptName, fs)
+	return firstFileInDir(scriptsDir+"host/"+hostsName+"/", scriptName, fs)
 }
 
 func commonDir() string {
-	return scriptsPath + "common/"
+	return scriptsPath + "common"
 }
 
 func scriptPathFromCommon(scriptName string, fs fs.FS) (string, error) {
-	return filePathFromNameFs(commonDir(), scriptName, fs)
+	return firstFileInDir(commonDir()+"/", scriptName, fs)
 }
 
-func filePathFromName(dir string, name string) string {
-	matches, err := filepath.Glob(dir + name + ".*")
-	if err != nil || len(matches) == 0 {
-		return ""
-	}
-	return matches[0]
-}
-
-func filePathFromNameFs(dir string, name string, fsys fs.FS) (string, error) {
+func firstFileInDir(dir string, name string, fsys fs.FS) (string, error) {
 	matches, err := fs.Glob(fsys, dir+name+".*")
 	if err != nil {
 		return "", err

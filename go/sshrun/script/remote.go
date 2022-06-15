@@ -44,3 +44,11 @@ func runCommandOn(host shared.Host, command string) (string, error) {
 	}
 	return buff.String(), nil
 }
+
+func scriptsDir(homeDir string) string {
+	return homeDir + scriptsPath
+}
+
+func hostDirWithHome(hostsName string, homeDir string) string {
+	return scriptsDir(homeDir) + "host/" + hostsName + "/"
+}

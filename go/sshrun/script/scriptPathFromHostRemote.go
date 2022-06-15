@@ -3,7 +3,7 @@ package script
 import "github.com/tom-power/ssh-run/sshrun/shared"
 
 func scriptPathFromHostRemote(host shared.Host, scriptName string) string {
-	hostDir := hostDir(host.Name, "/home/"+host.User)
+	hostDir := hostDirWithHome(host.Name, "/home/"+host.User)
 	command := "" +
 		"cd " + hostDir + " &&" +
 		"find . -type f -name '" + scriptName + "*.sh' | sed 's/\\.\\///'"

@@ -2,11 +2,12 @@ package script
 
 import (
 	"github.com/tom-power/ssh-run/sshrun/shared"
+	"io/fs"
 	"strings"
 )
 
-func getScriptsFromHost(host shared.Host, config shared.Config) (string, error) {
-	local, err := scriptsFromHostLocal(host)
+func getScriptsFromHost(host shared.Host, config shared.Config, fs fs.FS) (string, error) {
+	local, err := scriptsFromHostLocal(host, fs)
 	if err != nil {
 		return "", err
 	}

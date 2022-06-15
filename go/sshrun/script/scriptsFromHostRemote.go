@@ -5,7 +5,7 @@ import (
 )
 
 func scriptsFromHostRemote(host shared.Host) (string, error) {
-	hostDir := hostDir(host.Name, "/home/"+host.User)
+	hostDir := hostDirWithHome(host.Name, "/home/"+host.User)
 	command := "find " + hostDir + " -type f -printf '%f '"
 	return runCommandOn(host, command)
 }

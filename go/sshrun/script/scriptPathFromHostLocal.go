@@ -7,7 +7,7 @@ import (
 
 func scriptPathFromHostLocal(host shared.Host, scriptName string, fsys fs.FS) (string, error) {
 	script := ""
-	hostDir := hostDirRel(host.Name)
+	hostDir := hostDir(host.Name)
 	hostFiles, err := fs.ReadDir(fsys, hostDir)
 	if err != nil {
 		return "", err
@@ -26,9 +26,9 @@ func scriptPathFromHostLocal(host shared.Host, scriptName string, fsys fs.FS) (s
 }
 
 func scriptPathFromHostSubDir(hostsName string, dirName string, scriptName string, fs fs.FS) (string, error) {
-	return filePathFromNameFs(scriptsPath+"host/"+hostsName+"/"+dirName+"/", scriptName, fs)
+	return firstFileInDir(scriptsPath+"host/"+hostsName+"/"+dirName+"/", scriptName, fs)
 }
 
 func scriptPathFromShared(sharedDir string, scriptName string, fs fs.FS) (string, error) {
-	return filePathFromNameFs(scriptsPath+"shared/"+sharedDir+"/", scriptName, fs)
+	return firstFileInDir(scriptsPath+"shared/"+sharedDir+"/", scriptName, fs)
 }
