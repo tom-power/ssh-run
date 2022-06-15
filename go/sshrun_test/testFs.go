@@ -11,7 +11,7 @@ var scriptsDir = ".config/ssh-run/scripts/"
 var testFs = fstest.MapFS{
 	scriptsDir + "common/common.sh":                   {},
 	scriptsDir + "host/testHost":                      {Mode: fs.ModeDir},
-	scriptsDir + "host/testHost/test.sh":              {},
+	scriptsDir + "host/testHost/test.sh":              {Data: []byte("hello")},
 	scriptsDir + "host/testHost/subDir":               {Mode: fs.ModeDir},
 	scriptsDir + "host/testHost/subDir/testSubDir.sh": {},
 	scriptsDir + "host/testHost/stuff":                {Mode: fs.ModeDir},
