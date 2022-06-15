@@ -13,12 +13,10 @@ type Run = func(
 	args []string) (string, error)
 
 func GetRun(
-	getHost GetHost,
 	getScriptPath script.GetScriptPath,
 	getScriptContents script.GetScriptContents,
 	getCommand GetCommand,
 	getScripts script.GetScripts,
-	getHosts GetHosts,
 	config shared.Config,
 ) Run {
 	return func(
@@ -26,9 +24,9 @@ func GetRun(
 		scriptName string,
 		args []string) (string, error) {
 		if hostName == "hosts" {
-			return echo(getHosts)
+			return echo(config.HostNames)
 		}
-		host, err := getHost(hostName)
+		host, err := config.Host(hostName)
 		if err != nil {
 			return "", err
 		}

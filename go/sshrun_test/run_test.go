@@ -100,12 +100,10 @@ func testRun(
 	config shared.Config,
 ) (string, error) {
 	return sshrun.GetRun(
-		sshrun.GetHostFromConfig(config),
 		testGetScriptPath,
 		testGetScript,
 		sshrun.GetCommandSsh,
 		testGetScripts,
-		sshrun.GetHostsFromConfig(config),
 		config,
 	)(hostName, scriptName, args)
 }
