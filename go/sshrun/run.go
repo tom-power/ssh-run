@@ -12,7 +12,11 @@ type Run = func(
 	scriptName string,
 	args []string) (string, error)
 
-func GetRun(getCommand GetCommand, getScripts script.GetScripts, config shared.Config, script script.Script) Run {
+func GetRun(
+	getCommand GetCommand,
+	config shared.Config,
+	script script.Script,
+) Run {
 	return func(
 		hostName string,
 		scriptName string,
@@ -28,7 +32,7 @@ func GetRun(getCommand GetCommand, getScripts script.GetScripts, config shared.C
 		case "explain":
 			return hostToString(host)
 		case "scripts":
-			return echo(func() (string, error) { return getScripts(host, config) })
+			return echo(func() (string, error) { return script.List(host) })
 		case "ssh", "":
 			return sshCommand(host, getCommand)
 		}

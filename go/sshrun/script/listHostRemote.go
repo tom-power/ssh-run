@@ -4,7 +4,7 @@ import (
 	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
-func getScriptsFromHostRemote(host shared.Host) (string, error) {
+func listHostRemote(host shared.Host) (string, error) {
 	hostDir := hostDirWithHome(host.Name, "/home/"+host.User)
 	command := "find " + hostDir + " -type f -printf '%f '"
 	return runCommandOn(host, command)

@@ -8,15 +8,15 @@ import (
 func (fsys FileSys) Path(host shared.Host, scriptName string) (string, error) {
 	script := ""
 	fileExistsFs := fsys.fileExists()
-	common, _ := fsys.pathFromCommon(scriptName)
-	sharedScriptPath, _ := fsys.pathFromShared(host, scriptName)
-	fromHost, _ := fsys.pathFromHostLocal(host, scriptName)
+	fromCommon, _ := fsys.pathCommon(scriptName)
+	fromShared, _ := fsys.pathShared(host, scriptName)
+	fromHost, _ := fsys.pathHostLocal(host, scriptName)
 	fromHostRemote := ""
 	if fsys.Config.CheckRemoteForScripts {
-		fromHostRemote, _ = scriptPathFromHostRemote(host, scriptName)
+		fromHostRemote, _ = pathHostRemote(host, scriptName)
 	}
-	shared.UpdateIf(&script, common, fileExistsFs)
-	shared.UpdateIf(&script, sharedScriptPath, fileExistsFs)
+	shared.UpdateIf(&script, fromCommon, fileExistsFs)
+	shared.UpdateIf(&script, fromShared, fileExistsFs)
 	shared.UpdateIf(&script, fromHost, fileExistsFs)
 	shared.UpdateIf(&script, fromHostRemote, isNotEmpty)
 	if script == "" {

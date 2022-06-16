@@ -5,14 +5,14 @@ import (
 	"io/fs"
 )
 
-func getScriptsFromShared(host shared.Host, fsys fs.FS) (string, error) {
+func (fsys FileSys) listShared(host shared.Host) (string, error) {
 	var files []fs.DirEntry
-	hostFiles, _ := fs.ReadDir(fsys, hostDir(host.Name))
+	hostFiles, _ := fs.ReadDir(fsys.Fsys, hostDir(host.Name))
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
 			sharedDir := scriptsPath + "shared/" + hostFile.Name()
-			if fileExists(fsys)(sharedDir) {
-				err := fs.WalkDir(fsys, sharedDir, appendFiles(&files))
+			if fsys.fileExists()(sharedDir) {
+				err := fs.WalkDir(fsys.Fsys, sharedDir, appendFiles(&files))
 				if err != nil {
 					return "", err
 				}

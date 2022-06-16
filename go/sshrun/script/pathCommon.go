@@ -1,5 +1,5 @@
 package script
 
-func (fsys FileSys) pathFromCommon(scriptName string) (string, error) {
+func (fsys FileSys) pathCommon(scriptName string) (string, error) {
 	return fsys.firstFileInDir(commonDir()+"/", scriptName)
 }

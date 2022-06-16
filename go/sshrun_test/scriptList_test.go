@@ -7,7 +7,10 @@ import (
 
 func Test_scripts(t *testing.T) {
 	t.Run("can get scripts", func(t *testing.T) {
-		actual, err := script.GetScriptsFromConf(testFs)(scriptPathHost, scriptPathConf)
+		sys := script.FileSys{Fsys: testFs, Config: scriptPathConf}
+
+		actual, err := sys.List(scriptPathHost)
+
 		if err != nil {
 			t.Errorf(err.Error())
 		}

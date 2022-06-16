@@ -6,7 +6,7 @@ import (
 	"io/fs"
 )
 
-func (fsys FileSys) pathFromShared(host shared.Host, scriptName string) (string, error) {
+func (fsys FileSys) pathShared(host shared.Host, scriptName string) (string, error) {
 	hostDir := hostDir(host.Name)
 	hostFiles, err := fs.ReadDir(fsys.Fsys, hostDir)
 	if err != nil {

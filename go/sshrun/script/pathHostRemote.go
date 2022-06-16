@@ -2,7 +2,7 @@ package script
 
 import "github.com/tom-power/ssh-run/sshrun/shared"
 
-func scriptPathFromHostRemote(host shared.Host, scriptName string) (string, error) {
+func pathHostRemote(host shared.Host, scriptName string) (string, error) {
 	hostDir := hostDirWithHome(host.Name, "/home/"+host.User)
 	command := "" +
 		"cd " + hostDir + " &&" +

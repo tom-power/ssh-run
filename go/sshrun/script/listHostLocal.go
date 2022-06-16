@@ -5,9 +5,9 @@ import (
 	"io/fs"
 )
 
-func getScriptsFromHostLocal(host shared.Host, fsys fs.FS) (string, error) {
+func (fsys FileSys) listHostLocal(host shared.Host) (string, error) {
 	var files []fs.DirEntry
-	err := fs.WalkDir(fsys, hostDir(host.Name), appendFiles(&files))
+	err := fs.WalkDir(fsys.Fsys, hostDir(host.Name), appendFiles(&files))
 	if err != nil {
 		return "", err
 	}

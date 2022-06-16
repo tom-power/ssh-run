@@ -89,17 +89,13 @@ func Test_run(t *testing.T) {
 	})
 }
 
-var testGetScripts = func(host shared.Host, config shared.Config) (string, error) {
-	return "script anotherScript", nil
-}
-
 func testRun(
 	hostName string,
 	scriptName string,
 	args []string,
 	config shared.Config,
 ) (string, error) {
-	return sshrun.GetRun(sshrun.GetCommandSsh, testGetScripts, config, testScript)(hostName, scriptName, args)
+	return sshrun.GetRun(sshrun.GetCommandSsh, config, testScript)(hostName, scriptName, args)
 }
 
 var testHosts = []shared.Host{
@@ -165,8 +161,7 @@ func (ts TestScript) Path(host shared.Host, scriptName string) (string, error) {
 }
 
 func (ts TestScript) List(host shared.Host) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	return "script anotherScript", nil
 }
 
 var testScript = TestScript{}

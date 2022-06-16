@@ -5,13 +5,6 @@ import (
 	"io/fs"
 )
 
-func fileExists(fs fs.FS) func(string) bool {
-	return func(path string) bool {
-		_, err := fs.Open(path)
-		return err == nil
-	}
-}
-
 func (fsys FileSys) fileExists() func(string) bool {
 	return func(path string) bool {
 		_, err := fsys.Fsys.Open(path)
