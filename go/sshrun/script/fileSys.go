@@ -10,11 +10,6 @@ type FileSys struct {
 	Config shared.Config
 }
 
-func (fsys FileSys) Path(host shared.Host, scriptName string) (string, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
 func (fsys FileSys) List(host shared.Host) (string, error) {
 	//TODO implement me
 	panic("implement me")

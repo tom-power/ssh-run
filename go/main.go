@@ -47,7 +47,7 @@ func getRun(
 	configFs config.FileSys,
 	scriptFs script.FileSys,
 ) sshrun.Run {
-	return sshrun.GetRun(script.GetScriptPathFromConf(configFs.Fsys), sshrun.GetCommandSsh, script.GetScriptsFromConf(configFs.Fsys), config, scriptFs)
+	return sshrun.GetRun(sshrun.GetCommandSsh, script.GetScriptsFromConf(configFs.Fsys), config, scriptFs)
 }
 
 func getHomeDirFs() (fs.FS, error) {

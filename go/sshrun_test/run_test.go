@@ -99,7 +99,7 @@ func testRun(
 	args []string,
 	config shared.Config,
 ) (string, error) {
-	return sshrun.GetRun(testGetScriptPath, sshrun.GetCommandSsh, testGetScripts, config, testScript)(hostName, scriptName, args)
+	return sshrun.GetRun(sshrun.GetCommandSsh, testGetScripts, config, testScript)(hostName, scriptName, args)
 }
 
 var testHosts = []shared.Host{
@@ -150,8 +150,18 @@ func (ts TestScript) Contents(host shared.Host, scriptPath string) (string, erro
 }
 
 func (ts TestScript) Path(host shared.Host, scriptName string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	switch scriptName {
+	case "ssh":
+		return "ssh.ssh.sh", nil
+	case "sshRunLocalScript":
+		return "sshRunLocalScript.local.sh", nil
+	case "sshRunPtyScript":
+		return "sshRunPtyScript.pty.sh", nil
+	case "sshRunX11Script":
+		return "sshRunX11Script.x11.sh", nil
+	default:
+		return scriptName + ".sh", nil
+	}
 }
 
 func (ts TestScript) List(host shared.Host) (string, error) {
@@ -177,20 +187,5 @@ var testGetScript = func(host shared.Host, scriptPath string, config shared.Conf
 		return "command", nil
 	default:
 		return "", errors.New("no script with name " + scriptPath)
-	}
-}
-
-var testGetScriptPath = func(host shared.Host, scriptName string, config shared.Config) (string, error) {
-	switch scriptName {
-	case "ssh":
-		return "ssh.ssh.sh", nil
-	case "sshRunLocalScript":
-		return "sshRunLocalScript.local.sh", nil
-	case "sshRunPtyScript":
-		return "sshRunPtyScript.pty.sh", nil
-	case "sshRunX11Script":
-		return "sshRunX11Script.x11.sh", nil
-	default:
-		return scriptName + ".sh", nil
 	}
 }

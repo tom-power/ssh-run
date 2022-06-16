@@ -12,13 +12,7 @@ type Run = func(
 	scriptName string,
 	args []string) (string, error)
 
-func GetRun(
-	getScriptPath script.GetScriptPath,
-	getCommand GetCommand,
-	getScripts script.GetScripts,
-	config shared.Config,
-	script script.ScriptItf,
-) Run {
+func GetRun(getCommand GetCommand, getScripts script.GetScripts, config shared.Config, script script.Script) Run {
 	return func(
 		hostName string,
 		scriptName string,
@@ -38,7 +32,7 @@ func GetRun(
 		case "ssh", "":
 			return sshCommand(host, getCommand)
 		}
-		scriptPath, err := getScriptPath(host, scriptName, config)
+		scriptPath, err := script.Path(host, scriptName)
 		if err != nil {
 			return "", err
 		}
