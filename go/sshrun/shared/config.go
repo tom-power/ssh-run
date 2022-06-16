@@ -1,6 +1,10 @@
 package shared
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+	"strings"
+)
 
 type Config struct {
 	Hosts                 []Host `yaml:"hosts"`
@@ -31,4 +35,8 @@ type Host struct {
 	Name       string
 	Port       string
 	PortTunnel string `yaml:"portTunnel"`
+}
+
+func (h Host) ToString() string {
+	return strings.ReplaceAll(fmt.Sprintf("%#v", h), "shared.", "")
 }

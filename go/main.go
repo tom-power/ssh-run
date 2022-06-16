@@ -35,15 +35,11 @@ func main() {
 		Fsys:   homeDirFs,
 		Config: config,
 	}
-	sshRun, err := getRun(config, scriptFs)(hostName, scriptName, args)
+	sshRun, err := sshrun.Runner{GetCommand: sshrun.GetCommandSsh, Config: config, Script: scriptFs}.Run(hostName, scriptName, args)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf(sshRun)
-}
-
-func getRun(config shared.Config, scriptFs script.FileSys) sshrun.Run {
-	return sshrun.GetRun(sshrun.GetCommandSsh, config, scriptFs)
 }
 
 func getHomeDirFs() (fs.FS, error) {

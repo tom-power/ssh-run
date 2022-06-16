@@ -10,9 +10,9 @@ _scripts() {
 
 _arguments -s \
   '1:hosts:_hosts' \
-  '2:scripts:_scripts' \
-  '3:explain:->explain'
+  '2:scriptsAndExplainHost:_scripts' \
+  '3:explainScript:->explainScript'
 
-if [[ $state == 'explain' && ${line[2]} != "explain" ]]; then
+if [[ $state == 'explainScript' && ${line[2]} != "explain" ]]; then
   _arguments '3:explain:(explain)'
 fi

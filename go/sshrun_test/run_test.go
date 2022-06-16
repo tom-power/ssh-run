@@ -9,7 +9,7 @@ import (
 
 func Test_run(t *testing.T) {
 	t.Run("can ssh", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "ssh", []string{}, testConfig)
+		actual, _ := testRunner("testHostName", "ssh", []string{}, testConfig)
 		expected := "ssh -p 22 testUser@192.0.2.1"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -17,7 +17,7 @@ func Test_run(t *testing.T) {
 	})
 
 	t.Run("can ssh on no command", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "", []string{}, testConfig)
+		actual, _ := testRunner("testHostName", "", []string{}, testConfig)
 		expected := "ssh -p 22 testUser@192.0.2.1"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -25,14 +25,14 @@ func Test_run(t *testing.T) {
 	})
 
 	t.Run("can run local", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "sshRunLocalScript", []string{}, testConfig)
+		actual, _ := testRunner("testHostName", "sshRunLocalScript", []string{}, testConfig)
 		if actual != "command" {
 			t.Errorf("'%v' should equal '%v'", actual, "command")
 		}
 	})
 
 	t.Run("can run ssh", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "sshruncript", []string{}, testConfig)
+		actual, _ := testRunner("testHostName", "sshruncript", []string{}, testConfig)
 		expected := "ssh -p 22 testUser@192.0.2.1 \"command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -40,7 +40,7 @@ func Test_run(t *testing.T) {
 	})
 
 	t.Run("can run ssh with args", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "sshruncriptWithArgs", []string{"arg1", "arg2"}, testConfig)
+		actual, _ := testRunner("testHostName", "sshruncriptWithArgs", []string{"arg1", "arg2"}, testConfig)
 		expected := "ssh -p 22 testUser@192.0.2.1 \"command arg1 arg2\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -48,7 +48,7 @@ func Test_run(t *testing.T) {
 	})
 
 	t.Run("can run ssh with pty", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "sshRunPtyScript", []string{}, testConfig)
+		actual, _ := testRunner("testHostName", "sshRunPtyScript", []string{}, testConfig)
 		expected := "ssh -p 22 testUser@192.0.2.1 -t \"pty command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -56,7 +56,7 @@ func Test_run(t *testing.T) {
 	})
 
 	t.Run("can run ssh x11", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "sshRunX11Script", []string{}, testConfig)
+		actual, _ := testRunner("testHostName", "sshRunX11Script", []string{}, testConfig)
 
 		expected := "ssh -p 22 testUser@192.0.2.1 -Y \"x11 command\""
 		if actual != expected {
@@ -65,7 +65,7 @@ func Test_run(t *testing.T) {
 	})
 
 	t.Run("can list scripts", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "scripts", []string{}, testConfig)
+		actual, _ := testRunner("testHostName", "scripts", []string{}, testConfig)
 		expected := "echo script anotherScript"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -73,7 +73,7 @@ func Test_run(t *testing.T) {
 	})
 
 	t.Run("can list hosts", func(t *testing.T) {
-		actual, _ := testRun("hosts", "", []string{}, testConfig)
+		actual, _ := testRunner("hosts", "", []string{}, testConfig)
 		expected := "echo testHostName1 testHostName testHostName3"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -81,7 +81,7 @@ func Test_run(t *testing.T) {
 	})
 
 	t.Run("can explain host", func(t *testing.T) {
-		actual, _ := testRun("testHostName", "explain", []string{}, testConfig)
+		actual, _ := testRunner("testHostName", "explain", []string{}, testConfig)
 		expected := `Host{Host:"192.0.2.1", User:"testUser", Name:"testHostName", Port:"22", PortTunnel:"1081"}`
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -89,13 +89,13 @@ func Test_run(t *testing.T) {
 	})
 }
 
-func testRun(
+func testRunner(
 	hostName string,
 	scriptName string,
 	args []string,
 	config shared.Config,
 ) (string, error) {
-	return sshrun.GetRun(sshrun.GetCommandSsh, config, testScript)(hostName, scriptName, args)
+	return sshrun.Runner{GetCommand: sshrun.GetCommandSsh, Config: config, Script: testScript}.Run(hostName, scriptName, args)
 }
 
 var testHosts = []shared.Host{
