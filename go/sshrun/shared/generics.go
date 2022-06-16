@@ -22,7 +22,10 @@ func Filter[V any](values []V, predicate func(V) bool) []V {
 	return filtered
 }
 
-func Last[V any](values []V) V {
+func LastOr[V any](values []V, defaultV V) V {
+	if len(values) == 0 {
+		return defaultV
+	}
 	return values[len(values)-1]
 }
 

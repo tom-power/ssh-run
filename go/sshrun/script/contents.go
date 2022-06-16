@@ -5,10 +5,14 @@ import (
 	"io/fs"
 )
 
-func (fsys FileSys) Contents(host shared.Host, scriptPath string) (string, error) {
-	script, err := fsys.contentsFromHostLocal(scriptPath)
+func (fsys FileSys) Contents(host shared.Host, scriptName string) (string, error) {
+	path, err := fsys.Path(host, scriptName)
+	if err != nil {
+		return "", err
+	}
+	script, err := fsys.contentsFromHostLocal(path)
 	if fsys.Config.CheckRemoteForScripts {
-		script, err = contentsFromHostRemote(host, scriptPath)
+		script, err = contentsFromHostRemote(host, path)
 	}
 	if err != nil {
 		return "", err

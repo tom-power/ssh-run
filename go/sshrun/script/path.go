@@ -15,7 +15,7 @@ func (fsys FileSys) Path(host shared.Host, scriptName string) (string, error) {
 		hostRemotePath, _ = pathHostRemote(host, scriptName)
 	}
 
-	path := shared.Last(shared.Filter([]string{commonPath, sharedPath, hostPath, hostRemotePath}, isNotEmpty))
+	path := shared.LastOr(shared.Filter([]string{commonPath, sharedPath, hostPath, hostRemotePath}, isNotEmpty), "")
 	if path == "" {
 		return "", errors.New(fmt.Sprintf("couldn't find path %s.sh for host %s", scriptName, host.Name))
 	}

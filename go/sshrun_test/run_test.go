@@ -58,7 +58,7 @@ func Test_run(t *testing.T) {
 	t.Run("can run ssh x11", func(t *testing.T) {
 		actual, _ := testRun("testHostName", "sshRunX11Script", []string{}, testConfig)
 
-		expected := "ssh -p 22 testUser@192.0.2.1 -Y \"command\""
+		expected := "ssh -p 22 testUser@192.0.2.1 -Y \"x11 command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
@@ -126,22 +126,20 @@ var testConfig = shared.Config{
 
 type TestScript struct{}
 
-func (ts TestScript) Contents(host shared.Host, scriptPath string) (string, error) {
-	switch scriptPath {
-	case "sshRunLocalScript.local.sh":
+func (ts TestScript) Contents(host shared.Host, scriptName string) (string, error) {
+	switch scriptName {
+	case "sshRunLocalScript":
 		return "command", nil
-	case "sshruncript.sh":
+	case "sshruncript":
 		return "command", nil
-	case "sshRunX11Script.sh":
+	case "sshruncriptWithArgs":
 		return "command $1 $2", nil
-	case "sshruncriptWithArgs.sh":
-		return "command $1 $2", nil
-	case "sshRunPtyScript.pty.sh":
+	case "sshRunPtyScript":
 		return "pty command", nil
-	case "sshRunX11Script.x11.sh":
-		return "command", nil
+	case "sshRunX11Script":
+		return "x11 command", nil
 	default:
-		return "", errors.New("no script with name " + scriptPath)
+		return "", errors.New("no script with name " + scriptName)
 	}
 }
 
@@ -162,6 +160,21 @@ func (ts TestScript) Path(host shared.Host, scriptName string) (string, error) {
 
 func (ts TestScript) List(host shared.Host) (string, error) {
 	return "script anotherScript", nil
+}
+
+func (ts TestScript) Type(host shared.Host, scriptName string) (string, error) {
+	switch scriptName {
+	case "ssh":
+		return "ssh", nil
+	case "sshRunLocalScript":
+		return "local", nil
+	case "sshRunPtyScript":
+		return "pty", nil
+	case "sshRunX11Script":
+		return "x11", nil
+	default:
+		return "", nil
+	}
 }
 
 var testScript = TestScript{}

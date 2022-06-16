@@ -30,15 +30,17 @@ type Cleaner struct {
 func (cleaner Cleaner) nameOnly() Cleaner {
 	split := strings.Split(cleaner.Scripts, " ")
 	mapped := shared.Map(split, nameOnly)
-	joined := strings.Join(mapped, " ")
-	return Cleaner{joined}
+	join := strings.Join(mapped, " ")
+	return Cleaner{join}
 }
 
 var nameOnly = func(script string) string { return strings.Split(script, ".")[0] }
 
 func (cleaner Cleaner) dropNotSh() Cleaner {
-	filter := shared.Filter(strings.Split(cleaner.Scripts, " "), noSh)
-	return Cleaner{strings.Join(filter, " ")}
+	split := strings.Split(cleaner.Scripts, " ")
+	filter := shared.Filter(split, noSh)
+	join := strings.Join(filter, " ")
+	return Cleaner{join}
 }
 
 var noSh = func(script string) bool { return strings.HasSuffix(script, ".sh") }

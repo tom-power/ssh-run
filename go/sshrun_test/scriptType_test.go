@@ -5,16 +5,16 @@ import (
 	"testing"
 )
 
-func Test_scriptContents(t *testing.T) {
-	t.Run("can get script contents 2", func(t *testing.T) {
-		sys := script.FileSys{Fsys: testFs}
+func Test_scriptType(t *testing.T) {
+	t.Run("can get script type from fs", func(t *testing.T) {
+		sys := script.FileSys{Fsys: testFs, Config: testConf}
 
-		actual, err := sys.Contents(testHost, "test")
+		actual, err := sys.Type(testHost, "testType")
 
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-		expected := "hello"
+		expected := "pty"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}

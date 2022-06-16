@@ -36,15 +36,15 @@ func GetRun(
 		case "ssh", "":
 			return sshCommand(host, getCommand)
 		}
-		scriptPath, err := script.Path(host, scriptName)
+		scriptContents, err := script.Contents(host, scriptName)
 		if err != nil {
 			return "", err
 		}
-		scriptContents, err := script.Contents(host, scriptPath)
+		scriptType, err := script.Type(host, scriptName)
 		if err != nil {
 			return "", err
 		}
-		command, err := getCommand(commandTypeFromPath(scriptPath), scriptContents, host, args)
+		command, err := getCommand(scriptType, scriptContents, host, args)
 		if err != nil {
 			return "", err
 		}
@@ -70,13 +70,4 @@ func sshCommand(host shared.Host, getCommand GetCommand) (string, error) {
 		return "", err
 	}
 	return command, nil
-}
-
-func commandTypeFromPath(scriptPath string) string {
-	fileName := scriptPath[strings.LastIndex(scriptPath, "/")+1:]
-	fileNameParts := strings.Split(fileName, ".")
-	if len(fileNameParts) == 3 {
-		return fileNameParts[1]
-	}
-	return ""
 }

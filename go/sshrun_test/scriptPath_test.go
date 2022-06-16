@@ -7,9 +7,9 @@ import (
 
 func Test_scriptPath(t *testing.T) {
 	t.Run("can get common script path from fs", func(t *testing.T) {
-		sys := script.FileSys{Fsys: testFs, Config: scriptPathConf}
+		sys := script.FileSys{Fsys: testFs, Config: testConf}
 
-		actual, err := sys.Path(scriptPathHost, "common")
+		actual, err := sys.Path(testHost, "common")
 
 		if err != nil {
 			t.Errorf(err.Error())
@@ -20,9 +20,9 @@ func Test_scriptPath(t *testing.T) {
 		}
 	})
 	t.Run("can get host script path from fs", func(t *testing.T) {
-		sys := script.FileSys{Fsys: testFs, Config: scriptPathConf}
+		sys := script.FileSys{Fsys: testFs, Config: testConf}
 
-		actual, err := sys.Path(scriptPathHost, "test")
+		actual, err := sys.Path(testHost, "test")
 
 		if err != nil {
 			t.Errorf(err.Error())
@@ -33,9 +33,9 @@ func Test_scriptPath(t *testing.T) {
 		}
 	})
 	t.Run("can get subDir host script path from fs", func(t *testing.T) {
-		sys := script.FileSys{Fsys: testFs, Config: scriptPathConf}
+		sys := script.FileSys{Fsys: testFs, Config: testConf}
 
-		actual, err := sys.Path(scriptPathHost, "testSubDir")
+		actual, err := sys.Path(testHost, "testSubDir")
 
 		if err != nil {
 			t.Errorf(err.Error())
@@ -46,9 +46,9 @@ func Test_scriptPath(t *testing.T) {
 		}
 	})
 	t.Run("can get shared script path from fs", func(t *testing.T) {
-		sys := script.FileSys{Fsys: testFs, Config: scriptPathConf}
+		sys := script.FileSys{Fsys: testFs, Config: testConf}
 
-		actual, err := sys.Path(scriptPathHost, "sharedTest")
+		actual, err := sys.Path(testHost, "sharedTest")
 
 		if err != nil {
 			t.Errorf(err.Error())
