@@ -20,22 +20,38 @@ func (fsys FileSys) List(host shared.Host) (string, error) {
 	out += " " + sharedScripts
 	out += " " + hostLocalScripts
 	out += hostRemoteScripts
-	return removeSh(removeCommandTypes(out)), nil
+	return Cleaner{out}.dropNotSh().nameOnly().Scripts, nil
 }
 
-func removeCommandTypes(scripts string) string {
-	scripts = strings.ReplaceAll(scripts, ".local", "")
-	scripts = strings.ReplaceAll(scripts, ".pty", "")
-	scripts = strings.ReplaceAll(scripts, ".x11", "")
-	scripts = strings.ReplaceAll(scripts, ".ssh", "")
-	return scripts
+type Cleaner struct {
+	Scripts string
 }
 
-func removeSh(scripts string) string {
-	return strings.ReplaceAll(scripts, ".sh", "")
+func (cleaner Cleaner) nameOnly() Cleaner {
+	split := strings.Split(cleaner.Scripts, " ")
+	mapped := shared.Map(split, nameOnly)
+	joined := strings.Join(mapped, " ")
+	return Cleaner{joined}
 }
 
-func filesToFileNames(files []fs.DirEntry) string {
-	filesToFileName := func(dir fs.DirEntry) string { return dir.Name() }
-	return strings.Join(shared.Map(files, filesToFileName), " ")
+var nameOnly = func(script string) string { return strings.Split(script, ".")[0] }
+
+func (cleaner Cleaner) dropNotSh() Cleaner {
+	filter := shared.Filter(strings.Split(cleaner.Scripts, " "), noSh)
+	return Cleaner{strings.Join(filter, " ")}
+}
+
+var noSh = func(script string) bool { return strings.HasSuffix(script, ".sh") }
+
+type Files struct {
+	Files []fs.DirEntry
+}
+
+func (files Files) filter(predicate func(fs.DirEntry) bool) Files {
+	return Files{shared.Filter(files.Files, predicate)}
+}
+
+func (files Files) names() string {
+	fileToFileName := func(dir fs.DirEntry) string { return dir.Name() }
+	return strings.Join(shared.Map(files.Files, fileToFileName), " ")
 }

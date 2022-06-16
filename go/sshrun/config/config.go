@@ -4,7 +4,9 @@ import (
 	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
-func (fsys FileSys) GetConfig() (shared.Config, error) {
+type Config = func() (shared.Config, error)
+
+func (fsys FileSys) Config() (shared.Config, error) {
 	yamlConfig, err := fsys.getConfigFromYaml()
 	if err != nil || len(yamlConfig.Hosts) == 0 || yamlConfig.IncludeSshConfigHosts == true {
 		sshConfigHosts, _ := fsys.getHostsFromSshConfig()

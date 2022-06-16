@@ -16,7 +16,7 @@ func Test_fileSysConfig(t *testing.T) {
 			SshPath:    ".ssh/config",
 		}
 
-		actual, _ := sys.GetConfig()
+		actual, _ := sys.Config()
 
 		assertConfigEqual(t, actual, shared.Config{
 			Hosts:                 append(expectedConfigFromYaml.Hosts, sshConfigHosts...),
@@ -30,7 +30,7 @@ func Test_fileSysConfig(t *testing.T) {
 			SshPath:    ".ssh/config",
 		}
 
-		actual, _ := sys.GetConfig()
+		actual, _ := sys.Config()
 
 		assertConfigEqual(t, actual, shared.Config{
 			Hosts:                 append(expectedConfigFromYaml.Hosts),
@@ -44,7 +44,7 @@ func Test_fileSysConfig(t *testing.T) {
 			SshPath:    ".ssh/config",
 		}
 
-		actual, _ := sys.GetConfig()
+		actual, _ := sys.Config()
 
 		assertConfigEqual(t, actual, shared.Config{Hosts: sshConfigHosts})
 	})

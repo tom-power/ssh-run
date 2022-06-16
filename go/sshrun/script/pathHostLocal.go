@@ -15,11 +15,11 @@ func (fsys FileSys) pathHostLocal(host shared.Host, scriptName string) (string, 
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
 			subDir, _ := fsys.firstFileInHostSubDir(host.Name, hostFile.Name(), scriptName)
-			shared.UpdateIf(&script, subDir, fsys.fileExists())
+			shared.ReplaceIf(&script, subDir, fsys.fileExists())
 		}
 	}
 	fromHost, err := fsys.scriptPathFromHost(scriptsPath, host.Name, scriptName)
-	shared.UpdateIf(&script, fromHost, fsys.fileExists())
+	shared.ReplaceIf(&script, fromHost, fsys.fileExists())
 	return script, nil
 }
 

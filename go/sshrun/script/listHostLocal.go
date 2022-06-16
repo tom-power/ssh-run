@@ -6,12 +6,10 @@ import (
 )
 
 func (fsys FileSys) listHostLocal(host shared.Host) (string, error) {
-	var files []fs.DirEntry
-	err := fs.WalkDir(fsys.Fsys, hostDir(host.Name), appendFiles(&files))
+	var files = Files{[]fs.DirEntry{}}
+	err := fs.WalkDir(fsys.Fsys, hostDir(host.Name), appendFiles(&files.Files))
 	if err != nil {
 		return "", err
 	}
-	return filesToFileNames(shared.Filter(files, noKeep)), nil
+	return files.names(), nil
 }
-
-var noKeep = func(file fs.DirEntry) bool { return file.Name() != ".keep" }

@@ -6,20 +6,20 @@ import (
 )
 
 func (fsys FileSys) listShared(host shared.Host) (string, error) {
-	var files []fs.DirEntry
+	var files = Files{[]fs.DirEntry{}}
 	hostFiles, _ := fs.ReadDir(fsys.Fsys, hostDir(host.Name))
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
 			sharedDir := scriptsPath + "shared/" + hostFile.Name()
 			if fsys.fileExists()(sharedDir) {
-				err := fs.WalkDir(fsys.Fsys, sharedDir, appendFiles(&files))
+				err := fs.WalkDir(fsys.Fsys, sharedDir, appendFiles(&files.Files))
 				if err != nil {
 					return "", err
 				}
 			}
 		}
 	}
-	return filesToFileNames(files), nil
+	return files.names(), nil
 }
 
 func appendFiles(files *[]fs.DirEntry) func(string, fs.DirEntry, error) error {

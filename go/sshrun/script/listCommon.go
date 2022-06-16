@@ -9,5 +9,5 @@ func (fsys FileSys) listCommon() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filesToFileNames(files), nil
+	return Files{files}.names(), nil
 }

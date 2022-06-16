@@ -22,6 +22,10 @@ func Filter[V any](values []V, predicate func(V) bool) []V {
 	return filtered
 }
 
+func Last[V any](values []V) V {
+	return values[len(values)-1]
+}
+
 func Single[V any](values []V, predicate func(V) bool) (*V, error) {
 	for _, value := range values {
 		if predicate(value) {
@@ -31,19 +35,7 @@ func Single[V any](values []V, predicate func(V) bool) (*V, error) {
 	return nil, errors.New("couldn't find value")
 }
 
-func Unique(strSlice []string) []string {
-	keys := make(map[string]bool)
-	var list []string
-	for _, entry := range strSlice {
-		if _, value := keys[entry]; !value {
-			keys[entry] = true
-			list = append(list, entry)
-		}
-	}
-	return list
-}
-
-func UpdateIf[V any](value *V, newValue V, predicate func(V) bool) {
+func ReplaceIf[V any](value *V, newValue V, predicate func(V) bool) {
 	if predicate(newValue) {
 		*value = newValue
 	}

@@ -8,7 +8,7 @@ import (
 
 func Test_scriptContents(t *testing.T) {
 	t.Run("can get script contents", func(t *testing.T) {
-		sys := script.FileSys{testFs, shared.Config{}}
+		sys := script.FileSys{Fsys: testFs}
 		scriptPath := scriptsDir + "host/testHost/test.sh"
 
 		actual, err := sys.Contents(shared.Host{}, scriptPath)
