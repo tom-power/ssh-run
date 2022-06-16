@@ -99,13 +99,7 @@ func testRun(
 	args []string,
 	config shared.Config,
 ) (string, error) {
-	return sshrun.GetRun(
-		testGetScriptPath,
-		testGetScript,
-		sshrun.GetCommandSsh,
-		testGetScripts,
-		config,
-	)(hostName, scriptName, args)
+	return sshrun.GetRun(testGetScriptPath, sshrun.GetCommandSsh, testGetScripts, config, testScript)(hostName, scriptName, args)
 }
 
 var testHosts = []shared.Host{
@@ -133,6 +127,39 @@ var testHosts = []shared.Host{
 var testConfig = shared.Config{
 	Hosts: testHosts,
 }
+
+type TestScript struct{}
+
+func (ts TestScript) Contents(host shared.Host, scriptPath string) (string, error) {
+	switch scriptPath {
+	case "sshRunLocalScript.local.sh":
+		return "command", nil
+	case "sshruncript.sh":
+		return "command", nil
+	case "sshRunX11Script.sh":
+		return "command $1 $2", nil
+	case "sshruncriptWithArgs.sh":
+		return "command $1 $2", nil
+	case "sshRunPtyScript.pty.sh":
+		return "pty command", nil
+	case "sshRunX11Script.x11.sh":
+		return "command", nil
+	default:
+		return "", errors.New("no script with name " + scriptPath)
+	}
+}
+
+func (ts TestScript) Path(host shared.Host, scriptName string) (string, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (ts TestScript) List(host shared.Host) (string, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+var testScript = TestScript{}
 
 var testGetScript = func(host shared.Host, scriptPath string, config shared.Config) (string, error) {
 	switch scriptPath {

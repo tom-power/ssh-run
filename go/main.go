@@ -27,25 +27,27 @@ func main() {
 		ConfigPath: ".config/ssh-run/config.yaml",
 		SshPath:    ".ssh/config",
 	}
-	sshRun, err := getRun(configFs, homeDirFs)(hostName, scriptName, args)
+	config, err := configFs.GetConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+	scriptFs := script.FileSys{
+		Fsys:   homeDirFs,
+		Config: config,
+	}
+	sshRun, err := getRun(config, configFs, scriptFs)(hostName, scriptName, args)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf(sshRun)
 }
 
-func getRun(configFs config.FileSys, fsys fs.FS) sshrun.Run {
-	config, err := configFs.GetConfig()
-	if err != nil {
-		log.Fatal(err)
-	}
-	return sshrun.GetRun(
-		script.GetScriptPathFromConf(fsys),
-		script.GetScriptContentsFromHost(fsys),
-		sshrun.GetCommandSsh,
-		script.GetScriptsFromConf(fsys),
-		config,
-	)
+func getRun(
+	config shared.Config,
+	configFs config.FileSys,
+	scriptFs script.FileSys,
+) sshrun.Run {
+	return sshrun.GetRun(script.GetScriptPathFromConf(configFs.Fsys), sshrun.GetCommandSsh, script.GetScriptsFromConf(configFs.Fsys), config, scriptFs)
 }
 
 func getHomeDirFs() (fs.FS, error) {

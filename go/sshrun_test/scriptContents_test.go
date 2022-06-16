@@ -8,8 +8,11 @@ import (
 
 func Test_scriptContents(t *testing.T) {
 	t.Run("can get script contents", func(t *testing.T) {
+		sys := script.FileSys{testFs, shared.Config{}}
 		scriptPath := scriptsDir + "host/testHost/test.sh"
-		actual, err := script.GetScriptContentsFromHost(testFs)(shared.Host{}, scriptPath, shared.Config{})
+
+		actual, err := sys.Contents(shared.Host{}, scriptPath)
+
 		if err != nil {
 			t.Errorf(err.Error())
 		}

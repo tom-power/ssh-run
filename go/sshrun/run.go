@@ -14,10 +14,10 @@ type Run = func(
 
 func GetRun(
 	getScriptPath script.GetScriptPath,
-	getScriptContents script.GetScriptContents,
 	getCommand GetCommand,
 	getScripts script.GetScripts,
 	config shared.Config,
+	script script.ScriptItf,
 ) Run {
 	return func(
 		hostName string,
@@ -42,7 +42,7 @@ func GetRun(
 		if err != nil {
 			return "", err
 		}
-		scriptContents, err := getScriptContents(host, scriptPath, config)
+		scriptContents, err := script.Contents(host, scriptPath)
 		if err != nil {
 			return "", err
 		}
