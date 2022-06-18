@@ -1,11 +1,11 @@
 package script
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"io/fs"
 )
 
-func (fsys FileSys) listShared(host shared.Host) (string, error) {
+func (fsys FileSys) listShared(host domain.Host) (string, error) {
 	var files = Files{[]fs.DirEntry{}}
 	hostFiles, _ := fs.ReadDir(fsys.Fsys, hostDir(host.Name))
 	for _, hostFile := range hostFiles {

@@ -2,17 +2,17 @@ package sshrun_test
 
 import (
 	"github.com/tom-power/ssh-run/sshrun"
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"strings"
 	"testing"
 )
 
-var testHost = shared.Host{
-	"192.0.2.1",
-	"testUser",
-	"testName",
-	"22",
-	"1081",
+var testHost = domain.Host{
+	Host:       "192.0.2.1",
+	User:       "testUser",
+	Name:       "testName",
+	Port:       "22",
+	PortTunnel: "1081",
 }
 
 var commandTypes = []string{"local", "pty", "x11", ""}

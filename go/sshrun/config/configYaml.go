@@ -1,25 +1,25 @@
 package config
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"gopkg.in/yaml.v2"
 	"io/fs"
 )
 
-func (fsys FileSys) getConfigFromYaml() (shared.Config, error) {
+func (fsys FileSys) getConfigFromYaml() (domain.Config, error) {
 	file, err := fs.ReadFile(fsys.Fsys, fsys.ConfigPath)
 	if err != nil {
-		return shared.Config{}, err
+		return domain.Config{}, err
 	}
 	yaml, err := getConfigFromYamlBytes(file)
 	if err != nil {
-		return shared.Config{}, err
+		return domain.Config{}, err
 	}
 	return yaml, nil
 }
 
-func getConfigFromYamlBytes(configBytes []byte) (shared.Config, error) {
-	config := shared.Config{}
+func getConfigFromYamlBytes(configBytes []byte) (domain.Config, error) {
+	config := domain.Config{}
 	err := yaml.Unmarshal(configBytes, &config)
 	if err != nil {
 		return config, err

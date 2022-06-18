@@ -1,11 +1,11 @@
 package script
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"strings"
 )
 
-func (fsys FileSys) Type(host shared.Host, scriptName string) (string, error) {
+func (fsys FileSys) Type(host domain.Host, scriptName string) (string, error) {
 	path, err := fsys.Path(host, scriptName)
 	if err != nil {
 		return "", err

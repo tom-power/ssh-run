@@ -2,7 +2,7 @@ package sshrun
 
 import (
 	"github.com/tom-power/ssh-run/sshrun/config"
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"testing"
 	"testing/fstest"
 )
@@ -18,7 +18,7 @@ func Test_fileSysConfig(t *testing.T) {
 
 		actual, _ := sys.Config()
 
-		assertConfigEqual(t, actual, shared.Config{
+		assertConfigEqual(t, actual, domain.Config{
 			Hosts:                 append(expectedConfigFromYaml.Hosts, sshConfigHosts...),
 			IncludeSshConfigHosts: true,
 		})
@@ -32,7 +32,7 @@ func Test_fileSysConfig(t *testing.T) {
 
 		actual, _ := sys.Config()
 
-		assertConfigEqual(t, actual, shared.Config{
+		assertConfigEqual(t, actual, domain.Config{
 			Hosts:                 append(expectedConfigFromYaml.Hosts),
 			IncludeSshConfigHosts: false,
 		})
@@ -46,7 +46,7 @@ func Test_fileSysConfig(t *testing.T) {
 
 		actual, _ := sys.Config()
 
-		assertConfigEqual(t, actual, shared.Config{Hosts: sshConfigHosts})
+		assertConfigEqual(t, actual, domain.Config{Hosts: sshConfigHosts})
 	})
 }
 
@@ -108,10 +108,10 @@ hosts:
     name: testName3
     port: 24`
 
-var expectedConfigFromYaml = shared.Config{
+var expectedConfigFromYaml = domain.Config{
 	IncludeSshConfigHosts: false,
 	CheckRemoteForScripts: true,
-	Hosts: []shared.Host{
+	Hosts: []domain.Host{
 		{
 			Name: "testName1",
 			User: "testUser1",
@@ -134,7 +134,7 @@ var expectedConfigFromYaml = shared.Config{
 	},
 }
 
-var sshConfigHosts = []shared.Host{{
+var sshConfigHosts = []domain.Host{{
 	Name: "localhost",
 	User: "test",
 	Host: "localhost",
@@ -146,7 +146,7 @@ var sshConfigHosts = []shared.Host{{
 	Port: "22",
 }}
 
-func assertConfigEqual(t *testing.T, actual shared.Config, expected shared.Config) {
+func assertConfigEqual(t *testing.T, actual domain.Config, expected domain.Config) {
 	if actual.IncludeSshConfigHosts != expected.IncludeSshConfigHosts {
 		t.Errorf("actual.IncludeSshConfigHosts '%v' should equal '%v'", actual.IncludeSshConfigHosts, expected.IncludeSshConfigHosts)
 	}
@@ -156,7 +156,7 @@ func assertConfigEqual(t *testing.T, actual shared.Config, expected shared.Confi
 	assertHostsEqual(t, actual.Hosts, expected.Hosts)
 }
 
-func assertHostsEqual(t *testing.T, actual []shared.Host, expected []shared.Host) {
+func assertHostsEqual(t *testing.T, actual []domain.Host, expected []domain.Host) {
 	if len(actual) != len(expected) {
 		t.Errorf("len(actual) '%v' should equal '%v'", len(actual), len(expected))
 	}

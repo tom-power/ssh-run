@@ -3,7 +3,7 @@ package sshrun_test
 import (
 	"errors"
 	"github.com/tom-power/ssh-run/sshrun"
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"testing"
 )
 
@@ -93,12 +93,12 @@ func testRunner(
 	hostName string,
 	scriptName string,
 	args []string,
-	config shared.Config,
+	config domain.Config,
 ) (string, error) {
 	return sshrun.Runner{GetCommand: sshrun.GetCommandSsh, Config: config, Script: testScript}.Run(hostName, scriptName, args)
 }
 
-var testHosts = []shared.Host{
+var testHosts = []domain.Host{
 	{
 		Name: "testHostName1",
 		User: "testUser1",
@@ -120,13 +120,13 @@ var testHosts = []shared.Host{
 	},
 }
 
-var testConfig = shared.Config{
+var testConfig = domain.Config{
 	Hosts: testHosts,
 }
 
 type TestScript struct{}
 
-func (ts TestScript) Contents(host shared.Host, scriptName string) (string, error) {
+func (ts TestScript) Contents(host domain.Host, scriptName string) (string, error) {
 	switch scriptName {
 	case "sshRunLocalScript":
 		return "command", nil
@@ -143,7 +143,7 @@ func (ts TestScript) Contents(host shared.Host, scriptName string) (string, erro
 	}
 }
 
-func (ts TestScript) Path(host shared.Host, scriptName string) (string, error) {
+func (ts TestScript) Path(host domain.Host, scriptName string) (string, error) {
 	switch scriptName {
 	case "ssh":
 		return "ssh.ssh.sh", nil
@@ -158,11 +158,11 @@ func (ts TestScript) Path(host shared.Host, scriptName string) (string, error) {
 	}
 }
 
-func (ts TestScript) List(host shared.Host) (string, error) {
+func (ts TestScript) List(host domain.Host) (string, error) {
 	return "script anotherScript", nil
 }
 
-func (ts TestScript) Type(host shared.Host, scriptName string) (string, error) {
+func (ts TestScript) Type(host domain.Host, scriptName string) (string, error) {
 	switch scriptName {
 	case "ssh":
 		return "ssh", nil
@@ -179,7 +179,7 @@ func (ts TestScript) Type(host shared.Host, scriptName string) (string, error) {
 
 var testScript = TestScript{}
 
-var testGetScript = func(host shared.Host, scriptPath string, config shared.Config) (string, error) {
+var testGetScript = func(host domain.Host, scriptPath string, config domain.Config) (string, error) {
 	switch scriptPath {
 	case "sshRunLocalScript.local.sh":
 		return "command", nil

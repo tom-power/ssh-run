@@ -3,18 +3,18 @@ package sshrun
 import (
 	"errors"
 	"fmt"
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-type GetCommand = func(commandType string, command string, host shared.Host, args []string) (string, error)
+type GetCommand = func(commandType string, command string, host domain.Host, args []string) (string, error)
 
 var GetCommandSsh = func(
 	commandType string,
 	command string,
-	host shared.Host,
+	host domain.Host,
 	args []string) (string, error) {
 	commandType = cleanup(commandType)
 	switch commandType {
@@ -33,7 +33,7 @@ var GetCommandSsh = func(
 	}
 }
 
-func sshTo(host shared.Host) string {
+func sshTo(host domain.Host) string {
 	return fmt.Sprintf("ssh -p %s %s@%s", host.Port, host.User, host.Host)
 }
 
@@ -44,7 +44,7 @@ func sshRun(ssh string, option string, command string) string {
 	return fmt.Sprintf("%s %s \"%s\"", ssh, option, command)
 }
 
-func withSubs(command string, host shared.Host, args []string) string {
+func withSubs(command string, host domain.Host, args []string) string {
 	command = strings.Replace(command, "$hostName", host.Name, -1)
 	command = strings.Replace(command, "$host", host.Host, -1)
 	command = strings.Replace(command, "$user", host.User, -1)

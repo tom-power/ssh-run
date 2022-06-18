@@ -1,12 +1,12 @@
 package config
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 )
 
-type Config = func() (shared.Config, error)
+type Config = func() (domain.Config, error)
 
-func (fsys FileSys) Config() (shared.Config, error) {
+func (fsys FileSys) Config() (domain.Config, error) {
 	yamlConfig, err := fsys.getConfigFromYaml()
 	if err != nil || len(yamlConfig.Hosts) == 0 || yamlConfig.IncludeSshConfigHosts == true {
 		sshConfigHosts, _ := fsys.getHostsFromSshConfig()
@@ -15,8 +15,8 @@ func (fsys FileSys) Config() (shared.Config, error) {
 	return yamlConfig, nil
 }
 
-func withHosts(config shared.Config, hosts []shared.Host) shared.Config {
-	return shared.Config{
+func withHosts(config domain.Config, hosts []domain.Host) domain.Config {
+	return domain.Config{
 		Hosts:                 append(config.Hosts, hosts...),
 		IncludeSshConfigHosts: config.IncludeSshConfigHosts,
 		CheckRemoteForScripts: config.CheckRemoteForScripts,

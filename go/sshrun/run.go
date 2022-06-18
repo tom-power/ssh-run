@@ -1,13 +1,13 @@
 package sshrun
 
 import (
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"github.com/tom-power/ssh-run/sshrun/script"
-	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
 type Runner struct {
 	GetCommand GetCommand
-	Config     shared.Config
+	Config     domain.Config
 	Script     script.Script
 }
 
@@ -50,6 +50,6 @@ func echo(fn func() (string, error)) (string, error) {
 	return "echo " + command, nil
 }
 
-func sshCommand(host shared.Host, getCommand GetCommand) (string, error) {
+func sshCommand(host domain.Host, getCommand GetCommand) (string, error) {
 	return getCommand("ssh", "", host, []string{""})
 }

@@ -1,12 +1,13 @@
 package script
 
 import (
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"github.com/tom-power/ssh-run/sshrun/shared"
 	"io/fs"
 	"strings"
 )
 
-func (fsys FileSys) List(host shared.Host) (string, error) {
+func (fsys FileSys) List(host domain.Host) (string, error) {
 	commonScripts, _ := fsys.listCommon()
 	sharedScripts, _ := fsys.listShared(host)
 	hostLocalScripts, _ := fsys.listHostLocal(host)

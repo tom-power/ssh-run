@@ -1,11 +1,11 @@
 package script
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"io/fs"
 )
 
 type FileSys struct {
 	Fsys   fs.FS
-	Config shared.Config
+	Config domain.Config
 }

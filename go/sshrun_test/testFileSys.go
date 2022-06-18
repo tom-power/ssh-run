@@ -1,7 +1,7 @@
 package sshrun
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"io/fs"
 	"testing/fstest"
 )
@@ -23,6 +23,6 @@ var testFs = fstest.MapFS{
 	scriptsDir + "shared/stuff/rubbish":               {},
 }
 
-var testHost = shared.Host{Name: "testHost"}
+var testHost = domain.Host{Name: "testHost"}
 
-var testConf = shared.Config{CheckRemoteForScripts: false}
+var testConf = domain.Config{CheckRemoteForScripts: false}

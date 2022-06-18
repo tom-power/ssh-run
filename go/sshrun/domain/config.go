@@ -1,8 +1,9 @@
-package shared
+package domain
 
 import (
 	"errors"
 	"fmt"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 	"strings"
 )
 
@@ -18,7 +19,7 @@ func (config Config) HostNames() (string, error) {
 
 func (config Config) Host(hostName string) (Host, error) {
 	var hasHostName = func(host Host) bool { return host.Name == hostName }
-	host, err := Single(config.Hosts, hasHostName)
+	host, err := shared.Single(config.Hosts, hasHostName)
 	if err != nil {
 		return Host{}, getError(hostName, config.Hosts)
 	}
@@ -29,6 +30,11 @@ func getError(hostName string, hosts []Host) error {
 	return errors.New("couldn't find host " + hostName + " in " + HostsToHostNames(hosts, ", "))
 }
 
+func HostsToHostNames(hosts []Host, sep string) string {
+	return strings.Join(shared.Map(hosts, hostsToHostName), sep)
+}
+func hostsToHostName(host Host) string { return host.Name }
+
 type Host struct {
 	Host       string
 	User       string
@@ -38,5 +44,5 @@ type Host struct {
 }
 
 func (h Host) ToString() string {
-	return strings.ReplaceAll(fmt.Sprintf("%#v", h), "shared.", "")
+	return strings.ReplaceAll(fmt.Sprintf("%#v", h), "domain.", "")
 }

@@ -1,11 +1,12 @@
 package script
 
 import (
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"github.com/tom-power/ssh-run/sshrun/shared"
 	"io/fs"
 )
 
-func (fsys FileSys) pathHostLocal(host shared.Host, scriptName string) (string, error) {
+func (fsys FileSys) pathHostLocal(host domain.Host, scriptName string) (string, error) {
 	script := ""
 	hostDir := hostDir(host.Name)
 	hostFiles, err := fs.ReadDir(fsys.Fsys, hostDir)

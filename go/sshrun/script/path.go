@@ -3,10 +3,11 @@ package script
 import (
 	"errors"
 	"fmt"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
-func (fsys FileSys) Path(host shared.Host, scriptName string) (string, error) {
+func (fsys FileSys) Path(host domain.Host, scriptName string) (string, error) {
 	commonPath, _ := fsys.pathCommon(scriptName)
 	sharedPath, _ := fsys.pathShared(host, scriptName)
 	hostPath, _ := fsys.pathHostLocal(host, scriptName)

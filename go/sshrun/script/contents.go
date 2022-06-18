@@ -1,11 +1,11 @@
 package script
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"io/fs"
 )
 
-func (fsys FileSys) Contents(host shared.Host, scriptName string) (string, error) {
+func (fsys FileSys) Contents(host domain.Host, scriptName string) (string, error) {
 	path, err := fsys.Path(host, scriptName)
 	if err != nil {
 		return "", err
@@ -28,6 +28,6 @@ func (fsys FileSys) contentsFromHostLocal(scriptPath string) (string, error) {
 	return string(dat), nil
 }
 
-func contentsFromHostRemote(host shared.Host, scriptPath string) (string, error) {
+func contentsFromHostRemote(host domain.Host, scriptPath string) (string, error) {
 	return runCommandOn(host, "cat "+scriptPath)
 }
