@@ -14,13 +14,8 @@ func (fsys FileSys) List(host domain.Host) (string, error) {
 	hostRemoteScripts := ""
 	if fsys.Config.CheckRemoteForScripts {
 		hostRemoteScripts, _ = listHostRemote(host)
-		hostRemoteScripts = " " + hostRemoteScripts
 	}
-	var out = ""
-	out += commonScripts
-	out += " " + sharedScripts
-	out += " " + hostLocalScripts
-	out += hostRemoteScripts
+	out := strings.Join([]string{commonScripts, sharedScripts, hostLocalScripts, hostRemoteScripts}, " ")
 	return Cleaner{out}.dropNotSh().nameOnly().Scripts, nil
 }
 
