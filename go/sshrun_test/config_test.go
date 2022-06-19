@@ -110,7 +110,6 @@ hosts:
 
 var expectedConfigFromYaml = domain.Config{
 	IncludeSshConfigHosts: false,
-	CheckRemoteForScripts: true,
 	Hosts: []domain.Host{
 		{
 			Name: "testName1",
@@ -149,9 +148,6 @@ var sshConfigHosts = []domain.Host{{
 func assertConfigEqual(t *testing.T, actual domain.Config, expected domain.Config) {
 	if actual.IncludeSshConfigHosts != expected.IncludeSshConfigHosts {
 		t.Errorf("actual.IncludeSshConfigHosts '%v' should equal '%v'", actual.IncludeSshConfigHosts, expected.IncludeSshConfigHosts)
-	}
-	if actual.CheckRemoteForScripts != expected.CheckRemoteForScripts {
-		t.Errorf("actual.CheckRemoteForScripts '%v' should equal '%v'", actual.CheckRemoteForScripts, expected.CheckRemoteForScripts)
 	}
 	assertHostsEqual(t, actual.Hosts, expected.Hosts)
 }

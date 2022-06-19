@@ -11,7 +11,7 @@ type Host struct {
 	Name        string
 	Port        string
 	PortTunnel  string `yaml:"portTunnel"`
-	CheckRemote bool
+	CheckRemote bool   `yaml:"checkRemote"`
 }
 
 func (h Host) ToString() string {

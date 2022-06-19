@@ -24,5 +24,3 @@ var testFs = fstest.MapFS{
 }
 
 var testHost = domain.Host{Name: "testHost"}
-
-var testConf = domain.Config{CheckRemoteForScripts: false}

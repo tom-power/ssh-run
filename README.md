@@ -30,13 +30,13 @@ Hosts will be read from `~/.ssh/config` and `~/.config/ssh-run/config.yaml` whic
 
 ```yaml
 includeSshConfigHosts: true
-checkRemoteForScripts: true
 hosts:
   - host: 192.168.0.1
     user: exampleUser
     name: example
     port: 22
     portTunnel: 1080
+    checkRemote: true
 ```
 
 ### Running scripts
@@ -74,7 +74,7 @@ use the following file name convention to indicate how your scripts should be ru
 save to the following directories under `.config/ssh-run/scripts` so the script can be found:
 
 - `common`
-- `host/<hostName>` also checked on the remote host if `Config.checkHostsForScripts` is `true`
+- `host/<hostName>` also checked on the remote host if `Config.checkRemote` is `true`
 - `shared/<sharedDir>` where `sharedDir` is also found in `host/<hostName>`
 
 see scripts [here](https:#github.com/tom-power/ssh-run/tree/master/config/.config/ssh-run/scripts) for examples.

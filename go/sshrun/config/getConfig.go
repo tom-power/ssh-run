@@ -19,6 +19,5 @@ func withHosts(config domain.Config, hosts []domain.Host) domain.Config {
 	return domain.Config{
 		Hosts:                 append(config.Hosts, hosts...),
 		IncludeSshConfigHosts: config.IncludeSshConfigHosts,
-		CheckRemoteForScripts: config.CheckRemoteForScripts,
 	}
 }
