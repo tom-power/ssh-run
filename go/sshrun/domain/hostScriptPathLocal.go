@@ -5,19 +5,19 @@ import (
 	"io/fs"
 )
 
-func (host Host) pathLocal(fsys fs.FS, scriptName string) (string, error) {
+func (h Host) pathLocal(fsys fs.FS, scriptName string) (string, error) {
 	script := ""
-	hostFiles, err := host.Files(fsys)
+	hostFiles, err := h.Files(fsys)
 	if err != nil {
 		return "", err
 	}
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
-			scriptPathSubDir, _ := host.FilePathInSubDir(fsys, hostFile.Name(), scriptName)
+			scriptPathSubDir, _ := h.FilePathInSubDir(fsys, hostFile.Name(), scriptName)
 			shared.ReplaceIf(&script, scriptPathSubDir, fileExists(fsys))
 		}
 	}
-	scriptPath, err := host.FilePath(fsys, scriptName)
+	scriptPath, err := h.FilePath(fsys, scriptName)
 	shared.ReplaceIf(&script, scriptPath, fileExists(fsys))
 	return script, nil
 }

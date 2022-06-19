@@ -4,14 +4,14 @@ import (
 	"io/fs"
 )
 
-func (host Host) Contents(fsys fs.FS, scriptName string) (string, error) {
-	path, err := host.Path(fsys, scriptName)
+func (h Host) Contents(fsys fs.FS, scriptName string) (string, error) {
+	path, err := h.Path(fsys, scriptName)
 	if err != nil {
 		return "", err
 	}
 	script, err := contentsFromHostLocal(fsys, path)
-	if host.CheckRemote {
-		script, err = contentsFromHostRemote(host, path)
+	if h.CheckRemote {
+		script, err = contentsFromHostRemote(h, path)
 	}
 	if err != nil {
 		return "", err

@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func (host Host) Type(fsys fs.FS, scriptName string) (ScriptType, error) {
-	path, err := host.Path(fsys, scriptName)
+func (h Host) Type(fsys fs.FS, scriptName string) (ScriptType, error) {
+	path, err := h.Path(fsys, scriptName)
 	if err != nil {
 		return Default, err
 	}

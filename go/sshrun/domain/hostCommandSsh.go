@@ -4,12 +4,12 @@ import (
 	"fmt"
 )
 
-func (host Host) Ssh() string {
-	return fmt.Sprintf("ssh -p %s %s@%s", host.Port, host.User, host.Host)
+func (h Host) Ssh() string {
+	return fmt.Sprintf("ssh -p %s %s@%s", h.Port, h.User, h.Host)
 }
 
-func (host Host) SshWith(command string, option string) string {
-	return host.Ssh() + formatOption(option) + formatCommand(command)
+func (h Host) SshWith(command string, option string) string {
+	return h.Ssh() + formatOption(option) + formatCommand(command)
 }
 
 func formatOption(option string) string {

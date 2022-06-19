@@ -5,8 +5,8 @@ import (
 	"io/fs"
 )
 
-func (host Host) pathShared(fsys fs.FS, scriptName string) (string, error) {
-	hostFiles, err := host.Files(fsys)
+func (h Host) pathShared(fsys fs.FS, scriptName string) (string, error) {
+	hostFiles, err := h.Files(fsys)
 	if err != nil {
 		return "", err
 	}

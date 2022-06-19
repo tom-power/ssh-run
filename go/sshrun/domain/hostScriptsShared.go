@@ -4,9 +4,9 @@ import (
 	"io/fs"
 )
 
-func (host Host) scriptsShared(fsys fs.FS) (string, error) {
+func (h Host) scriptsShared(fsys fs.FS) (string, error) {
 	var files = Files{[]fs.DirEntry{}}
-	hostFiles, _ := fs.ReadDir(fsys, host.Dir())
+	hostFiles, _ := fs.ReadDir(fsys, h.Dir())
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
 			sharedDir := scriptsPath + "shared/" + hostFile.Name()

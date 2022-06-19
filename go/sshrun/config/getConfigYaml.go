@@ -6,8 +6,8 @@ import (
 	"io/fs"
 )
 
-func (fsys ConfigFs) getConfigFromYaml() (domain.Config, error) {
-	file, err := fs.ReadFile(fsys.Fsys, fsys.ConfigPath)
+func (c ConfigFs) getConfigFromYaml() (domain.Config, error) {
+	file, err := fs.ReadFile(c.Fsys, c.ConfigPath)
 	if err != nil {
 		return domain.Config{}, err
 	}

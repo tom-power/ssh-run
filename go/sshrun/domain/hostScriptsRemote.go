@@ -1,7 +1,7 @@
 package domain
 
-func (host Host) scriptsRemote() (string, error) {
-	hostDir := hostDirWithHome(host.Name, "/home/"+host.User)
+func (h Host) scriptsRemote() (string, error) {
+	hostDir := hostDirWithHome(h.Name, "/home/"+h.User)
 	command := "find " + hostDir + " -type f -printf '%f '"
-	return runCommandOn(host, command)
+	return runCommandOn(h, command)
 }

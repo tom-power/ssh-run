@@ -6,13 +6,13 @@ import (
 	"strings"
 )
 
-func (host Host) Scripts(fsys fs.FS) (string, error) {
+func (h Host) Scripts(fsys fs.FS) (string, error) {
 	commonScripts, _ := scriptsCommon(fsys)
-	sharedScripts, _ := host.scriptsShared(fsys)
-	hostLocalScripts, _ := host.scriptsLocal(fsys)
+	sharedScripts, _ := h.scriptsShared(fsys)
+	hostLocalScripts, _ := h.scriptsLocal(fsys)
 	hostRemoteScripts := ""
-	if host.CheckRemote {
-		hostRemoteScripts, _ = host.scriptsRemote()
+	if h.CheckRemote {
+		hostRemoteScripts, _ = h.scriptsRemote()
 	}
 	out := strings.Join([]string{commonScripts, sharedScripts, hostLocalScripts, hostRemoteScripts}, " ")
 	return Cleaner{out}.dropNotSh().nameOnly().Scripts, nil

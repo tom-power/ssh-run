@@ -7,17 +7,17 @@ import (
 	"io/fs"
 )
 
-func (host Host) Path(fsys fs.FS, scriptName string) (string, error) {
+func (h Host) Path(fsys fs.FS, scriptName string) (string, error) {
 	commonPath, _ := pathCommon(fsys, scriptName)
-	sharedPath, _ := host.pathShared(fsys, scriptName)
-	hostPath, _ := host.pathLocal(fsys, scriptName)
+	sharedPath, _ := h.pathShared(fsys, scriptName)
+	hostPath, _ := h.pathLocal(fsys, scriptName)
 	hostRemotePath := ""
-	if host.CheckRemote {
-		hostRemotePath, _ = host.pathRemote(scriptName)
+	if h.CheckRemote {
+		hostRemotePath, _ = h.pathRemote(scriptName)
 	}
 	path := shared.LastOr(shared.Filter([]string{commonPath, sharedPath, hostPath, hostRemotePath}, isNotEmpty), "")
 	if path == "" {
-		return "", errors.New(fmt.Sprintf("couldn't find path %s.sh for host %s", scriptName, host.Name))
+		return "", errors.New(fmt.Sprintf("couldn't find path %s.sh for h %s", scriptName, h.Name))
 	}
 	return path, nil
 }

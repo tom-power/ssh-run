@@ -6,10 +6,10 @@ import (
 
 type GetConfig = func() (domain.Config, error)
 
-func (fsys ConfigFs) GetConfig() (domain.Config, error) {
-	yamlConfig, err := fsys.getConfigFromYaml()
+func (c ConfigFs) GetConfig() (domain.Config, error) {
+	yamlConfig, err := c.getConfigFromYaml()
 	if err != nil || len(yamlConfig.Hosts) == 0 || yamlConfig.IncludeSshConfigHosts == true {
-		sshConfigHosts, _ := fsys.getHostsFromSshConfig()
+		sshConfigHosts, _ := c.getHostsFromSshConfig()
 		return withHosts(yamlConfig, sshConfigHosts), nil
 	}
 	return yamlConfig, nil

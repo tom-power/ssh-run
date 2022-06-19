@@ -11,20 +11,20 @@ type Config struct {
 	IncludeSshConfigHosts bool   `yaml:"includeSshConfigHosts"`
 }
 
-func (config Config) HostNames() (string, error) {
-	return config.hostNames(" "), nil
+func (c Config) HostNames() (string, error) {
+	return c.hostNames(" "), nil
 }
 
-func (config Config) Host(hostName string) (Host, error) {
-	host, err := shared.Single(config.Hosts, func(host Host) bool { return host.Name == hostName })
+func (c Config) Host(hostName string) (Host, error) {
+	host, err := shared.Single(c.Hosts, func(host Host) bool { return host.Name == hostName })
 	if err != nil {
-		return Host{}, errors.New("couldn't find host " + hostName + " in " + config.hostNames(", "))
+		return Host{}, errors.New("couldn't find host " + hostName + " in " + c.hostNames(", "))
 	}
 	return *host, nil
 }
 
-func (config Config) hostNames(sep string) string {
-	names := shared.Map(config.Hosts, toName)
+func (c Config) hostNames(sep string) string {
+	names := shared.Map(c.Hosts, toName)
 	return strings.Join(names, sep)
 }
 
