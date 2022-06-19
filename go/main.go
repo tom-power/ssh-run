@@ -25,8 +25,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	hostName := shared.SafeSlice(os.Args, 1, "")
-	scriptName := shared.SafeSlice(os.Args, 2, "")
+	hostName := shared.GetOr(os.Args, 1, "")
+	scriptName := shared.GetOr(os.Args, 2, "")
 	args := []string{""}
 	if len(os.Args) > 3 {
 		args = os.Args[3:]

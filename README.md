@@ -54,7 +54,7 @@ sshRun <hostName> scripts
 sshRun <hostName> <scriptName> explain
 ```
 
-`sshRun <hostName>` or `sshRun <hostName> ssh` to start an ssh session
+also `sshRun <hostName>` or `sshRun <hostName> ssh` to start an ssh session.
 
 drop `sshRun` from the above using the provided `bash_aliases` + your hosts.
 

@@ -12,7 +12,7 @@ func fileExists(fsys fs.FS) func(string) bool {
 	}
 }
 
-func firstPathInDir(fsys fs.FS, dir string, name string) (string, error) {
+func pathInDir(fsys fs.FS, dir string, name string) (string, error) {
 	matches, err := fs.Glob(fsys, dir+name+".*")
 	if err != nil {
 		return "", err
@@ -21,8 +21,4 @@ func firstPathInDir(fsys fs.FS, dir string, name string) (string, error) {
 		return "", errors.New("no match")
 	}
 	return matches[0], nil
-}
-
-func isNotEmpty(path string) bool {
-	return path != ""
 }

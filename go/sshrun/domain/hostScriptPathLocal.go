@@ -11,13 +11,13 @@ func (h Host) pathLocal(fsys fs.FS, scriptName string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	for _, hostFile := range hostFiles {
-		if hostFile.IsDir() {
-			scriptPathSubDir, _ := h.FilePathInSubDir(fsys, hostFile.Name(), scriptName)
+	for _, file := range hostFiles {
+		if file.IsDir() {
+			scriptPathSubDir, _ := pathInDir(fsys, h.Dir()+"/"+file.Name()+"/", scriptName)
 			shared.ReplaceIf(&script, scriptPathSubDir, fileExists(fsys))
 		}
 	}
-	scriptPath, err := h.FilePath(fsys, scriptName)
+	scriptPath, err := pathInDir(fsys, h.Dir()+"/", scriptName)
 	shared.ReplaceIf(&script, scriptPath, fileExists(fsys))
 	return script, nil
 }

@@ -12,7 +12,7 @@ func (h Host) pathShared(fsys fs.FS, scriptName string) (string, error) {
 	}
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
-			scriptPathShared, _ := findScriptPathInShared(fsys, scriptName, hostFile)
+			scriptPathShared, _ := pathInDir(fsys, sharedDir()+"/"+hostFile.Name()+"/", scriptName)
 			if fileExists(fsys)(scriptPathShared) {
 				return scriptPathShared, nil
 			}
@@ -20,8 +20,4 @@ func (h Host) pathShared(fsys fs.FS, scriptName string) (string, error) {
 		}
 	}
 	return "", errors.New("nothing in shared")
-}
-
-func findScriptPathInShared(fsys fs.FS, scriptName string, hostFile fs.DirEntry) (string, error) {
-	return firstPathInDir(fsys, scriptsPath+"shared/"+hostFile.Name()+"/", scriptName)
 }

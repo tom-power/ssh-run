@@ -18,10 +18,10 @@ var scriptTypes = map[ScriptType]string{
 	Local:   "local",
 }
 
-func ParseScriptType(s string) ScriptType {
-	return shared.KeyFor(s, scriptTypes, Default)
+func (ScriptType) Parse(value string) ScriptType {
+	return shared.KeyOr(value, scriptTypes, Default)
 }
 
-func (scriptType ScriptType) String() string {
-	return shared.ValueFor(scriptType, scriptTypes)
+func (s ScriptType) String() string {
+	return scriptTypes[s]
 }

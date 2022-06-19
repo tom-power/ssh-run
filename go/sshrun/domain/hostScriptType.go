@@ -10,7 +10,7 @@ func (h Host) Type(fsys fs.FS, scriptName string) (ScriptType, error) {
 	if err != nil {
 		return Default, err
 	}
-	return ParseScriptType(scriptTypeFrom(path)), nil
+	return Default.Parse(scriptTypeFrom(path)), nil
 }
 
 func scriptTypeFrom(scriptPath string) string {

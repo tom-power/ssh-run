@@ -2,6 +2,8 @@ package domain
 
 import (
 	"fmt"
+	"github.com/tom-power/ssh-run/sshrun/shared"
+	"strings"
 )
 
 func (h Host) Ssh() string {
@@ -9,16 +11,11 @@ func (h Host) Ssh() string {
 }
 
 func (h Host) SshWith(command string, option string) string {
-	return h.Ssh() + formatOption(option) + formatCommand(command)
+	sshCommandParts := []string{h.Ssh(), option, inQuotes(command)}
+	filter := shared.Filter(sshCommandParts, shared.IsNotEmpty)
+	return strings.Join(filter, " ")
 }
 
-func formatOption(option string) string {
-	if option != "" {
-		return fmt.Sprintf(" %s", option)
-	}
-	return ""
-}
-
-func formatCommand(command string) string {
-	return fmt.Sprintf(" \"%s\"", command)
+func inQuotes(value string) string {
+	return "\"" + value + "\""
 }

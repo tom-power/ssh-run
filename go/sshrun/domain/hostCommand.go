@@ -8,7 +8,7 @@ import (
 )
 
 func (h Host) Command(scriptType ScriptType, contents string, args []string) (string, error) {
-	command := h.command(contents, args)
+	command := command(contents, h, args)
 	switch scriptType {
 	case Default:
 		return h.SshWith(command, ""), nil
@@ -23,16 +23,16 @@ func (h Host) Command(scriptType ScriptType, contents string, args []string) (st
 	}
 }
 
-func (h Host) command(contents string, args []string) string {
-	return cleanup(h.replace(contents, args))
+func command(contents string, host Host, args []string) string {
+	return cleanup(replace(contents, host, args))
 }
 
-func (h Host) replace(command string, args []string) string {
-	command = strings.Replace(command, "$hostName", h.Name, -1)
-	command = strings.Replace(command, "$h", h.Host, -1)
-	command = strings.Replace(command, "$user", h.User, -1)
-	command = strings.Replace(command, "$portTunnel", h.PortTunnel, -1)
-	command = strings.Replace(command, "$port", h.Port, -1)
+func replace(command string, host Host, args []string) string {
+	command = strings.Replace(command, "$hostName", host.Name, -1)
+	command = strings.Replace(command, "$host", host.Host, -1)
+	command = strings.Replace(command, "$user", host.User, -1)
+	command = strings.Replace(command, "$portTunnel", host.PortTunnel, -1)
+	command = strings.Replace(command, "$port", host.Port, -1)
 	for i := range args {
 		command = strings.Replace(command, "$"+strconv.Itoa(i+1), args[i], -1)
 	}

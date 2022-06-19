@@ -6,3 +6,7 @@ func DefaultString(v string, defaultV string) string {
 	}
 	return v
 }
+
+func IsNotEmpty(value string) bool {
+	return len(value) > 0
+}
