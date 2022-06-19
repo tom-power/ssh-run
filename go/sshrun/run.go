@@ -23,16 +23,16 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 	case "explain":
 		return host.ToString(), nil
 	case "scripts":
-		scripts, err := r.Config.Scripts(r.Fsys, host)
+		scripts, err := host.Scripts(r.Fsys)
 		return echo(scripts), err
 	case "ssh", "":
 		return host.Ssh(), nil
 	}
-	scriptContents, err := r.Config.Contents(r.Fsys, host, scriptName)
+	scriptContents, err := host.Contents(r.Fsys, scriptName)
 	if err != nil {
 		return "", err
 	}
-	scriptType, err := r.Config.Type(r.Fsys, host, scriptName)
+	scriptType, err := host.Type(r.Fsys, scriptName)
 	if err != nil {
 		return "", err
 	}

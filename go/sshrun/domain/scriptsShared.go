@@ -4,7 +4,7 @@ import (
 	"io/fs"
 )
 
-func (Config) scriptsShared(fsys fs.FS, host Host) (string, error) {
+func (host Host) scriptsShared(fsys fs.FS) (string, error) {
 	var files = Files{[]fs.DirEntry{}}
 	hostFiles, _ := fs.ReadDir(fsys, hostDir(host.Name))
 	for _, hostFile := range hostFiles {

@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func (config Config) Type(fsys fs.FS, host Host, scriptName string) (string, error) {
-	path, err := config.Path(fsys, host, scriptName)
+func (host Host) Type(fsys fs.FS, scriptName string) (string, error) {
+	path, err := host.Path(fsys, scriptName)
 	if err != nil {
 		return "", err
 	}

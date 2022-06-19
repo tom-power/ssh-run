@@ -6,7 +6,7 @@ import (
 
 func Test_scripts(t *testing.T) {
 	t.Run("can get scripts", func(t *testing.T) {
-		actual, err := testConf.Scripts(testFs, testHost)
+		actual, err := testHost.Scripts(testFs)
 
 		if err != nil {
 			t.Errorf(err.Error())

@@ -5,7 +5,7 @@ import (
 	"io/fs"
 )
 
-func (Config) pathHostLocal(fsys fs.FS, host Host, scriptName string) (string, error) {
+func (host Host) pathLocal(fsys fs.FS, scriptName string) (string, error) {
 	script := ""
 	hostDir := hostDir(host.Name)
 	hostFiles, err := fs.ReadDir(fsys, hostDir)
