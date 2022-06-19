@@ -7,7 +7,7 @@ import (
 	"io/fs"
 )
 
-func (fsys FileSys) getHostsFromSshConfig() ([]domain.Host, error) {
+func (fsys ConfigFs) getHostsFromSshConfig() ([]domain.Host, error) {
 	file, err := fs.ReadFile(fsys.Fsys, fsys.SshPath)
 	if err != nil {
 		return []domain.Host{}, err

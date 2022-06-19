@@ -1,19 +1,18 @@
-package script
+package domain
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/domain"
 	"github.com/tom-power/ssh-run/sshrun/shared"
 	"io/fs"
 	"strings"
 )
 
-func (fsys FileSys) List(host domain.Host) (string, error) {
-	commonScripts, _ := fsys.listCommon()
-	sharedScripts, _ := fsys.listShared(host)
-	hostLocalScripts, _ := fsys.listHostLocal(host)
+func (config Config) Scripts(fsys fs.FS, host Host) (string, error) {
+	commonScripts, _ := config.scriptsCommon(fsys)
+	sharedScripts, _ := config.scriptsShared(fsys, host)
+	hostLocalScripts, _ := config.scriptsHostLocal(fsys, host)
 	hostRemoteScripts := ""
-	if fsys.Config.CheckRemoteForScripts {
-		hostRemoteScripts, _ = listHostRemote(host)
+	if config.CheckRemoteForScripts {
+		hostRemoteScripts, _ = config.scriptsHostRemote(host)
 	}
 	out := strings.Join([]string{commonScripts, sharedScripts, hostLocalScripts, hostRemoteScripts}, " ")
 	return Cleaner{out}.dropNotSh().nameOnly().Scripts, nil

@@ -4,7 +4,7 @@ import (
 	"io/fs"
 )
 
-type FileSys struct {
+type ConfigFs struct {
 	Fsys       fs.FS
 	ConfigPath string
 	SshPath    string

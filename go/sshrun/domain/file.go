@@ -1,19 +1,19 @@
-package script
+package domain
 
 import (
 	"errors"
 	"io/fs"
 )
 
-func (fsys FileSys) fileExists() func(string) bool {
+func fileExists(fsys fs.FS) func(string) bool {
 	return func(path string) bool {
-		_, err := fsys.Fsys.Open(path)
+		_, err := fsys.Open(path)
 		return err == nil
 	}
 }
 
-func (fsys FileSys) firstFileInDir(dir string, name string) (string, error) {
-	matches, err := fs.Glob(fsys.Fsys, dir+name+".*")
+func firstFileInDir(fsys fs.FS, dir string, name string) (string, error) {
+	matches, err := fs.Glob(fsys, dir+name+".*")
 	if err != nil {
 		return "", err
 	}

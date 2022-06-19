@@ -1,8 +1,7 @@
-package script
+package domain
 
 import (
 	"bytes"
-	"github.com/tom-power/ssh-run/sshrun/domain"
 	"io/ioutil"
 	"os/user"
 	"strings"
@@ -15,7 +14,7 @@ func homeDir() string {
 	return usr.HomeDir
 }
 
-func getSession(host domain.Host) (*ssh.Session, error) {
+func getSession(host Host) (*ssh.Session, error) {
 	keyBytes, err := ioutil.ReadFile(homeDir() + "/.ssh/id_rsa")
 	if err != nil {
 		return nil, err
@@ -38,7 +37,7 @@ func getSession(host domain.Host) (*ssh.Session, error) {
 	return conn.NewSession()
 }
 
-func runCommandOn(host domain.Host, command string) (string, error) {
+func runCommandOn(host Host, command string) (string, error) {
 	session, err := getSession(host)
 	if err != nil {
 		return "", err

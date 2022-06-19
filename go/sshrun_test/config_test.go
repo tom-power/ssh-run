@@ -10,13 +10,13 @@ import (
 func Test_fileSysConfig(t *testing.T) {
 
 	t.Run("get hosts from ssh config when IncludeSshConfigHosts fs", func(t *testing.T) {
-		sys := config.FileSys{
+		sys := config.ConfigFs{
 			Fsys:       testFsConfig,
 			ConfigPath: "config.yaml",
 			SshPath:    ".ssh/config",
 		}
 
-		actual, _ := sys.Config()
+		actual, _ := sys.GetConfig()
 
 		assertConfigEqual(t, actual, domain.Config{
 			Hosts:                 append(expectedConfigFromYaml.Hosts, sshConfigHosts...),
@@ -24,13 +24,13 @@ func Test_fileSysConfig(t *testing.T) {
 		})
 	})
 	t.Run("don't get hosts from ssh config when not IncludeSshConfigHosts fs", func(t *testing.T) {
-		sys := config.FileSys{
+		sys := config.ConfigFs{
 			Fsys:       testFsConfig,
 			ConfigPath: "configNoHostsFromConfig.yaml",
 			SshPath:    ".ssh/config",
 		}
 
-		actual, _ := sys.Config()
+		actual, _ := sys.GetConfig()
 
 		assertConfigEqual(t, actual, domain.Config{
 			Hosts:                 append(expectedConfigFromYaml.Hosts),
@@ -38,13 +38,13 @@ func Test_fileSysConfig(t *testing.T) {
 		})
 	})
 	t.Run("get hosts from ssh config when nothing in yaml", func(t *testing.T) {
-		sys := config.FileSys{
+		sys := config.ConfigFs{
 			Fsys:       testFsConfig,
 			ConfigPath: "blahBlah.yaml",
 			SshPath:    ".ssh/config",
 		}
 
-		actual, _ := sys.Config()
+		actual, _ := sys.GetConfig()
 
 		assertConfigEqual(t, actual, domain.Config{Hosts: sshConfigHosts})
 	})

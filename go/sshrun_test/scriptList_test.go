@@ -1,15 +1,12 @@
 package sshrun
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/script"
 	"testing"
 )
 
 func Test_scripts(t *testing.T) {
 	t.Run("can get scripts", func(t *testing.T) {
-		sys := script.FileSys{Fsys: testFs, Config: testConf}
-
-		actual, err := sys.List(testHost)
+		actual, err := testConf.Scripts(testFs, testHost)
 
 		if err != nil {
 			t.Errorf(err.Error())

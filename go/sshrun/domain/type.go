@@ -1,12 +1,12 @@
-package script
+package domain
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/domain"
+	"io/fs"
 	"strings"
 )
 
-func (fsys FileSys) Type(host domain.Host, scriptName string) (string, error) {
-	path, err := fsys.Path(host, scriptName)
+func (config Config) Type(fsys fs.FS, host Host, scriptName string) (string, error) {
+	path, err := config.Path(fsys, host, scriptName)
 	if err != nil {
 		return "", err
 	}

@@ -2,18 +2,18 @@ package sshrun
 
 import (
 	"github.com/tom-power/ssh-run/sshrun/domain"
-	"github.com/tom-power/ssh-run/sshrun/script"
+	"io/fs"
 )
 
 type Runner struct {
-	GetCommand GetCommand
-	Config     domain.Config
-	Script     script.Script
+	Config domain.Config
+	Fsys   fs.FS
 }
 
 func (r Runner) Run(hostName string, scriptName string, args []string) (string, error) {
 	if hostName == "hosts" {
-		return echo(r.Config.HostNames)
+		names, err := r.Config.HostNames()
+		return echo(names), err
 	}
 	host, err := r.Config.Host(hostName)
 	if err != nil {
@@ -23,33 +23,26 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 	case "explain":
 		return host.ToString(), nil
 	case "scripts":
-		return echo(func() (string, error) { return r.Script.List(host) })
+		scripts, err := r.Config.Scripts(r.Fsys, host)
+		return echo(scripts), err
 	case "ssh", "":
-		return sshCommand(host, r.GetCommand)
+		return host.Ssh(), nil
 	}
-	scriptContents, err := r.Script.Contents(host, scriptName)
+	scriptContents, err := r.Config.Contents(r.Fsys, host, scriptName)
 	if err != nil {
 		return "", err
 	}
-	scriptType, err := r.Script.Type(host, scriptName)
+	scriptType, err := r.Config.Type(r.Fsys, host, scriptName)
 	if err != nil {
 		return "", err
 	}
-	command, err := r.GetCommand(scriptType, scriptContents, host, args)
+	command, err := host.Command(scriptType, scriptContents, args)
 	if err != nil {
 		return "", err
 	}
 	return command, nil
 }
 
-func echo(fn func() (string, error)) (string, error) {
-	command, err := fn()
-	if err != nil {
-		return "", err
-	}
-	return "echo " + command, nil
-}
-
-func sshCommand(host domain.Host, getCommand GetCommand) (string, error) {
-	return getCommand("ssh", "", host, []string{""})
+func echo(command string) string {
+	return "echo " + command
 }

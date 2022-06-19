@@ -1,4 +1,4 @@
-package script
+package domain
 
 const scriptsPath = ".config/ssh-run/scripts/"
 

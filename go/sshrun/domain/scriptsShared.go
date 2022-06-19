@@ -1,18 +1,17 @@
-package script
+package domain
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/domain"
 	"io/fs"
 )
 
-func (fsys FileSys) listShared(host domain.Host) (string, error) {
+func (Config) scriptsShared(fsys fs.FS, host Host) (string, error) {
 	var files = Files{[]fs.DirEntry{}}
-	hostFiles, _ := fs.ReadDir(fsys.Fsys, hostDir(host.Name))
+	hostFiles, _ := fs.ReadDir(fsys, hostDir(host.Name))
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
 			sharedDir := scriptsPath + "shared/" + hostFile.Name()
-			if fsys.fileExists()(sharedDir) {
-				err := fs.WalkDir(fsys.Fsys, sharedDir, appendFiles(&files.Files))
+			if fileExists(fsys)(sharedDir) {
+				err := fs.WalkDir(fsys, sharedDir, appendFiles(&files.Files))
 				if err != nil {
 					return "", err
 				}

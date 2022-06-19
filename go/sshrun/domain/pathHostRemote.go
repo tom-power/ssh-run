@@ -1,8 +1,6 @@
-package script
+package domain
 
-import "github.com/tom-power/ssh-run/sshrun/domain"
-
-func pathHostRemote(host domain.Host, scriptName string) (string, error) {
+func (Config) pathHostRemote(host Host, scriptName string) (string, error) {
 	hostDir := hostDirWithHome(host.Name, "/home/"+host.User)
 	command := "" +
 		"cd " + hostDir + " &&" +

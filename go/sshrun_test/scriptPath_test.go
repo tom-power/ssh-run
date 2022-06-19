@@ -1,15 +1,12 @@
 package sshrun
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/script"
 	"testing"
 )
 
 func Test_scriptPath(t *testing.T) {
 	t.Run("can get common script path from fs", func(t *testing.T) {
-		sys := script.FileSys{Fsys: testFs, Config: testConf}
-
-		actual, err := sys.Path(testHost, "common")
+		actual, err := testConf.Path(testFs, testHost, "common")
 
 		if err != nil {
 			t.Errorf(err.Error())
@@ -20,9 +17,7 @@ func Test_scriptPath(t *testing.T) {
 		}
 	})
 	t.Run("can get host script path from fs", func(t *testing.T) {
-		sys := script.FileSys{Fsys: testFs, Config: testConf}
-
-		actual, err := sys.Path(testHost, "test")
+		actual, err := testConf.Path(testFs, testHost, "test")
 
 		if err != nil {
 			t.Errorf(err.Error())
@@ -33,9 +28,7 @@ func Test_scriptPath(t *testing.T) {
 		}
 	})
 	t.Run("can get subDir host script path from fs", func(t *testing.T) {
-		sys := script.FileSys{Fsys: testFs, Config: testConf}
-
-		actual, err := sys.Path(testHost, "testSubDir")
+		actual, err := testConf.Path(testFs, testHost, "testSubDir")
 
 		if err != nil {
 			t.Errorf(err.Error())
@@ -46,9 +39,7 @@ func Test_scriptPath(t *testing.T) {
 		}
 	})
 	t.Run("can get shared script path from fs", func(t *testing.T) {
-		sys := script.FileSys{Fsys: testFs, Config: testConf}
-
-		actual, err := sys.Path(testHost, "sharedTest")
+		actual, err := testConf.Path(testFs, testHost, "sharedTest")
 
 		if err != nil {
 			t.Errorf(err.Error())
