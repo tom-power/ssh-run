@@ -8,21 +8,20 @@ import (
 	"strings"
 )
 
-func (host Host) Command(commandType string, contents string, args []string) (string, error) {
-	commandType = cleanup(commandType)
-	switch commandType {
-	case "ssh":
+func (host Host) Command(scriptType ScriptType, contents string, args []string) (string, error) {
+	switch scriptType {
+	case Ssh:
 		return host.Ssh(), nil
-	case "local":
+	case Local:
 		return cleanup(replace(contents, host, args)), nil
-	case "":
+	case Default:
 		return sshRun(host.Ssh(), "", cleanup(replace(contents, host, args))), nil
-	case "pty":
+	case Pty:
 		return sshRun(host.Ssh(), "-t", cleanup(replace(contents, host, args))), nil
-	case "x11":
+	case X11:
 		return sshRun(host.Ssh(), "-Y", cleanup(replace(contents, host, args))), nil
 	default:
-		return "", errors.New("unknown commandType " + commandType)
+		return "", errors.New("unknown scriptType " + scriptType.String())
 	}
 }
 

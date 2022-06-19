@@ -14,17 +14,9 @@ var testHost = domain.Host{
 	PortTunnel: "1081",
 }
 
-var commandTypes = []string{"local", "pty", "x11", ""}
+var commandTypes = []domain.ScriptType{domain.Local, domain.Pty, domain.X11, domain.Default}
 
 func Test_command(t *testing.T) {
-	t.Run("can run commandTypes with newlines", func(t *testing.T) {
-		sshRun, _ := testHost.Command("ssh\n", "", []string{})
-		expected := "ssh"
-		if !strings.Contains(sshRun, expected) {
-			t.Errorf("'%v' should contain '%v'", sshRun, expected)
-		}
-	})
-
 	t.Run("can run commands with spaces, multiple lines and escaped characters", func(t *testing.T) {
 		for _, commandType := range commandTypes {
 			multilineCommand := `

@@ -1,6 +1,7 @@
 package sshrun
 
 import (
+	"github.com/tom-power/ssh-run/sshrun/domain"
 	"testing"
 )
 
@@ -11,7 +12,7 @@ func Test_scriptType(t *testing.T) {
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-		expected := "pty"
+		expected := domain.Pty
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}

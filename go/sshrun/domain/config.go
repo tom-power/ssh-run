@@ -18,11 +18,11 @@ func (config Config) HostNames() (string, error) {
 
 func (config Config) Host(hostName string) (Host, error) {
 	var hasHostName = func(host Host) bool { return host.Name == hostName }
-	host, err := shared.Single(config.Hosts, hasHostName)
+	hostFromHosts, err := shared.Single(config.Hosts, hasHostName)
 	if err != nil {
 		return Host{}, errors.New("couldn't find host " + hostName + " in " + config.hostNames(", "))
 	}
-	return hostWithRemote(config, *host), nil
+	return hostWithRemote(config, *hostFromHosts), nil
 }
 
 func (config Config) hostNames(sep string) string {
@@ -30,13 +30,13 @@ func (config Config) hostNames(sep string) string {
 	return strings.Join(names, sep)
 }
 
-func hostWithRemote(config Config, host Host) Host {
+func hostWithRemote(config Config, hostOther Host) Host {
 	return Host{
-		Host:        host.Host,
-		User:        host.User,
-		Name:        host.Name,
-		Port:        host.Port,
-		PortTunnel:  host.PortTunnel,
+		Host:        hostOther.Host,
+		User:        hostOther.User,
+		Name:        hostOther.Name,
+		Port:        hostOther.Port,
+		PortTunnel:  hostOther.PortTunnel,
 		CheckRemote: config.CheckRemoteForScripts,
 	}
 }

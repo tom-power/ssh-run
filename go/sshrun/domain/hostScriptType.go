@@ -5,12 +5,12 @@ import (
 	"strings"
 )
 
-func (host Host) Type(fsys fs.FS, scriptName string) (string, error) {
+func (host Host) Type(fsys fs.FS, scriptName string) (ScriptType, error) {
 	path, err := host.Path(fsys, scriptName)
 	if err != nil {
-		return "", err
+		return Default, err
 	}
-	return commandTypeFromPath(path), nil
+	return ParseCommandType(commandTypeFromPath(path)), nil
 }
 
 func commandTypeFromPath(scriptPath string) string {
