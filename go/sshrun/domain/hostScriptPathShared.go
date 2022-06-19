@@ -6,19 +6,22 @@ import (
 )
 
 func (host Host) pathShared(fsys fs.FS, scriptName string) (string, error) {
-	hostDir := hostDir(host.Name)
-	hostFiles, err := fs.ReadDir(fsys, hostDir)
+	hostFiles, err := host.Files(fsys)
 	if err != nil {
 		return "", err
 	}
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
-			fromShared, _ := firstFileInDir(fsys, scriptsPath+"shared/"+hostFile.Name()+"/", scriptName)
-			if fileExists(fsys)(fromShared) {
-				return fromShared, nil
+			scriptPathShared, _ := findScriptPathInShared(fsys, scriptName, hostFile)
+			if fileExists(fsys)(scriptPathShared) {
+				return scriptPathShared, nil
 			}
 
 		}
 	}
 	return "", errors.New("nothing in shared")
+}
+
+func findScriptPathInShared(fsys fs.FS, scriptName string, hostFile fs.DirEntry) (string, error) {
+	return firstPathInDir(fsys, scriptsPath+"shared/"+hostFile.Name()+"/", scriptName)
 }

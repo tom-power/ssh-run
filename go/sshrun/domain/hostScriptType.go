@@ -10,10 +10,10 @@ func (host Host) Type(fsys fs.FS, scriptName string) (ScriptType, error) {
 	if err != nil {
 		return Default, err
 	}
-	return ParseCommandType(commandTypeFromPath(path)), nil
+	return ParseScriptType(scriptTypeFrom(path)), nil
 }
 
-func commandTypeFromPath(scriptPath string) string {
+func scriptTypeFrom(scriptPath string) string {
 	fileName := scriptPath[strings.LastIndex(scriptPath, "/")+1:]
 	fileNameParts := strings.Split(fileName, ".")
 	if len(fileNameParts) == 3 {

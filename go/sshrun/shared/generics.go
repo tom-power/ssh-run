@@ -50,3 +50,16 @@ func SafeSlice[V any](slice []V, at int, defaultValue V) V {
 	}
 	return defaultValue
 }
+
+func KeyFor[V comparable, K comparable](val V, theMap map[K]V, defaultKey K) K {
+	for k, v := range theMap {
+		if v == val {
+			return k
+		}
+	}
+	return defaultKey
+}
+
+func ValueFor[V comparable, K comparable](key K, theMap map[K]V) V {
+	return theMap[key]
+}

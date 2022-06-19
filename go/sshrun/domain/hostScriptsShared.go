@@ -6,7 +6,7 @@ import (
 
 func (host Host) scriptsShared(fsys fs.FS) (string, error) {
 	var files = Files{[]fs.DirEntry{}}
-	hostFiles, _ := fs.ReadDir(fsys, hostDir(host.Name))
+	hostFiles, _ := fs.ReadDir(fsys, host.Dir())
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
 			sharedDir := scriptsPath + "shared/" + hostFile.Name()

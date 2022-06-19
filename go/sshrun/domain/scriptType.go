@@ -1,26 +1,27 @@
 package domain
 
+import "github.com/tom-power/ssh-run/sshrun/shared"
+
 type ScriptType int
 
 const (
 	Default ScriptType = iota
-	Ssh
 	Pty
 	X11
 	Local
 )
 
-var commandTypes = map[string]ScriptType{"default": Default, "ssh": Ssh, "pty": Pty, "x11": X11, "local": Local}
-
-func ParseCommandType(s string) ScriptType {
-	return commandTypes[s]
+var scriptTypes = map[ScriptType]string{
+	Default: "",
+	Pty:     "pty",
+	X11:     "x11",
+	Local:   "local",
 }
 
-func (c ScriptType) String() string {
-	for k, v := range commandTypes {
-		if v == c {
-			return k
-		}
-	}
-	return ""
+func ParseScriptType(s string) ScriptType {
+	return shared.KeyFor(s, scriptTypes, Default)
+}
+
+func (scriptType ScriptType) String() string {
+	return shared.ValueFor(scriptType, scriptTypes)
 }

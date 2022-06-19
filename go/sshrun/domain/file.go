@@ -12,7 +12,7 @@ func fileExists(fsys fs.FS) func(string) bool {
 	}
 }
 
-func firstFileInDir(fsys fs.FS, dir string, name string) (string, error) {
+func firstPathInDir(fsys fs.FS, dir string, name string) (string, error) {
 	matches, err := fs.Glob(fsys, dir+name+".*")
 	if err != nil {
 		return "", err
