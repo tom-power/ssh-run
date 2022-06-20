@@ -20,10 +20,11 @@ func Test_command(t *testing.T) {
 	t.Run("can run commands with spaces, multiple lines and escaped characters", func(t *testing.T) {
 		for _, commandType := range commandTypes {
 			multilineCommand := `
-      multiline \
-      command   
-      `
-			sshRun, _ := testHost.Command(commandType, multilineCommand, []string{})
+						  multiline \
+						  command   
+						  `
+			script := domain.Script{Type: commandType, Contents: multilineCommand}
+			sshRun, _ := testHost.Command(script, []string{})
 
 			expected := "multiline command"
 			if !strings.Contains(sshRun, expected) {
@@ -34,7 +35,8 @@ func Test_command(t *testing.T) {
 
 	t.Run("can run commands with replacements", func(t *testing.T) {
 		for _, commandType := range commandTypes {
-			sshRun, _ := testHost.Command(commandType, "$host$user$hostName$port$portTunnel$1$2", []string{"arg1", "arg2"})
+			script := domain.Script{Type: commandType, Contents: "$host$user$hostName$port$portTunnel$1$2"}
+			sshRun, _ := testHost.Command(script, []string{"arg1", "arg2"})
 			if !strings.Contains(sshRun, testHost.Host) {
 				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.Host)
 			}

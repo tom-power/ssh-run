@@ -7,9 +7,9 @@ import (
 	"strings"
 )
 
-func (h Host) Command(scriptType ScriptType, contents string, args []string) (string, error) {
-	command := command(contents, h, args)
-	switch scriptType {
+func (h Host) Command(script Script, args []string) (string, error) {
+	command := command(script.Contents, h, args)
+	switch script.Type {
 	case Default:
 		return h.SshWith(command, ""), nil
 	case Pty:
@@ -19,7 +19,7 @@ func (h Host) Command(scriptType ScriptType, contents string, args []string) (st
 	case Local:
 		return command, nil
 	default:
-		return "", errors.New("unknown scriptType " + scriptType.String())
+		return "", errors.New("unknown scriptType " + script.Type.String())
 	}
 }
 

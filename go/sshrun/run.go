@@ -28,15 +28,11 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 	case "ssh", "":
 		return host.Ssh(), nil
 	}
-	scriptContents, err := host.Contents(r.Fsys, scriptName)
+	script, err := host.Script(r.Fsys, scriptName)
 	if err != nil {
 		return "", err
 	}
-	scriptType, err := host.Type(r.Fsys, scriptName)
-	if err != nil {
-		return "", err
-	}
-	command, err := host.Command(scriptType, scriptContents, args)
+	command, err := host.Command(script, args)
 	if err != nil {
 		return "", err
 	}
