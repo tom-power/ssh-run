@@ -1,8 +1,8 @@
 # read/write/**_RUN_** scripts over ssh
 
-You have some **hosts** you connect to regularly, and some **scripts** you run against them, and you want them to be **discoverable** from the command line without remembering the details..
+You have some **hosts**, and some **scripts** you want to run against them without remembering many/any details..
 
-..me too and I couldn't find anything that did quite what I wanted, so wrote this nonsense and use it most days now, **ymmv**!
+..me too, so wrote this nonsense and use it most days now, **ymmv**!
 
 ![demo](https://github.com/tom-power/ssh-run/blob/master/assets/demo.gif)
 

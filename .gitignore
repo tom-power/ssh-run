@@ -4,4 +4,3 @@
 config.install.sh
 release.tar.gz
 !go/go.mod
-.idea
