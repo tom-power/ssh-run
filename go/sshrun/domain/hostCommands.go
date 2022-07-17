@@ -10,5 +10,5 @@ func (h Host) Commands(fsys fs.FS) (string, error) {
   if err != nil {
 		return "", err
 	}
-  return strings.Join(append(noScriptCommands(), "ssh", "scripts", scripts), " "), nil
+  return strings.Join(append(sharedCommands(), "ssh", "scripts", "commands", scripts), " "), nil
 }

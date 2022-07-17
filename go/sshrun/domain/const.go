@@ -10,6 +10,6 @@ func sharedDir() string {
 	return scriptsPath + "shared"
 }
 
-func noScriptCommands() []string {
+func sharedCommands() []string {
 	return []string{"explain"}
 }

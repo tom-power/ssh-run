@@ -1,18 +1,18 @@
 #compdef sshRun
 
 _hosts() {
-  compadd $(~/bin/_sshRun hosts | sed 's/echo//')
+  compadd $(sshRun hosts | sed 's/echo//')
 }
 
-_scripts() {
-  compadd $(~/bin/_sshRun "${words[2]}" scripts | sed 's/echo//' | sed 's/$/ explain/')
+_commands() {
+  compadd $(sshRun "${words[2]}" commands | sed 's/echo//')
 }
 
 _arguments -s \
   '1:hosts:_hosts' \
-  '2:scriptsAndExplainHost:_scripts' \
-  '3:explainScript:->explainScript'
+  '2:commands:_commands' \
+  '3:explainCommand:->explainCommand'
 
-if [[ $state == 'explainScript' && ${line[2]} != "explain" ]]; then
-  _arguments '3:explain:(explain)'
+if [[ $state == 'explainCommand' && ${line[2]} != "explain" ]]; then
+  _arguments '3:explainCommand:(explain)'
 fi
