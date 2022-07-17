@@ -9,3 +9,7 @@ func commonDir() string {
 func sharedDir() string {
 	return scriptsPath + "shared"
 }
+
+func noScriptCommands() []string {
+	return []string{"explain"}
+}

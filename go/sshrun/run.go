@@ -25,6 +25,9 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 	case "scripts":
 		scripts, err := host.Scripts(r.Fsys)
 		return echo(scripts), err
+	case "commands":
+		scripts, err := host.Commands(r.Fsys)
+		return echo(scripts), err
 	case "ssh", "":
 		return host.Ssh(), nil
 	}
