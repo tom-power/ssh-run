@@ -22,9 +22,6 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 	switch scriptName {
 	case "explain":
 		return host.ToString(), nil
-	case "scripts":
-		scripts, err := host.Scripts(r.Fsys)
-		return echo(scripts), err
 	case "commands":
 		scripts, err := host.Commands(r.Fsys)
 		return echo(scripts), err
