@@ -1,11 +1,13 @@
 package sshrun_test
 
 import (
-	"github.com/tom-power/ssh-run/sshrun"
-	"github.com/tom-power/ssh-run/sshrun/domain"
 	"io/fs"
+	"strings"
 	"testing"
 	"testing/fstest"
+
+	"github.com/tom-power/ssh-run/sshrun"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 )
 
 var scriptsDir = ".config/ssh-run/scripts/"
@@ -119,4 +121,16 @@ func Test_runFs(t *testing.T) {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
 	})
+
+	t.Run("can get help", func(t *testing.T) {
+		helps := []string{"", "--help", "-h"}
+		for _, help := range helps {
+			expectedContains := "Usage"
+			actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run(help, "", []string{})
+			if !strings.Contains(actual, expectedContains) {
+				t.Errorf("'%v' should start with '%v'", actual, expectedContains)
+			}
+		}
+	})
+
 }

@@ -1,0 +1,13 @@
+sshRun run scripts against hosts
+
+Usage:
+  sshRun <(hosts|host|-h|--help)> <(scripts|script|ssh|explain)> [explain]
+  sshRun hosts                  list hosts
+  sshRun host scripts           list scripts on host
+  sshRun host script            run script against host
+  sshRun host <ssh>             ssh to host
+  sshRun host explain           explain host
+  sshRun host script explain    explain script
+
+Options:
+  -h --help     Show this screen

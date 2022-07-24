@@ -1,7 +1,11 @@
 #!/bin/bash
 command=$(_sshRun "$1" "$2" "$3")
-if [ "$3" == "explain" ] || [ "$2" == "explain" ]; then
-  echo "$command"
-else
-  eval "$command"
-fi
+args="$1$2$3"
+case $args in
+  "")
+    echo "$command" ;;
+  *"explain"*|*"--help"*|*"-h"*)
+    echo "$command" ;;
+  * )
+    eval "$command" ;;
+esac
