@@ -17,7 +17,7 @@ func main() {
 	}
 	configFs := config.ConfigFs{
 		Fsys:       homeDirFs,
-		ConfigPath: ".config/ssh-run/config.yaml",
+		ConfigPath: ".config/ssh-run/config.yml",
 		SshPath:    ".ssh/config",
 	}
 	config, err := configFs.GetConfig()

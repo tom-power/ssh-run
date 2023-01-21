@@ -12,7 +12,7 @@ func Test_fileSysConfig(t *testing.T) {
 	t.Run("get hosts from ssh config when IncludeSshConfigHosts fs", func(t *testing.T) {
 		sys := config.ConfigFs{
 			Fsys:       testFsConfig,
-			ConfigPath: "config.yaml",
+			ConfigPath: "config.yml",
 			SshPath:    ".ssh/config",
 		}
 
@@ -26,7 +26,7 @@ func Test_fileSysConfig(t *testing.T) {
 	t.Run("don't get hosts from ssh config when not IncludeSshConfigHosts fs", func(t *testing.T) {
 		sys := config.ConfigFs{
 			Fsys:       testFsConfig,
-			ConfigPath: "configNoHostsFromConfig.yaml",
+			ConfigPath: "configNoHostsFromConfig.yml",
 			SshPath:    ".ssh/config",
 		}
 
@@ -40,7 +40,7 @@ func Test_fileSysConfig(t *testing.T) {
 	t.Run("get hosts from ssh config when nothing in yaml", func(t *testing.T) {
 		sys := config.ConfigFs{
 			Fsys:       testFsConfig,
-			ConfigPath: "blahBlah.yaml",
+			ConfigPath: "blahBlah.yml",
 			SshPath:    ".ssh/config",
 		}
 
@@ -52,8 +52,8 @@ func Test_fileSysConfig(t *testing.T) {
 
 var testFsConfig = fstest.MapFS{
 	".ssh/config":                  {Data: []byte(hostsSshConfigText)},
-	"config.yaml":                  {Data: []byte(configYamlText)},
-	"configNoHostsFromConfig.yaml": {Data: []byte(configYamlNoHostsFromSshText)},
+	"config.yml":                  {Data: []byte(configYamlText)},
+	"configNoHostsFromConfig.yml": {Data: []byte(configYamlNoHostsFromSshText)},
 }
 
 var hostsSshConfigText = `
