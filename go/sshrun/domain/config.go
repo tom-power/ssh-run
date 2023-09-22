@@ -9,6 +9,7 @@ import (
 type Config struct {
 	Hosts                 []Host `yaml:"hosts"`
 	IncludeSshConfigHosts bool   `yaml:"includeSshConfigHosts"`
+	LocalhostIs 		  string `yaml:"localhostIs"`
 }
 
 func (c Config) HostNames() (string, error) {

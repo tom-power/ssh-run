@@ -8,16 +8,9 @@ type GetConfig = func() (domain.Config, error)
 
 func (c ConfigFs) GetConfig() (domain.Config, error) {
 	yamlConfig, err := c.getConfigFromYaml()
-	if err != nil || len(yamlConfig.Hosts) == 0 || yamlConfig.IncludeSshConfigHosts == true {
+	if len(yamlConfig.Hosts) == 0 || yamlConfig.IncludeSshConfigHosts {
 		sshConfigHosts, _ := c.getHostsFromSshConfig()
-		return withHosts(yamlConfig, sshConfigHosts), nil
+		yamlConfig.Hosts = append(yamlConfig.Hosts, sshConfigHosts...)
 	}
-	return yamlConfig, nil
-}
-
-func withHosts(config domain.Config, hosts []domain.Host) domain.Config {
-	return domain.Config{
-		Hosts:                 append(config.Hosts, hosts...),
-		IncludeSshConfigHosts: config.IncludeSshConfigHosts,
-	}
+	return yamlConfig, err
 }

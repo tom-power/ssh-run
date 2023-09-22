@@ -23,7 +23,7 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 		names, err := r.Config.HostNames()
 		return echo(names), err
 	}
-	host, err := r.Config.Host(hostName)
+	host, err := r.getHost(hostName)
 	if err != nil {
 		return "", err
 	}
@@ -45,6 +45,18 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 		return "", err
 	}
 	return command, nil
+}
+
+func (r Runner) getHost(hostName string) (domain.Host, error) {
+	host, err := r.Config.Host(hostName)
+	if err != nil {
+		return host, err
+	}
+	if hostName == "localhost" && r.Config.LocalhostIs != "" {
+		delegateHost, _ := r.Config.Host(r.Config.LocalhostIs)
+		host.Name = delegateHost.Name
+	}
+	return host, nil
 }
 
 func echo(command string) string {

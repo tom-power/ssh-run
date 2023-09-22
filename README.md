@@ -26,10 +26,13 @@ cp _sshRunCompletion ~/.oh-my-zsh/custom/completions/_sshRun
 
 ### Configuration
 
-Hosts will be read from `~/.ssh/config` and `~/.config/ssh-run/config.yml` which has sshRun specific config:
+Hosts will be read from `~/.ssh/config` and `~/.config/ssh-run/config.yml`, which has sshRun specific config. 
+
+Use `localhostIs` to give access `localhost` access to the scripts of a `host` in `hosts`.
 
 ```yaml
 includeSshConfigHosts: true
+localhostIs: example
 hosts:
   - host: 192.168.0.1
     user: exampleUser

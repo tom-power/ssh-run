@@ -23,6 +23,12 @@ var testFs = fstest.MapFS{
 
 var testHosts = []domain.Host{
 	{
+		Name: "localhost",
+		User: "user",
+		Host: "127.0.0.1",
+		Port: "22",
+	},
+	{
 		Name:       "test",
 		User:       "user",
 		Host:       "192.0.2.1",
@@ -65,7 +71,7 @@ func Test_runFs(t *testing.T) {
 		}
 	})
 
-	t.Run("can run ssh", func(t *testing.T) {
+	t.Run("can run remote", func(t *testing.T) {
 		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "remote", []string{})
 		expected := "ssh -p 22 user@192.0.2.1 \"command\""
 		if actual != expected {
@@ -108,7 +114,7 @@ func Test_runFs(t *testing.T) {
 
 	t.Run("can list hosts", func(t *testing.T) {
 		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("hosts", "", []string{})
-		expected := "echo test test1"
+		expected := "echo localhost test test1"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
@@ -130,6 +136,15 @@ func Test_runFs(t *testing.T) {
 			if !strings.Contains(actual, expectedContains) {
 				t.Errorf("'%v' should start with '%v'", actual, expectedContains)
 			}
+		}
+	})
+
+	t.Run("can delegate using LocalhostIs", func(t *testing.T) {
+		testConfig.LocalhostIs = "test"
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("localhost", "remote", []string{})
+		expected := "ssh -p 22 user@127.0.0.1 \"command\""
+		if actual != expected {
+			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
 	})
 
