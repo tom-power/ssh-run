@@ -1,22 +1,23 @@
 package sshrun
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/config"
-	"github.com/tom-power/ssh-run/sshrun/domain"
 	"testing"
 	"testing/fstest"
+
+	"github.com/tom-power/ssh-run/sshrun/config"
+	"github.com/tom-power/ssh-run/sshrun/domain"
 )
 
 func Test_fileSysConfig(t *testing.T) {
 
 	t.Run("get config fs", func(t *testing.T) {
 		var testFsConfig = fstest.MapFS{
-			"config.yml":                  {Data: []byte(configYamlText)},
+			"config/ssh-run.config.yml": {Data: []byte(configYamlText)},
 		}
 
 		sys := config.ConfigFs{
-			Fsys:       testFsConfig,
-			ConfigPath: "config.yml",
+			Fsys:      testFsConfig,
+			ConfigDir: "config",
 		}
 
 		actual, _ := sys.GetConfig()
@@ -45,7 +46,7 @@ hosts:
 
 var expectedConfigFromYaml = domain.Config{
 	IncludeSshConfigHosts: true,
-	LocalhostIs: "testName1",
+	LocalhostIs:           "testName1",
 	Hosts: []domain.Host{
 		{
 			Name: "testName1",

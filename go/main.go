@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/tom-power/ssh-run/sshrun"
-	"github.com/tom-power/ssh-run/sshrun/config"
-	"github.com/tom-power/ssh-run/sshrun/shared"
 	"io/fs"
 	"log"
 	"os"
+
+	"github.com/tom-power/ssh-run/sshrun"
+	"github.com/tom-power/ssh-run/sshrun/config"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
 func main() {
@@ -16,13 +17,13 @@ func main() {
 		log.Fatal(err)
 	}
 	configFs := config.ConfigFs{
-		Fsys:       homeDirFs,
-		ConfigPath: ".config/ssh-run/config.yml",
-		SshPath:    ".ssh/config",
+		Fsys:      homeDirFs,
+		ConfigDir: ".config/ssh-run",
+		SshPath:   ".ssh/config",
 	}
 	config, err := configFs.GetConfig()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("config error:", err)
 	}
 
 	hostName := shared.GetOr(os.Args, 1, "")
@@ -34,7 +35,7 @@ func main() {
 
 	sshRun, err := sshrun.Runner{Config: config, Fsys: homeDirFs}.Run(hostName, scriptName, args)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("runner error:", err)
 	}
 	fmt.Printf(sshRun)
 }

@@ -5,7 +5,7 @@ import (
 )
 
 type ConfigFs struct {
-	Fsys       fs.FS
-	ConfigPath string
-	SshPath    string
+	Fsys      fs.FS
+	ConfigDir string
+	SshPath   string
 }

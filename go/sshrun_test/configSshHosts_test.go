@@ -11,10 +11,15 @@ import (
 func Test_fileSysConfigIncludeSshConfigHosts(t *testing.T) {
 
 	t.Run("get hosts from ssh config when IncludeSshConfigHosts fs", func(t *testing.T) {
+		var testFsConfig = fstest.MapFS{
+			"config/ssh-run.config.yml": {Data: []byte(configYamlHostsFromSshText)},
+			".ssh/config":               {Data: []byte(hostsSshConfigText)},
+		}
+
 		sys := config.ConfigFs{
-			Fsys:       testFsConfig,
-			ConfigPath: "config.yml",
-			SshPath:    ".ssh/config",
+			Fsys:      testFsConfig,
+			ConfigDir: "config",
+			SshPath:   ".ssh/config",
 		}
 
 		actual, _ := sys.GetConfig()
@@ -25,10 +30,15 @@ func Test_fileSysConfigIncludeSshConfigHosts(t *testing.T) {
 		})
 	})
 	t.Run("don't get hosts from ssh config when not IncludeSshConfigHosts fs", func(t *testing.T) {
+		var testFsConfig = fstest.MapFS{
+			"config/ssh-run.config.yml": {Data: []byte(configYamlNoHostsFromSshText)},
+			".ssh/config":               {Data: []byte(hostsSshConfigText)},
+		}
+
 		sys := config.ConfigFs{
-			Fsys:       testFsConfig,
-			ConfigPath: "configNoHostsFromConfig.yml",
-			SshPath:    ".ssh/config",
+			Fsys:      testFsConfig,
+			ConfigDir: "config",
+			SshPath:   ".ssh/config",
 		}
 
 		actual, _ := sys.GetConfig()
@@ -39,27 +49,21 @@ func Test_fileSysConfigIncludeSshConfigHosts(t *testing.T) {
 		})
 	})
 	t.Run("get hosts from ssh config when no hosts in yaml", func(t *testing.T) {
-		var emptyFsConfig = fstest.MapFS{
+		var testFsConfig = fstest.MapFS{
 			"config.yml":  {Data: []byte(``)},
 			".ssh/config": {Data: []byte(hostsSshConfigText)},
 		}
 
 		sys := config.ConfigFs{
-			Fsys:       emptyFsConfig,
-			ConfigPath: "config.yml",
-			SshPath:    ".ssh/config",
+			Fsys:      testFsConfig,
+			ConfigDir: "config",
+			SshPath:   ".ssh/config",
 		}
 
 		actual, _ := sys.GetConfig()
 
 		assertConfigEqual(t, actual, domain.Config{Hosts: sshConfigHosts})
 	})
-}
-
-var testFsConfig = fstest.MapFS{
-	".ssh/config":                 {Data: []byte(hostsSshConfigText)},
-	"config.yml":                  {Data: []byte(configYamlHostsFromSshText)},
-	"configNoHostsFromConfig.yml": {Data: []byte(configYamlNoHostsFromSshText)},
 }
 
 var hostsSshConfigText = `
