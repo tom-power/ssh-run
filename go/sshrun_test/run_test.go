@@ -122,7 +122,7 @@ func Test_runFs(t *testing.T) {
 
 	t.Run("can explain host", func(t *testing.T) {
 		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "explain", []string{})
-		expected := `Host{Host:"192.0.2.1", User:"user", Name:"test", Port:"22", PortTunnel:"1081", CheckRemote:false}`
+		expected := `{"Host":"192.0.2.1","User":"user","Name":"test","Port":"22","PortTunnel":"1081","CheckRemote":false}`
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}

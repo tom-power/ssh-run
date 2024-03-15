@@ -1,8 +1,8 @@
 package domain
 
 import (
+	"encoding/json"
 	"fmt"
-	"strings"
 )
 
 type Host struct {
@@ -15,5 +15,10 @@ type Host struct {
 }
 
 func (h Host) ToString() string {
-	return strings.ReplaceAll(fmt.Sprintf("%#v", h), "domain.", "")
+	b, err := json.Marshal(h)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	return string(b)
 }
