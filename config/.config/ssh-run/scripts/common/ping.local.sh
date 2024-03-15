@@ -1,1 +1,1 @@
-ping -c 4 $host
+ping -c 4 $ip

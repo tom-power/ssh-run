@@ -29,7 +29,7 @@ func command(contents string, host Host, args []string) string {
 
 func replace(command string, host Host, args []string) string {
 	command = strings.Replace(command, "$hostName", host.Name, -1)
-	command = strings.Replace(command, "$host", host.Host, -1)
+	command = strings.Replace(command, "$ip", host.Ip, -1)
 	command = strings.Replace(command, "$user", host.User, -1)
 	command = strings.Replace(command, "$portTunnel", host.PortTunnel, -1)
 	command = strings.Replace(command, "$port", host.Port, -1)

@@ -30,7 +30,7 @@ func getSession(host Host) (*ssh.Session, error) {
 		},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
-	conn, err := ssh.Dial("tcp", strings.Join([]string{host.Host, ":", host.Port}, ""), config)
+	conn, err := ssh.Dial("tcp", strings.Join([]string{host.Ip, ":", host.Port}, ""), config)
 	if err != nil {
 		return nil, err
 	}

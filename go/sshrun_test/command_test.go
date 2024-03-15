@@ -1,13 +1,14 @@
 package sshrun_test
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/domain"
 	"strings"
 	"testing"
+
+	"github.com/tom-power/ssh-run/sshrun/domain"
 )
 
 var testHost = domain.Host{
-	Host:       "192.0.2.1",
+	Ip:         "192.0.2.1",
 	User:       "testUser",
 	Name:       "testName",
 	Port:       "22",
@@ -35,10 +36,10 @@ func Test_command(t *testing.T) {
 
 	t.Run("can run commands with replacements", func(t *testing.T) {
 		for _, commandType := range commandTypes {
-			script := domain.Script{Type: commandType, Contents: "$host$user$hostName$port$portTunnel$1$2"}
+			script := domain.Script{Type: commandType, Contents: "$ip$user$hostName$port$portTunnel$1$2"}
 			sshRun, _ := testHost.Command(script, []string{"arg1", "arg2"})
-			if !strings.Contains(sshRun, testHost.Host) {
-				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.Host)
+			if !strings.Contains(sshRun, testHost.Ip) {
+				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.Ip)
 			}
 			if !strings.Contains(sshRun, testHost.Name) {
 				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.Name)

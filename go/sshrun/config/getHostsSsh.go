@@ -1,10 +1,11 @@
 package config
 
 import (
+	"io/fs"
+
 	"github.com/kevinburke/ssh_config"
 	"github.com/tom-power/ssh-run/sshrun/domain"
 	"github.com/tom-power/ssh-run/sshrun/shared"
-	"io/fs"
 )
 
 func (c ConfigFs) getHostsFromSshConfig() ([]domain.Host, error) {
@@ -29,7 +30,7 @@ func toHosts(config *ssh_config.Config) []domain.Host {
 				user, _ := config.Get(key, "User")
 				port, _ := config.Get(key, "Port")
 				hosts = append(hosts, domain.Host{
-					Host: key,
+					Ip:   key,
 					User: user,
 					Name: name,
 					Port: shared.DefaultString(port, "22"),

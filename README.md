@@ -34,7 +34,7 @@ Use `localhostIs` to give access `localhost` access to the scripts of a `host` i
 includeSshConfigHosts: true
 localhostIs: example
 hosts:
-  - host: 192.168.0.1
+  - ip: 192.168.0.1
     user: exampleUser
     name: example
     port: 22
@@ -65,7 +65,7 @@ drop `sshRun` from the above using the provided `bash_aliases` + your hosts.
 
 Write scripts as you would normally for the target shell.
 
-`$host`, `$user`, `$hostName`, `$port`, `$portTunnel` will be replaced with host configuration values.
+`$ip`, `$user`, `$hostName`, `$port`, `$portTunnel` will be replaced with host configuration values.
 
 use the following file name convention to indicate how your scripts should be run:
 

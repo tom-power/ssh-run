@@ -25,20 +25,20 @@ var testHosts = []domain.Host{
 	{
 		Name: "localhost",
 		User: "user",
-		Host: "127.0.0.1",
+		Ip:   "127.0.0.1",
 		Port: "22",
 	},
 	{
 		Name:       "test",
 		User:       "user",
-		Host:       "192.0.2.1",
+		Ip:         "192.0.2.1",
 		Port:       "22",
 		PortTunnel: "1081",
 	},
 	{
 		Name: "test1",
 		User: "user1",
-		Host: "192.0.2.1",
+		Ip:   "192.0.2.1",
 		Port: "22",
 	},
 }
@@ -122,7 +122,7 @@ func Test_runFs(t *testing.T) {
 
 	t.Run("can explain host", func(t *testing.T) {
 		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "explain", []string{})
-		expected := `{"Host":"192.0.2.1","User":"user","Name":"test","Port":"22","PortTunnel":"1081","CheckRemote":false}`
+		expected := `{"Ip":"192.0.2.1","User":"user","Name":"test","Port":"22","PortTunnel":"1081","CheckRemote":false}`
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}

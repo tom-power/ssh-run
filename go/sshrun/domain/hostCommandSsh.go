@@ -2,12 +2,13 @@ package domain
 
 import (
 	"fmt"
-	"github.com/tom-power/ssh-run/sshrun/shared"
 	"strings"
+
+	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
 func (h Host) Ssh() string {
-	return fmt.Sprintf("ssh -p %s %s@%s", h.Port, h.User, h.Host)
+	return fmt.Sprintf("ssh -p %s %s@%s", h.Port, h.User, h.Ip)
 }
 
 func (h Host) SshWith(command string, option string) string {

@@ -6,7 +6,7 @@ import (
 )
 
 type Host struct {
-	Host        string
+	Ip          string
 	User        string
 	Name        string
 	Port        string
