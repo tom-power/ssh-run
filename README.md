@@ -1,4 +1,6 @@
-# read/write/**_RUN_** scripts over ssh <span style="float:right">[![ci status][badge]][workflow]</span>
+# read/write/**_RUN_** scripts over ssh 
+
+[![ci status][badge]][workflow]
 
 [workflow]: https://github.com/tom-power/ssh-run/actions/workflows/go.yml
 [badge]: https://img.shields.io/github/actions/workflow/status/tom-power/ssh-run/go.yml?style=flat-round&logo=github&label=CI%20status
