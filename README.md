@@ -1,5 +1,11 @@
 # read/write/**_RUN_** scripts over ssh
 
+<p>
+  <a href="https://github.com/tom-power/ssh-run/actions/workflows/go.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/tom-power/ssh-run/go.yml?style=flat-square&logo=github&label=CI%20status" alt="actions status">
+  </a>
+</p>
+
 You have some **hosts**, and some **scripts** you want to run against them without remembering many/any details..
 
 ..me too, so wrote this nonsense and use it most days now, **ymmv**!
