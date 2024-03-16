@@ -2,7 +2,7 @@
 
 <p>
   <a href="https://github.com/tom-power/ssh-run/actions/workflows/go.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/tom-power/ssh-run/go.yml?style=flat-square&logo=github&label=CI%20status" alt="actions status">
+    <img src="https://img.shields.io/github/actions/workflow/status/tom-power/ssh-run/go.yml?style=flat-round&logo=github&label=CI%20status" alt="actions status">
   </a>
 </p>
 
