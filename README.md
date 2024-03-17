@@ -1,4 +1,6 @@
-# read/write/**_RUN_** scripts over ssh [![ci status][badge]][workflow]
+# read/write/**_RUN_** scripts over ssh 
+
+[![ci status][badge]][workflow]
 
 [workflow]: https://github.com/tom-power/ssh-run/actions/workflows/go.yml
 [badge]: https://img.shields.io/github/actions/workflow/status/tom-power/ssh-run/go.yml?style=flat-round&logo=github&label=CI%20status
@@ -7,7 +9,7 @@ You have some **hosts**, and some **scripts** you want to run against them witho
 
 ..me too, so wrote this nonsense and use it most days now, **ymmv**!
 
-![demo](https://github.com/tom-power/ssh-run/blob/master/assets/demo.gif)
+![demo](https://github.com/tom-power/ssh-run/blob/main/assets/demo.gif)
 
 ## Installation
 
@@ -83,7 +85,7 @@ save to the following directories under `.config/ssh-run/scripts` so the script 
 - `host/<hostName>` also checked on the remote host if `Config.checkRemote` is `true`
 - `shared/<sharedDir>` where `sharedDir` is also found in `host/<hostName>`
 
-see scripts [here](https:#github.com/tom-power/ssh-run/tree/master/config/.config/ssh-run/scripts) for examples.
+see scripts [here](https:#github.com/tom-power/ssh-run/tree/main/config/.config/ssh-run/scripts) for examples.
 
 ## Install from source
 
