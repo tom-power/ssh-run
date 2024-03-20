@@ -1,11 +1,12 @@
 #compdef sshRun
 
 _hosts() {
-  compadd $(~/bin/_sshRun hosts | sed 's/echo//')
+  compadd $(~/bin/sshRun hosts)
 }
 
 _scripts() {
-  compadd $(~/bin/_sshRun "${words[2]}" scripts | sed 's/echo//' | sed 's/$/ explain/')
+  host=${words[2]}
+  compadd $(~/bin/sshRun $host scripts | grep -v 'explain')
 }
 
 _arguments -s \

@@ -1,6 +1,6 @@
 !config**
 !config/.config**
 !example.config.install.sh
-config.install.sh
+.install.env
 release.tar.gz
 !go/go.mod
