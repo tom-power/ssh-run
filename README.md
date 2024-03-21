@@ -15,9 +15,13 @@ You have some **hosts**, and some **scripts** you want to run against them witho
 
 ### Host configuration
 
-All `*.yml` files in `~/.config/ssh-run/` will be read as config.
+Hosts and general config can be set in any `*.yml` file in `~/.config/ssh-run/`.
 
 ```yaml
+includeSshConfigHosts: true # include hosts in ~/.ssh/config, without sshRun specific config
+localhostIs: example # alias localhost to this host
+
+# hosts with sshRun specific config
 hosts:
   - ip: 192.168.0.1
     user: exampleUser
@@ -25,8 +29,6 @@ hosts:
     port: 22
     portTunnel: 1080
     checkRemote: true      
-includeSshConfigHosts: true # add host from ~/.ssh/config
-localhostIs: example # alias localhost to this host
 ```
 
 ### Writing scripts
@@ -76,7 +78,7 @@ The application consists of a shell script `sshRun`, that calls `eval` on comman
 
 i.e. `eval "ssh -p 22 user@127.0.0.1 -t \"command\""`
 
-so you'll need [ssh](https://www.openssh.com/) installed locally, and you'll need be able to [access](https://www.ssh.com/academy/ssh/public-key-authentication) any hosts you configure over [ssh](https://www.openssh.com/).
+so [ssh](https://www.openssh.com/) needs to be installed locally, and have [access](https://www.ssh.com/academy/ssh/public-key-authentication) to any hosts you configure.
 
 ### From sources
 
@@ -106,7 +108,7 @@ cp ./release/{sshRun,_sshRun} /your/path/
 
 ### Command completion 
 
-Some scripts to help with shell command completion are included the release/sources, example using [oh-my-zsh](https://ohmyz.sh/), [fzf-tab](https://github.com/Aloxaf/fzf-tab) is not required but great.
+Zsh completion definitions and aliases are included the release/sources, example using [oh-my-zsh](https://ohmyz.sh/), [fzf-tab](https://github.com/Aloxaf/fzf-tab) is not required but great.
 
 ```shell
 cp ./release/completions/settings.aliases.sshRun.zsh ~/.oh-my-zsh/custom/ &&

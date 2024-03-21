@@ -1,6 +1,11 @@
+includeSshConfigHosts: true # include hosts in ~/.ssh/config, without sshRun specific config
+localhostIs: example # alias localhost to this host
+
+# hosts with sshRun specific config
 hosts:
-  - name: example
+  - ip: 192.168.0.1
     user: exampleUser
-    ip: 192.168.0.1
-    $port: 22
+    name: example
+    port: 22
     portTunnel: 1080
+    checkRemote: true  
