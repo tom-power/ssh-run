@@ -37,7 +37,7 @@ func (c ConfigFs) updateConfigFromFile(config *domain.Config, dirEntry fs.DirEnt
 	if err != nil {
 		return err
 	}
-	if err := mergo.Merge(config, thisConfig); err != nil {
+	if err := mergo.Merge(config, thisConfig, mergo.WithAppendSlice); err != nil {
 		return err
 	}
 	return nil

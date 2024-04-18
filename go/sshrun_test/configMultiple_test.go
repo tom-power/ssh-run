@@ -27,12 +27,7 @@ func Test_fileSysConfigMultiple(t *testing.T) {
 }
 
 var configYamlGeneralText = `
-includeSshConfigHosts: true
 hosts:
-  - ip: 192.0.2.1
-    user: testUser1
-    name: testName1
-    port: 22
   - ip: 192.0.2.2
     user: testUser2
     name: testName2
@@ -44,5 +39,11 @@ hosts:
     port: 24`
 
 var configYamlLocalText = `
+includeSshConfigHosts: true
 localhostIs: testName1
+hosts:
+  - ip: 192.0.2.1
+    user: testUser1
+    name: testName1
+    port: 22
 `
