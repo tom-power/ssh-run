@@ -23,12 +23,6 @@ var testFs = fstest.MapFS{
 
 var testHosts = []domain.Host{
 	{
-		Name: "localhost",
-		User: "user",
-		Ip:   "127.0.0.1",
-		Port: "22",
-	},
-	{
 		Name:       "test",
 		User:       "user",
 		Ip:         "192.0.2.1",
@@ -142,7 +136,7 @@ func Test_runFs(t *testing.T) {
 	t.Run("can delegate using LocalhostIs", func(t *testing.T) {
 		testConfig.LocalhostIs = "test"
 		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("localhost", "remote", []string{})
-		expected := "ssh -p 22 user@127.0.0.1 \"command\""
+		expected := "ssh -p 22 user@192.0.2.1 \"command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
