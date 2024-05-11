@@ -14,19 +14,19 @@ You have some **hosts**, and some **scripts** you want to run against them witho
 ## Usage
 
 ```
-sshRun <(hosts|host|-h|--help)> <(scripts|script|ssh|explain)> [explain]
+Run scripts against hosts over ssh
 
-Commands:  
-  sshRun hosts                  List hosts
-  sshRun host scripts           List scripts on host
-  sshRun host script            Run script against host
-  sshRun host <ssh>             ssh to host
-  sshRun host explain           Explain host
-  sshRun host script explain    Explain script
+Usage:
+  sshRun hosts                
+  sshRun host scripts
+  sshRun host [<scriptName>] [--explain]
 
 Options:
+  --explain     Explain the host or script
   -h --help     Show this screen
 ```
+
+## Configuration
 
 ### Hosts
 
