@@ -4,16 +4,32 @@ _hosts() {
   compadd $(~/bin/sshRun hosts)
 }
 
+_completions=()
+
+_withExplain() {  
+  _completions+=('--explain')
+}
+
+_addCompletions() {
+  compadd - $_completions
+}
+
 _scripts() {
   host=${words[2]}
-  compadd $(~/bin/sshRun $host scripts | grep -v '--explain')
+  _completions=($(~/bin/sshRun $host scripts))
+  _withExplain
+  _addCompletions
+}
+
+_maybeExplain() {  
+  script=${words[3]}
+  if [[ $script != '--explain' ]]; then
+    _withExplain
+    _addCompletions
+  fi
 }
 
 _arguments -s \
   '1:hosts:_hosts' \
-  '2:scriptsAndExplainHost:_scripts' \
-  '3:explainScript:->explainScript'
-
-if [[ $state == 'explainScript' && ${line[2]} != "--explain" ]]; then
-  _arguments '3:explain:(--explain)'
-fi
+  '2:scripts:_scripts' \
+  '3:maybeExplain:_maybeExplain'
