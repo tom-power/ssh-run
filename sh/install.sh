@@ -2,7 +2,14 @@
 sh/build.sh &&
 if [[ -f sh/.install.env ]]; then
   source sh/.install.env
-  chmod +x release/sshRun && cp -p release/sshRun $binPath
-  chmod +x go/build/_sshRun && cp -p go/build/_sshRun $binPath
+  if [[ -v binPath ]]; then
+    echo "copying scripts"
+    cp -p release/sshRun $binPath/sshRun && chmod +x $binPath/sshRun &&
+    cp -p go/build/_sshRun $binPath/_sshRun && chmod +x $binPath/_sshRun
+  fi
+  if [[ -v completionsPath ]]; then
+    echo "copying completions"
+    cp -p release/completions/_sshRun $completionsPath/_sshRun
+  fi
 fi
 echo "finished"
