@@ -42,6 +42,22 @@ var testConfig = domain.Config{
 }
 
 func Test_runFs(t *testing.T) {
+	t.Run("can list hosts", func(t *testing.T) {
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("hosts", "", []string{})
+		expected := "echo localhost test test1"
+		if actual != expected {
+			t.Errorf("'%v' should equal '%v'", actual, expected)
+		}
+	})
+
+	t.Run("can explain host", func(t *testing.T) {
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "--explain", []string{})
+		expected := `{"Ip":"192.0.2.1","User":"user","Name":"test","Port":"22","PortTunnel":"1081","CheckRemote":false}`
+		if actual != expected {
+			t.Errorf("'%v' should equal '%v'", actual, expected)
+		}
+	})
+
 	t.Run("can ssh", func(t *testing.T) {
 		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "ssh", []string{})
 		expected := "ssh -p 22 user@192.0.2.1"
@@ -58,46 +74,6 @@ func Test_runFs(t *testing.T) {
 		}
 	})
 
-	t.Run("can run local", func(t *testing.T) {
-		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "local", []string{})
-		if actual != "command" {
-			t.Errorf("'%v' should equal '%v'", actual, "command")
-		}
-	})
-
-	t.Run("can run remote", func(t *testing.T) {
-		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "remote", []string{})
-		expected := "ssh -p 22 user@192.0.2.1 \"command\""
-		if actual != expected {
-			t.Errorf("'%v' should equal '%v'", actual, expected)
-		}
-	})
-
-	t.Run("can run ssh with args", func(t *testing.T) {
-		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "withArgs", []string{"arg1", "arg2"})
-		expected := "ssh -p 22 user@192.0.2.1 \"command arg1 arg2\""
-		if actual != expected {
-			t.Errorf("'%v' should equal '%v'", actual, expected)
-		}
-	})
-
-	t.Run("can run ssh with pty", func(t *testing.T) {
-		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "pty", []string{})
-		expected := "ssh -p 22 user@192.0.2.1 -t \"pty command\""
-		if actual != expected {
-			t.Errorf("'%v' should equal '%v'", actual, expected)
-		}
-	})
-
-	t.Run("can run ssh x11", func(t *testing.T) {
-		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "x11", []string{})
-
-		expected := "ssh -p 22 user@192.0.2.1 -Y \"x11 command\""
-		if actual != expected {
-			t.Errorf("'%v' should equal '%v'", actual, expected)
-		}
-	})
-
 	t.Run("can list scripts", func(t *testing.T) {
 		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "scripts", []string{})
 		expected := "echo local pty remote withArgs x11"
@@ -106,19 +82,51 @@ func Test_runFs(t *testing.T) {
 		}
 	})
 
-	t.Run("can list hosts", func(t *testing.T) {
-		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("hosts", "", []string{})
-		expected := "echo localhost test test1"
+	t.Run("can run script", func(t *testing.T) {
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "remote", []string{})
+		expected := "ssh -p 22 user@192.0.2.1 \"command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
 	})
 
-	t.Run("can explain host", func(t *testing.T) {
-		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "explain", []string{})
-		expected := `{"Ip":"192.0.2.1","User":"user","Name":"test","Port":"22","PortTunnel":"1081","CheckRemote":false}`
+	t.Run("can explain script", func(t *testing.T) {
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "remote", []string{"--explain"})
+		expected := "ssh -p 22 user@192.0.2.1 \"command\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
+		}
+	})
+
+	t.Run("can run script with args", func(t *testing.T) {
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "withArgs", []string{"arg1", "arg2"})
+		expected := "ssh -p 22 user@192.0.2.1 \"command arg1 arg2\""
+		if actual != expected {
+			t.Errorf("'%v' should equal '%v'", actual, expected)
+		}
+	})
+
+	t.Run("can run script with pty", func(t *testing.T) {
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "pty", []string{})
+		expected := "ssh -p 22 user@192.0.2.1 -t \"pty command\""
+		if actual != expected {
+			t.Errorf("'%v' should equal '%v'", actual, expected)
+		}
+	})
+
+	t.Run("can run script x11", func(t *testing.T) {
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "x11", []string{})
+
+		expected := "ssh -p 22 user@192.0.2.1 -Y \"x11 command\""
+		if actual != expected {
+			t.Errorf("'%v' should equal '%v'", actual, expected)
+		}
+	})
+
+	t.Run("can run script local", func(t *testing.T) {
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "local", []string{})
+		if actual != "command" {
+			t.Errorf("'%v' should equal '%v'", actual, "command")
 		}
 	})
 

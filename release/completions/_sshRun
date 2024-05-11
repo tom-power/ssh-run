@@ -6,7 +6,7 @@ _hosts() {
 
 _scripts() {
   host=${words[2]}
-  compadd $(~/bin/sshRun $host scripts | grep -v 'explain')
+  compadd $(~/bin/sshRun $host scripts | grep -v '--explain')
 }
 
 _arguments -s \
@@ -14,6 +14,6 @@ _arguments -s \
   '2:scriptsAndExplainHost:_scripts' \
   '3:explainScript:->explainScript'
 
-if [[ $state == 'explainScript' && ${line[2]} != "explain" ]]; then
-  _arguments '3:explain:(explain)'
+if [[ $state == 'explainScript' && ${line[2]} != "--explain" ]]; then
+  _arguments '3:explain:(--explain)'
 fi
