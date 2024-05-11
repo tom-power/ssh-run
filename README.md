@@ -63,7 +63,7 @@ Filename suffixes control how the scripts are run:
 
 In a given script `$ip`, `$user`, `$hostName`, `$port`, `$portTunnel` are replaced with values from the associated host.
 
-Scripts are echoed to `ssh user@host`, use `sshRun $hostName $scriptName explain` to see exactly what will be run.
+Use `sshRun $hostName $scriptName --explain` to see exactly what will be run.
 
 Example scripts can be found [here](https://github.com/tom-power/ssh-run/tree/main/config/.config/ssh-run/scripts).
 
