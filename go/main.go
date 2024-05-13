@@ -17,25 +17,32 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	configFs := config.ConfigFs{
-		Fsys:      homeDirFs,
-		ConfigDir: ".config/ssh-run",
-		SshPath:   ".ssh/config",
-	}
-	config, err := configFs.GetConfig()
+	config, err := getConfigFs(homeDirFs).GetConfig()
 	if err != nil {
 		log.Fatal("config error:", err)
+	}
+	runner := sshrun.Runner{
+		Config: config,
+		Fsys:   homeDirFs,
 	}
 
 	hostName := shared.GetOr(getCommands(os.Args), 1, "")
 	scriptName := shared.GetOr(getCommands(os.Args), 2, "")
 	args := getArgs(os.Args)
 
-	sshRun, err := sshrun.Runner{Config: config, Fsys: homeDirFs}.Run(hostName, scriptName, args, []string{""})
+	sshRun, err := runner.Run(hostName, scriptName, args, []string{""})
 	if err != nil {
 		log.Fatal("runner error:", err)
 	}
 	fmt.Println(sshRun)
+}
+
+func getConfigFs(homeDirFs fs.FS) config.ConfigFs {
+	return config.ConfigFs{
+		Fsys:      homeDirFs,
+		ConfigDir: ".config/ssh-run",
+		SshPath:   ".ssh/config",
+	}
 }
 
 func getHomeDirFs() (fs.FS, error) {
