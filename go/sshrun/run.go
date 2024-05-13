@@ -18,12 +18,12 @@ var help string
 
 func (r Runner) Run(hostName string, scriptName string, args []string) (string, error) {
 	if (hostName == "" && len(args) == 0) || shared.Intersect([]string{"--help", "-h"}, args) {
-		return echo(help), nil
+		return help, nil
 	}
 
 	if shared.Any(args, "--hosts") {
 		names, err := r.Config.HostNames()
-		return echo("localhost " + names), err
+		return "localhost " + names, err
 	}
 
 	host, err := r.getHost(hostName)
@@ -40,7 +40,7 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 		}
 		if shared.Any(args, "--scripts") {
 			scripts, err := host.Scripts(r.Fsys)
-			return echo(scripts), err
+			return scripts, err
 		}
 	}
 	script, err := host.Script(r.Fsys, scriptName)
@@ -64,8 +64,4 @@ func (r Runner) getHost(hostName string) (domain.Host, error) {
 		return host, err
 	}
 	return host, nil
-}
-
-func echo(command string) string {
-	return "echo " + command
 }

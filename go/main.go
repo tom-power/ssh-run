@@ -35,7 +35,7 @@ func main() {
 	if err != nil {
 		log.Fatal("runner error:", err)
 	}
-	fmt.Print(sshRun)
+	fmt.Printf(sshRun)
 }
 
 func getHomeDirFs() (fs.FS, error) {
