@@ -1,7 +1,7 @@
 #compdef sshRun
 
 _hosts() {
-  compadd $(~/bin/sshRun hosts)
+  compadd $(~/bin/sshRun --hosts)
 }
 
 _completions=()
@@ -16,7 +16,7 @@ _addCompletions() {
 
 _scripts() {
   host=${words[2]}
-  _completions=($(~/bin/sshRun $host scripts))
+  _completions=($(~/bin/sshRun $host --scripts))
   _withExplain
   _addCompletions
 }
