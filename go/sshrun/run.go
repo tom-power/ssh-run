@@ -33,14 +33,15 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 	}
 
 	switch scriptName {
-	case "scripts":
-		scripts, err := host.Scripts(r.Fsys)
-		return echo(scripts), err
 	case "ssh":
 		return host.Ssh(), nil
 	case "":
 		if shared.Any(args, "--explain") {
 			return host.ToString(), nil
+		}
+		if shared.Any(args, "--scripts") {
+			scripts, err := host.Scripts(r.Fsys)
+			return echo(scripts), err
 		}
 	}
 	script, err := host.Script(r.Fsys, scriptName)
