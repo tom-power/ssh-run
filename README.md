@@ -17,7 +17,7 @@ You have some **hosts**, and some **scripts** you want to run against them witho
 Run scripts against hosts over ssh
 
 Usage:
-  sshRun hosts                
+  sshRun --hosts                
   sshRun <hostName> (--scripts|--explain)
   sshRun <hostName> <scriptName> [--explain]
   sshRun -h | --help

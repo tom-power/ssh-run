@@ -43,7 +43,7 @@ var testConfig = domain.Config{
 
 func Test_runFs(t *testing.T) {
 	t.Run("can list hosts", func(t *testing.T) {
-		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("hosts", "", []string{})
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("", "", []string{"--hosts"})
 		expected := "echo localhost test test1"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)

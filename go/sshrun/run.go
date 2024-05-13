@@ -17,12 +17,11 @@ type Runner struct {
 var help string
 
 func (r Runner) Run(hostName string, scriptName string, args []string) (string, error) {
-	if hostName == "" || shared.Intersect([]string{"--help", "-h"}, args) {
+	if (hostName == "" && len(args) == 0) || shared.Intersect([]string{"--help", "-h"}, args) {
 		return echo(help), nil
 	}
 
-	switch hostName {
-	case "hosts":
+	if shared.Any(args, "--hosts") {
 		names, err := r.Config.HostNames()
 		return echo("localhost " + names), err
 	}
