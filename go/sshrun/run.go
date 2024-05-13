@@ -33,7 +33,7 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 	case "scripts":
 		scripts, err := host.Scripts(r.Fsys)
 		return echo(scripts), err
-	case "ssh", "":
+	case "ssh":
 		return host.Ssh(), nil
 	}
 	script, err := host.Script(r.Fsys, scriptName)

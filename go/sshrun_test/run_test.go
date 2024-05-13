@@ -66,14 +66,6 @@ func Test_runFs(t *testing.T) {
 		}
 	})
 
-	t.Run("can ssh on no command", func(t *testing.T) {
-		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "", []string{})
-		expected := "ssh -p 22 user@192.0.2.1"
-		if actual != expected {
-			t.Errorf("'%v' should equal '%v'", actual, expected)
-		}
-	})
-
 	t.Run("can list scripts", func(t *testing.T) {
 		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "scripts", []string{})
 		expected := "echo local pty remote withArgs x11"
