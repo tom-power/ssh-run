@@ -5,6 +5,7 @@ import (
 	"io/fs"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/tom-power/ssh-run/sshrun"
 	"github.com/tom-power/ssh-run/sshrun/config"
@@ -28,16 +29,13 @@ func main() {
 
 	hostName := shared.GetOr(os.Args, 1, "")
 	scriptName := shared.GetOr(os.Args, 2, "")
-	args := []string{""}
-	if len(os.Args) > 3 {
-		args = os.Args[3:]
-	}
+	args := getArgs(os.Args)
 
 	sshRun, err := sshrun.Runner{Config: config, Fsys: homeDirFs}.Run(hostName, scriptName, args)
 	if err != nil {
 		log.Fatal("runner error:", err)
 	}
-	fmt.Printf(sshRun)
+	fmt.Print(sshRun)
 }
 
 func getHomeDirFs() (fs.FS, error) {
@@ -46,4 +44,12 @@ func getHomeDirFs() (fs.FS, error) {
 		return nil, err
 	}
 	return os.DirFS(homeDir), nil
+}
+
+func getArgs(args []string) []string {
+	return shared.Filter(args, IsArgs)
+}
+
+func IsArgs(s string) bool {
+	return strings.HasPrefix(s, "--") || strings.HasPrefix(s, "-")
 }

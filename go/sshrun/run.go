@@ -5,6 +5,7 @@ import (
 	"io/fs"
 
 	"github.com/tom-power/ssh-run/sshrun/domain"
+	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
 type Runner struct {
@@ -16,30 +17,37 @@ type Runner struct {
 var help string
 
 func (r Runner) Run(hostName string, scriptName string, args []string) (string, error) {
-	switch hostName {
-	case "", "--help", "-h":
+	if hostName == "" || shared.Intersect([]string{"--help", "-h"}, args) {
 		return echo(help), nil
+	}
+
+	switch hostName {
 	case "hosts":
 		names, err := r.Config.HostNames()
 		return echo("localhost " + names), err
 	}
+
 	host, err := r.getHost(hostName)
 	if err != nil {
 		return "", err
 	}
+
 	switch scriptName {
-	case "--explain":
-		return host.ToString(), nil
 	case "scripts":
 		scripts, err := host.Scripts(r.Fsys)
 		return echo(scripts), err
 	case "ssh":
 		return host.Ssh(), nil
+	case "":
+		if shared.Any(args, "--explain") {
+			return host.ToString(), nil
+		}
 	}
 	script, err := host.Script(r.Fsys, scriptName)
 	if err != nil {
 		return "", err
 	}
+
 	command, err := host.Command(script, args)
 	if err != nil {
 		return "", err

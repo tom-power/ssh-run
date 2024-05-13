@@ -51,7 +51,7 @@ func Test_runFs(t *testing.T) {
 	})
 
 	t.Run("can explain host", func(t *testing.T) {
-		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "--explain", []string{})
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("test", "", []string{"--explain"})
 		expected := `{"Ip":"192.0.2.1","User":"user","Name":"test","Port":"22","PortTunnel":"1081","CheckRemote":false}`
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
@@ -122,11 +122,19 @@ func Test_runFs(t *testing.T) {
 		}
 	})
 
-	t.Run("can get help", func(t *testing.T) {
-		helps := []string{"", "--help", "-h"}
+	t.Run("can get help on empty", func(t *testing.T) {
+		expectedContains := "Usage"
+		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("", "", []string{})
+		if !strings.Contains(actual, expectedContains) {
+			t.Errorf("'%v' should start with '%v'", actual, expectedContains)
+		}
+	})
+
+	t.Run("can get help with option", func(t *testing.T) {
+		helps := []string{"--help", "-h"}
 		for _, help := range helps {
 			expectedContains := "Usage"
-			actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run(help, "", []string{})
+			actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("", "", []string{help})
 			if !strings.Contains(actual, expectedContains) {
 				t.Errorf("'%v' should start with '%v'", actual, expectedContains)
 			}

@@ -44,6 +44,26 @@ func LastOr[V any](values []V, defaultV V) V {
 	return values[len(values)-1]
 }
 
+func Any[V comparable](values []V, value V) bool {
+	for _, item := range values {
+		if item == value {
+			return true
+		}
+	}
+	return false
+}
+
+func Intersect[V comparable](values []V, otherValues []V) bool {
+	for _, item := range values {
+		for _, otherItem := range otherValues {
+			if item == otherItem {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func GetOr[V any](slice []V, at int, defaultValue V) V {
 	if len(slice) > at {
 		return slice[at]
