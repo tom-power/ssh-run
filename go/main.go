@@ -27,11 +27,11 @@ func main() {
 		log.Fatal("config error:", err)
 	}
 
-	hostName := shared.GetOr(os.Args, 1, "")
-	scriptName := shared.GetOr(os.Args, 2, "")
+	hostName := shared.GetOr(getCommands(os.Args), 1, "")
+	scriptName := shared.GetOr(getCommands(os.Args), 2, "")
 	args := getArgs(os.Args)
 
-	sshRun, err := sshrun.Runner{Config: config, Fsys: homeDirFs}.Run(hostName, scriptName, args)
+	sshRun, err := sshrun.Runner{Config: config, Fsys: homeDirFs}.Run(hostName, scriptName, args, []string{""})
 	if err != nil {
 		log.Fatal("runner error:", err)
 	}
@@ -46,10 +46,18 @@ func getHomeDirFs() (fs.FS, error) {
 	return os.DirFS(homeDir), nil
 }
 
-func getArgs(args []string) []string {
-	return shared.Filter(args, IsArgs)
+func getCommands(args []string) []string {
+	return shared.Filter(args, isCommand)
 }
 
-func IsArgs(s string) bool {
+func getArgs(args []string) []string {
+	return shared.Filter(args, isArgs)
+}
+
+func isCommand(s string) bool {
+	return !isArgs(s)
+}
+
+func isArgs(s string) bool {
 	return strings.HasPrefix(s, "--") || strings.HasPrefix(s, "-")
 }

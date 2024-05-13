@@ -2,7 +2,7 @@
 args="${@}"
 command=$(_sshRun $args)
 case $args in
-  "" | "-"* | "--"*)
+  "" | *"-"*)
     echo "$command" ;;
   * )
     eval "$command" ;;

@@ -16,7 +16,7 @@ type Runner struct {
 //go:embed embed/help.txt
 var help string
 
-func (r Runner) Run(hostName string, scriptName string, args []string) (string, error) {
+func (r Runner) Run(hostName string, scriptName string, args []string, scriptArgs []string) (string, error) {
 	if (hostName == "" && len(args) == 0) || shared.Intersect([]string{"--help", "-h"}, args) {
 		return help, nil
 	}
@@ -48,7 +48,7 @@ func (r Runner) Run(hostName string, scriptName string, args []string) (string, 
 		return "", err
 	}
 
-	command, err := host.Command(script, args)
+	command, err := host.Command(script, scriptArgs)
 	if err != nil {
 		return "", err
 	}

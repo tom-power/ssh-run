@@ -19,7 +19,7 @@ Run scripts against hosts over ssh
 Usage:
   sshRun --hosts                
   sshRun <hostName> (--scripts|--explain)
-  sshRun <hostName> <scriptName> [--explain]
+  sshRun <hostName> <scriptName> [--explain] [--scriptArgs=arg1,arg2]
   sshRun -h | --help
 
 Options:
