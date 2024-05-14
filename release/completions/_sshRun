@@ -1,35 +1,41 @@
 #compdef sshRun
 
-_hosts() {
-  compadd $(~/bin/sshRun --hosts)
-}
-
 _completions=()
 
 _withExplain() {  
   _completions+=('--explain')
 }
 
+_withScriptArgs() {  
+  _completions+=('--scriptArgs=')
+}
+
 _addCompletions() {
   compadd - $_completions
 }
 
-_scripts() {
+_hostName() {
+  _completions=$(~/bin/sshRun --hosts)
+  _addCompletions
+}
+
+_scriptName() {
   host=${words[2]}
   _completions=($(~/bin/sshRun $host --scripts))
   _withExplain
   _addCompletions
 }
 
-_maybeExplain() {  
+_scriptArgs() {  
   script=${words[3]}
   if [[ $script != '--explain' ]]; then
+    _withScriptArgs
     _withExplain
     _addCompletions
   fi
 }
 
 _arguments -s \
-  '1:hosts:_hosts' \
-  '2:scripts:_scripts' \
-  '3:maybeExplain:_maybeExplain'
+  '1:hostName:_hostName' \
+  '2:scriptName:_scriptName' \
+  '3:scriptArgs:_scriptArgs'
