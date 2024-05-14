@@ -14,14 +14,14 @@ type Runner struct {
 }
 
 //go:embed embed/help.txt
-var help string
+var helpTxt string
 
-func (r Runner) Run(hostName string, scriptName string, args []string, scriptArgs []string) (string, error) {
-	if (hostName == "" && len(args) == 0) || shared.Intersect([]string{"--help", "-h"}, args) {
-		return help, nil
+func (r Runner) Run(hostName string, scriptName string, flags RunFlags) (string, error) {
+	if (hostName == "" && flags.empty()) || flags.Help {
+		return helpTxt, nil
 	}
 
-	if shared.Any(args, "--hosts") {
+	if flags.Hosts {
 		names, err := r.Config.HostNames()
 		return "localhost " + names, err
 	}
@@ -35,10 +35,10 @@ func (r Runner) Run(hostName string, scriptName string, args []string, scriptArg
 	case "ssh":
 		return host.Ssh(), nil
 	case "":
-		if shared.Any(args, "--explain") {
+		if flags.Explain {
 			return host.ToString(), nil
 		}
-		if shared.Any(args, "--scripts") {
+		if flags.Scripts {
 			scripts, err := host.Scripts(r.Fsys)
 			return scripts, err
 		}
@@ -48,7 +48,7 @@ func (r Runner) Run(hostName string, scriptName string, args []string, scriptArg
 		return "", err
 	}
 
-	command, err := host.Command(script, scriptArgs)
+	command, err := host.Command(script, flags.ScriptArgs)
 	if err != nil {
 		return "", err
 	}
@@ -64,4 +64,19 @@ func (r Runner) getHost(hostName string) (domain.Host, error) {
 		return host, err
 	}
 	return host, nil
+}
+
+type RunFlags struct {
+	Help       bool
+	Hosts      bool
+	Scripts    bool
+	Explain    bool
+	ScriptArgs []string
+}
+
+func (r *RunFlags) empty() bool {
+	flags := []bool{
+		r.Explain, r.Help, r.Hosts, r.Scripts, (len(r.ScriptArgs) > 0),
+	}
+	return shared.All(flags, false)
 }
