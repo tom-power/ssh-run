@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/fs"
 	"log"
@@ -28,9 +29,24 @@ func main() {
 
 	hostName := shared.GetOr(getCommands(os.Args), 1, "")
 	scriptName := shared.GetOr(getCommands(os.Args), 2, "")
-	args := getArgs(os.Args)
 
-	sshRun, err := runner.Run(hostName, scriptName, args, []string{""})
+	helpFlag := flag.Bool("help", false, "help")
+	hostsFlag := flag.Bool("hosts", false, "list hosts")
+	scriptsFlag := flag.Bool("scripts", false, "list scripts for host")
+	explainFlag := flag.Bool("explain", false, "explain host or script")
+	scriptArgsFlag := flag.String("scriptArgs", "", "arguments to pass to script")
+
+	shared.ParseFlags()
+
+	flags := sshrun.RunFlags{
+		Help:       *helpFlag,
+		Hosts:      *hostsFlag,
+		Scripts:    *scriptsFlag,
+		Explain:    *explainFlag,
+		ScriptArgs: getScriptArgs(*scriptArgsFlag),
+	}
+
+	sshRun, err := runner.Run(hostName, scriptName, flags)
 	if err != nil {
 		log.Fatal("runner error:", err)
 	}
@@ -57,14 +73,14 @@ func getCommands(args []string) []string {
 	return shared.Filter(args, isCommand)
 }
 
-func getArgs(args []string) []string {
-	return shared.Filter(args, isArgs)
-}
-
 func isCommand(s string) bool {
 	return !isArgs(s)
 }
 
 func isArgs(s string) bool {
 	return strings.HasPrefix(s, "--") || strings.HasPrefix(s, "-")
+}
+
+func getScriptArgs(scriptArgs string) []string {
+	return strings.Split(scriptArgs, ",")
 }

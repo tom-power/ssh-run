@@ -53,6 +53,15 @@ func Any[V comparable](values []V, value V) bool {
 	return false
 }
 
+func All[V comparable](values []V, value V) bool {
+	for _, item := range values {
+		if item != value {
+			return false
+		}
+	}
+	return true
+}
+
 func Intersect[V comparable](values []V, otherValues []V) bool {
 	for _, item := range values {
 		for _, otherItem := range otherValues {
