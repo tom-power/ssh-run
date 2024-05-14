@@ -5,7 +5,6 @@ import (
 	"io/fs"
 
 	"github.com/tom-power/ssh-run/sshrun/domain"
-	"github.com/tom-power/ssh-run/sshrun/shared"
 )
 
 type Runner struct {
@@ -70,11 +69,4 @@ type RunFlags struct {
 	Scripts    bool
 	Explain    bool
 	ScriptArgs []string
-}
-
-func (r *RunFlags) empty() bool {
-	flags := []bool{
-		r.Explain, r.Help, r.Hosts, r.Scripts, (len(r.ScriptArgs) > 0),
-	}
-	return shared.All(flags, false)
 }
