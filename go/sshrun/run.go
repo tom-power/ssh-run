@@ -17,41 +17,40 @@ type Runner struct {
 var helpTxt string
 
 func (r Runner) Run(hostName string, scriptName string, flags RunFlags) (string, error) {
-	if flags.Help || (hostName == "" && flags.empty()) {
-		return helpTxt, nil
-	}
-
-	if flags.Hosts {
-		names, err := r.Config.HostNames()
-		return "localhost " + names, err
-	}
-
-	host, err := r.getHost(hostName)
-	if err != nil {
-		return "", err
-	}
-
-	switch scriptName {
-	case "ssh":
-		return host.Ssh(), nil
-	case "":
-		if flags.Explain {
-			return host.ToString(), nil
+	switch {
+	case hostName == "" && scriptName == "":
+		if flags.Hosts {
+			names, err := r.Config.HostNames()
+			return "localhost " + names, err
 		}
-		if flags.Scripts {
-			return host.Scripts(r.Fsys)
+	case hostName != "":
+		host, err := r.getHost(hostName)
+		if err != nil {
+			return "", err
+		}
+		switch scriptName {
+		case "":
+			if flags.Scripts {
+				return host.Scripts(r.Fsys)
+			}
+			if flags.Explain {
+				return host.ToString(), nil
+			}
+		case "ssh":
+			return host.Ssh(), nil
+		default:
+			script, err := host.Script(r.Fsys, scriptName)
+			if err != nil {
+				return "", err
+			}
+			command, err := host.Command(script, flags.ScriptArgs)
+			if err != nil {
+				return "", err
+			}
+			return command, nil
 		}
 	}
-	script, err := host.Script(r.Fsys, scriptName)
-	if err != nil {
-		return "", err
-	}
-
-	command, err := host.Command(script, flags.ScriptArgs)
-	if err != nil {
-		return "", err
-	}
-	return command, nil
+	return helpTxt, nil
 }
 
 func (r Runner) getHost(hostName string) (domain.Host, error) {
