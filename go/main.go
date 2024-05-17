@@ -25,19 +25,21 @@ func main() {
 		Fsys:   homeDirFs,
 	}
 
-	hostName := generic.GetOr(getCommands(os.Args), 1, "")
-	scriptName := generic.GetOr(getCommands(os.Args), 2, "")
+	args := os.Args
 
-	args := getArgs(os.Args)
+	hostName := generic.GetOr(getCommands(args), 1, "")
+	scriptName := generic.GetOr(getCommands(args), 2, "")
 
-	flags := sshrun.RunFlags{
-		Help:    generic.Any(args, "--help"),
-		Hosts:   generic.Any(args, "--hosts"),
-		Scripts: generic.Any(args, "--scripts"),
-		Explain: generic.Any(args, "--explain"),
+	flags := getFlags(os.Args)
+
+	sshRunFlags := sshrun.RunFlags{
+		Help:    generic.Any(flags, "--help"),
+		Hosts:   generic.Any(flags, "--hosts"),
+		Scripts: generic.Any(flags, "--scripts"),
+		Explain: generic.Any(flags, "--explain"),
 	}
 
-	sshRun, err := runner.Run(hostName, scriptName, flags, getScriptArgs(args))
+	sshRun, err := runner.Run(hostName, scriptName, sshRunFlags, getScriptArgs(args))
 	if err != nil {
 		log.Fatal("runner error:", err)
 	}
@@ -71,7 +73,7 @@ func getScriptArgs(args []string) []string {
 	return []string{}
 }
 
-func getArgs(args []string) []string {
+func getFlags(args []string) []string {
 	return generic.Filter(args, isFlag)
 }
 
