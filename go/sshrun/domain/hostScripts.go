@@ -45,10 +45,6 @@ type Files struct {
 	Files []fs.DirEntry
 }
 
-func (files Files) filter(predicate func(fs.DirEntry) bool) Files {
-	return Files{generic.Filter(files.Files, predicate)}
-}
-
 func (files Files) names() string {
 	fileToFileName := func(dir fs.DirEntry) string { return dir.Name() }
 	return strings.Join(generic.Map(files.Files, fileToFileName), " ")

@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"errors"
 	"fmt"
 	"io/fs"
 
@@ -19,7 +18,7 @@ func (h Host) Path(fsys fs.FS, scriptName string) (string, error) {
 	}
 	path := generic.LastOr(generic.Filter([]string{commonPath, sharedPath, hostPath, hostRemotePath}, shared.IsNotEmpty), "")
 	if path == "" {
-		return "", errors.New(fmt.Sprintf("couldn't find path %s.sh for h %s", scriptName, h.Name))
+		return "", fmt.Errorf("couldn't find path %s.sh for h %s", scriptName, h.Name)
 	}
 	return path, nil
 }

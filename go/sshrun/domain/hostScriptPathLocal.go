@@ -18,7 +18,7 @@ func (h Host) pathLocal(fsys fs.FS, scriptName string) (string, error) {
 			generic.ReplaceIf(&script, scriptPathSubDir, fileExists(fsys))
 		}
 	}
-	scriptPath, err := pathInDir(fsys, h.Dir()+"/", scriptName)
+	scriptPath, _ := pathInDir(fsys, h.Dir()+"/", scriptName)
 	generic.ReplaceIf(&script, scriptPath, fileExists(fsys))
 	return script, nil
 }
