@@ -15,7 +15,7 @@ type Runner struct {
 //go:embed embed/help.txt
 var helpTxt string
 
-func (r Runner) Run(hostName string, scriptName string, flags RunFlags) (string, error) {
+func (r Runner) Run(hostName string, scriptName string, flags RunFlags, scriptArgs []string) (string, error) {
 	switch {
 	case hostName == "" && scriptName == "":
 		if flags.Hosts {
@@ -42,7 +42,7 @@ func (r Runner) Run(hostName string, scriptName string, flags RunFlags) (string,
 			if err != nil {
 				return "", err
 			}
-			command, err := host.Command(script, flags.ScriptArgs)
+			command, err := host.Command(script, scriptArgs)
 			if err != nil {
 				return "", err
 			}

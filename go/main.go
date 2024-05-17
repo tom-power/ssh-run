@@ -1,16 +1,13 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"io/fs"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/tom-power/ssh-run/sshrun"
 	"github.com/tom-power/ssh-run/sshrun/config"
-	"github.com/tom-power/ssh-run/sshrun/shared"
 	"github.com/tom-power/ssh-run/sshrun/shared/generic"
 )
 
@@ -31,23 +28,16 @@ func main() {
 	hostName := generic.GetOr(getCommands(os.Args), 1, "")
 	scriptName := generic.GetOr(getCommands(os.Args), 2, "")
 
-	helpFlag := flag.Bool("help", false, "help")
-	hostsFlag := flag.Bool("hosts", false, "list hosts")
-	scriptsFlag := flag.Bool("scripts", false, "list scripts for host")
-	explainFlag := flag.Bool("explain", false, "explain host or script")
-	scriptArgsFlag := flag.String("scriptArgs", "", "arguments to pass to script")
-
-	shared.ParseFlags()
+	args := getArgs(os.Args)
 
 	flags := sshrun.RunFlags{
-		Help:       *helpFlag,
-		Hosts:      *hostsFlag,
-		Scripts:    *scriptsFlag,
-		Explain:    *explainFlag,
-		ScriptArgs: getScriptArgs(*scriptArgsFlag),
+		Help:    generic.Any(args, "--help"),
+		Hosts:   generic.Any(args, "--hosts"),
+		Scripts: generic.Any(args, "--scripts"),
+		Explain: generic.Any(args, "--explain"),
 	}
 
-	sshRun, err := runner.Run(hostName, scriptName, flags)
+	sshRun, err := runner.Run(hostName, scriptName, flags, getScriptArgs(args))
 	if err != nil {
 		log.Fatal("runner error:", err)
 	}
@@ -71,17 +61,26 @@ func getHomeDirFs() (fs.FS, error) {
 }
 
 func getCommands(args []string) []string {
-	return generic.Filter(args, isCommand)
+	return generic.Filter(args, isNotFlag)
 }
 
-func isCommand(s string) bool {
-	return !isArgs(s)
+func getScriptArgs(args []string) []string {
+	if len(args) > 2 {
+		generic.Filter(args[2:], isNotFlag)
+	}
+	return []string{}
 }
 
-func isArgs(s string) bool {
-	return strings.HasPrefix(s, "--") || strings.HasPrefix(s, "-")
+func getArgs(args []string) []string {
+	return generic.Filter(args, isFlag)
 }
 
-func getScriptArgs(scriptArgs string) []string {
-	return strings.Split(scriptArgs, ",")
+var flags = []string{"--help", "--explain", "--hostName", "--scriptName"}
+
+func isFlag(s string) bool {
+	return generic.Any(flags, s)
+}
+
+func isNotFlag(s string) bool {
+	return !isFlag(s)
 }
