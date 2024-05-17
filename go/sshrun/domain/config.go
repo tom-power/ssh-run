@@ -2,14 +2,15 @@ package domain
 
 import (
 	"errors"
-	"github.com/tom-power/ssh-run/sshrun/shared"
 	"strings"
+
+	"github.com/tom-power/ssh-run/sshrun/shared/generic"
 )
 
 type Config struct {
 	Hosts                 []Host `yaml:"hosts"`
 	IncludeSshConfigHosts bool   `yaml:"includeSshConfigHosts"`
-	LocalhostIs 		  string `yaml:"localhostIs"`
+	LocalhostIs           string `yaml:"localhostIs"`
 }
 
 func (c Config) HostNames() (string, error) {
@@ -17,7 +18,7 @@ func (c Config) HostNames() (string, error) {
 }
 
 func (c Config) Host(hostName string) (Host, error) {
-	host, err := shared.Single(c.Hosts, func(host Host) bool { return host.Name == hostName })
+	host, err := generic.Single(c.Hosts, func(host Host) bool { return host.Name == hostName })
 	if err != nil {
 		return Host{}, errors.New("couldn't find host " + hostName + " in " + c.hostNames(", "))
 	}
@@ -25,7 +26,7 @@ func (c Config) Host(hostName string) (Host, error) {
 }
 
 func (c Config) hostNames(sep string) string {
-	names := shared.Map(c.Hosts, toName)
+	names := generic.Map(c.Hosts, toName)
 	return strings.Join(names, sep)
 }
 

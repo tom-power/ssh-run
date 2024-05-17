@@ -11,6 +11,7 @@ import (
 	"github.com/tom-power/ssh-run/sshrun"
 	"github.com/tom-power/ssh-run/sshrun/config"
 	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared/generic"
 )
 
 func main() {
@@ -27,8 +28,8 @@ func main() {
 		Fsys:   homeDirFs,
 	}
 
-	hostName := shared.GetOr(getCommands(os.Args), 1, "")
-	scriptName := shared.GetOr(getCommands(os.Args), 2, "")
+	hostName := generic.GetOr(getCommands(os.Args), 1, "")
+	scriptName := generic.GetOr(getCommands(os.Args), 2, "")
 
 	helpFlag := flag.Bool("help", false, "help")
 	hostsFlag := flag.Bool("hosts", false, "list hosts")
@@ -70,7 +71,7 @@ func getHomeDirFs() (fs.FS, error) {
 }
 
 func getCommands(args []string) []string {
-	return shared.Filter(args, isCommand)
+	return generic.Filter(args, isCommand)
 }
 
 func isCommand(s string) bool {

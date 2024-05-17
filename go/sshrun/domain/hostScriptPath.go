@@ -3,8 +3,10 @@ package domain
 import (
 	"errors"
 	"fmt"
-	"github.com/tom-power/ssh-run/sshrun/shared"
 	"io/fs"
+
+	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared/generic"
 )
 
 func (h Host) Path(fsys fs.FS, scriptName string) (string, error) {
@@ -15,7 +17,7 @@ func (h Host) Path(fsys fs.FS, scriptName string) (string, error) {
 	if h.CheckRemote {
 		hostRemotePath, _ = h.pathRemote(scriptName)
 	}
-	path := shared.LastOr(shared.Filter([]string{commonPath, sharedPath, hostPath, hostRemotePath}, shared.IsNotEmpty), "")
+	path := generic.LastOr(generic.Filter([]string{commonPath, sharedPath, hostPath, hostRemotePath}, shared.IsNotEmpty), "")
 	if path == "" {
 		return "", errors.New(fmt.Sprintf("couldn't find path %s.sh for h %s", scriptName, h.Name))
 	}

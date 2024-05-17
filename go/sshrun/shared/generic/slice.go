@@ -1,22 +1,22 @@
-package shared
+package generic
 
 import (
 	"errors"
 )
 
-func Map[V any, W any](values []V, fn func(V) W) []W {
-	tmp := make([]W, len(values))
-	for i, value := range values {
-		tmp[i] = fn(value)
+func Map[V any, W any](slice []V, fn func(V) W) []W {
+	tmp := make([]W, len(slice))
+	for i, s := range slice {
+		tmp[i] = fn(s)
 	}
 	return tmp
 }
 
-func Filter[V any](values []V, predicate func(V) bool) []V {
+func Filter[V any](slice []V, predicate func(V) bool) []V {
 	var filtered []V
-	for _, value := range values {
-		if predicate(value) {
-			filtered = append(filtered, value)
+	for _, s := range slice {
+		if predicate(s) {
+			filtered = append(filtered, s)
 		}
 	}
 	return filtered
@@ -29,12 +29,6 @@ func Single[V any](values []V, predicate func(V) bool) (*V, error) {
 		}
 	}
 	return nil, errors.New("couldn't find value")
-}
-
-func ReplaceIf[V any](value *V, newValue V, predicate func(V) bool) {
-	if predicate(newValue) {
-		*value = newValue
-	}
 }
 
 func LastOr[V any](values []V, defaultV V) V {
@@ -78,13 +72,4 @@ func GetOr[V any](slice []V, at int, defaultValue V) V {
 		return slice[at]
 	}
 	return defaultValue
-}
-
-func KeyOr[V comparable, K comparable](val V, theMap map[K]V, defaultKey K) K {
-	for k, v := range theMap {
-		if v == val {
-			return k
-		}
-	}
-	return defaultKey
 }

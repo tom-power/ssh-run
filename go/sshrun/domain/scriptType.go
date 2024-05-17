@@ -1,6 +1,6 @@
 package domain
 
-import "github.com/tom-power/ssh-run/sshrun/shared"
+import shared "github.com/tom-power/ssh-run/sshrun/shared/generic"
 
 type ScriptType int
 

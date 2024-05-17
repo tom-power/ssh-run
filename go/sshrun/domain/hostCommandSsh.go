@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/shared/generic"
 )
 
 func (h Host) Ssh() string {
@@ -13,7 +14,7 @@ func (h Host) Ssh() string {
 
 func (h Host) SshWith(command string, option string) string {
 	sshCommandParts := []string{h.Ssh(), option, inQuotes(command)}
-	filter := shared.Filter(sshCommandParts, shared.IsNotEmpty)
+	filter := generic.Filter(sshCommandParts, shared.IsNotEmpty)
 	return strings.Join(filter, " ")
 }
 
