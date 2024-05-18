@@ -36,7 +36,7 @@ func Test_command(t *testing.T) {
 
 	t.Run("can run commands with replacements", func(t *testing.T) {
 		for _, commandType := range commandTypes {
-			script := domain.Script{Type: commandType, Contents: "$ip$user$hostName$port$portTunnel$1$2"}
+			script := domain.Script{Type: commandType, Contents: "$ip$userName$hostName$port$portTunnel$1$2"}
 			sshRun, _ := testHost.Command(script)
 			if !strings.Contains(sshRun, testHost.Ip) {
 				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.Ip)

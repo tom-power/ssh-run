@@ -65,7 +65,7 @@ Filename suffixes control how the scripts are run:
 - `$scriptName.local.sh` _locally_
 
 
-In a given script `$ip`, `$user`, `$hostName`, `$port`, `$portTunnel` are replaced with values from the associated host.
+In a given script `$ip`, `$userName`, `$hostName`, `$port`, `$portTunnel` are replaced with values from the associated host.
 
 The script is passed eval, so your shell will also [expand parameters](https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html) using passed arguments and environment variables etc from the client.
 
