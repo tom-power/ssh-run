@@ -1,8 +1,8 @@
 package fp
 
-func Any[V comparable](values []V, value V) bool {
+func Any[V any](values []V, predicate func(V) bool) bool {
 	for _, v := range values {
-		if v == value {
+		if predicate(v) {
 			return true
 		}
 	}
