@@ -35,9 +35,7 @@ func (r Runner) Run(hostName string, scriptName string, flags RunFlags) (string,
 			if flags.Explain {
 				return host.ToString(), nil
 			}
-			if flags.Ssh {
-				return host.Ssh(), nil
-			}
+			return host.Ssh(), nil
 		default:
 			script, err := host.Script(r.Fsys, scriptName)
 			if err != nil {

@@ -18,13 +18,13 @@ Run scripts against hosts over ssh
 
 Usage:
   sshRun --hosts                
-  sshRun <host> (--ssh|--scripts|--explain)
+  sshRun <host> [--ssh|--scripts|--explain]
   sshRun <host> <script> [--explain]
   sshRun --help
 
 Options:
   --hosts         List hosts
-  --ssh           Ssh to the <host>
+  --ssh           Ssh to the <host>, also on no options
   --scripts       List scripts for <host>
   --explain       Explain the <host> or <script>
   --help          Show this screen
