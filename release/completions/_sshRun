@@ -2,12 +2,12 @@
 
 _completions=()
 
-_withHostNames() {
+_withHosts() {
   _completions=$(~/bin/sshRun --hosts)
 }
 
 host=""
-_withScriptNames() {
+_withScripts() {
   _completions=($(~/bin/sshRun $host --scripts))
 }
 
@@ -23,28 +23,28 @@ _addCompletions() {
   compadd - $_completions
 }
 
-_hostNames() {
-  _withHostNames
+_hosts() {
+  _withHosts
   _addCompletions
 }
 
-_scriptNamesAndhostNameOptions() {
+_scriptsAndHostOptions() {
   host=${words[2]}
-  _withScriptNames
+  _withScripts
   _withSsh
   _withExplain
   _addCompletions
 }
 
-_scriptNameOptions() {  
-  scriptName=${words[3]}
-  if [[ $scriptName != '--explain' ]]; then
+_scriptOptions() {  
+  script=${words[3]}
+  if [[ $script != '--explain' ]]; then
     _withExplain
     _addCompletions
   fi
 }
 
 _arguments -s \
-  '1:hostName:_hostNames' \
-  '2:scriptName:_scriptNamesAndhostNameOptions' \
-  '3:scriptNameOptions:_scriptNameOptions'
+  '1:host:_hosts' \
+  '2:script:_scriptsAndHostOptions' \
+  '3:scriptOptions:_scriptOptions'
