@@ -25,7 +25,7 @@ func Test_command(t *testing.T) {
 						  command   
 						  `
 			script := domain.Script{Type: commandType, Contents: multilineCommand}
-			sshRun, _ := testHost.Command(script, []string{})
+			sshRun, _ := testHost.Command(script)
 
 			expected := "multiline command"
 			if !strings.Contains(sshRun, expected) {
@@ -37,7 +37,7 @@ func Test_command(t *testing.T) {
 	t.Run("can run commands with replacements", func(t *testing.T) {
 		for _, commandType := range commandTypes {
 			script := domain.Script{Type: commandType, Contents: "$ip$user$hostName$port$portTunnel$1$2"}
-			sshRun, _ := testHost.Command(script, []string{"arg1", "arg2"})
+			sshRun, _ := testHost.Command(script)
 			if !strings.Contains(sshRun, testHost.Ip) {
 				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.Ip)
 			}
@@ -52,12 +52,6 @@ func Test_command(t *testing.T) {
 			}
 			if !strings.Contains(sshRun, testHost.PortTunnel) {
 				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, testHost.PortTunnel)
-			}
-			if !strings.Contains(sshRun, "arg1") {
-				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, "arg1")
-			}
-			if !strings.Contains(sshRun, "arg2") {
-				t.Errorf("for '%v', '%v' should contain '%v'", commandType, sshRun, "arg2")
 			}
 		}
 	})

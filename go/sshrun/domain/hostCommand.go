@@ -3,12 +3,11 @@ package domain
 import (
 	"errors"
 	"regexp"
-	"strconv"
 	"strings"
 )
 
-func (h Host) Command(script Script, args []string) (string, error) {
-	command := command(script.Contents, h, args)
+func (h Host) Command(script Script) (string, error) {
+	command := command(script.Contents, h)
 	switch script.Type {
 	case Default:
 		return h.SshWith(command, ""), nil
@@ -23,19 +22,16 @@ func (h Host) Command(script Script, args []string) (string, error) {
 	}
 }
 
-func command(contents string, host Host, args []string) string {
-	return cleanup(replace(contents, host, args))
+func command(contents string, host Host) string {
+	return cleanup(replace(contents, host))
 }
 
-func replace(command string, host Host, args []string) string {
+func replace(command string, host Host) string {
 	command = strings.Replace(command, "$hostName", host.Name, -1)
 	command = strings.Replace(command, "$ip", host.Ip, -1)
 	command = strings.Replace(command, "$user", host.User, -1)
 	command = strings.Replace(command, "$portTunnel", host.PortTunnel, -1)
 	command = strings.Replace(command, "$port", host.Port, -1)
-	for i := range args {
-		command = strings.Replace(command, "$"+strconv.Itoa(i+1), args[i], -1)
-	}
 	return command
 }
 

@@ -39,7 +39,7 @@ func main() {
 		Explain: fp.Any(flags, fp.IsEqual("--explain")),
 	}
 
-	sshRun, err := runner.Run(hostName, scriptName, sshRunFlags, getScriptArgs(args))
+	sshRun, err := runner.Run(hostName, scriptName, sshRunFlags)
 	if err != nil {
 		log.Fatal("runner error:", err)
 	}
@@ -64,13 +64,6 @@ func getHomeDirFs() (fs.FS, error) {
 
 func getCommands(args []string) []string {
 	return fp.Filter(args, isNotFlag)
-}
-
-func getScriptArgs(args []string) []string {
-	if len(args) > 3 {
-		return fp.Filter(args[3:], isNotFlag)
-	}
-	return []string{}
 }
 
 func getFlags(args []string) []string {

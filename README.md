@@ -19,7 +19,7 @@ Run scripts against hosts over ssh
 Usage:
   sshRun --hosts                
   sshRun <hostName> (--scripts|--explain)
-  sshRun <hostName> <scriptName> [--explain] [<scriptArgs> ...]
+  sshRun <hostName> <scriptName> [--explain]
   sshRun -h | --help
 
 Options:
@@ -64,9 +64,13 @@ Filename suffixes control how the scripts are run:
 - `$scriptName.x11.sh` _with -Y_
 - `$scriptName.local.sh` _locally_
 
+
 In a given script `$ip`, `$user`, `$hostName`, `$port`, `$portTunnel` are replaced with values from the associated host.
 
-Use `sshRun $hostName $scriptName --explain` to see exactly what will be run.
+The script is passed eval, so your shell will also [expand parameters](https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html) using passed arguments and environment variables etc from the client.
+
+
+Use `sshRun $hostName $scriptName --explain` to see what will be run.
 
 Example scripts can be found [here](https://github.com/tom-power/ssh-run/tree/main/config/.config/ssh-run/scripts).
 
