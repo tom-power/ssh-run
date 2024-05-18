@@ -77,7 +77,7 @@ func getFlags(args []string) []string {
 	return fp.Filter(args, isFlag)
 }
 
-var flags = []string{"--help", "--explain", "--hostName", "--scriptName"}
+var flags = []string{"--help", "--explain", "--hosts", "--scripts"}
 
 func isFlag(s string) bool {
 	return fp.Any(flags, fp.IsEqual(s))
