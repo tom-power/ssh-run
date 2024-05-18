@@ -5,7 +5,7 @@ import (
 
 	"github.com/kevinburke/ssh_config"
 	"github.com/tom-power/ssh-run/sshrun/domain"
-	"github.com/tom-power/ssh-run/sshrun/shared"
+	"github.com/tom-power/ssh-run/sshrun/utils"
 )
 
 func (c ConfigFs) getHostsFromSshConfig() ([]domain.Host, error) {
@@ -33,7 +33,7 @@ func toHosts(config *ssh_config.Config) []domain.Host {
 					Ip:   key,
 					User: user,
 					Name: name,
-					Port: shared.DefaultString(port, "22"),
+					Port: utils.DefaultString(port, "22"),
 				})
 			}
 		}

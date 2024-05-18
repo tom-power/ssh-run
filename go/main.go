@@ -8,7 +8,7 @@ import (
 
 	"github.com/tom-power/ssh-run/sshrun"
 	"github.com/tom-power/ssh-run/sshrun/config"
-	"github.com/tom-power/ssh-run/sshrun/shared/generic"
+	"github.com/tom-power/ssh-run/sshrun/utils/fp"
 )
 
 func main() {
@@ -27,16 +27,16 @@ func main() {
 
 	args := os.Args
 
-	hostName := generic.GetOr(getCommands(args), 1, "")
-	scriptName := generic.GetOr(getCommands(args), 2, "")
+	hostName := fp.GetOr(getCommands(args), 1, "")
+	scriptName := fp.GetOr(getCommands(args), 2, "")
 
 	flags := getFlags(os.Args)
 
 	sshRunFlags := sshrun.RunFlags{
-		Help:    generic.Any(flags, "--help"),
-		Hosts:   generic.Any(flags, "--hosts"),
-		Scripts: generic.Any(flags, "--scripts"),
-		Explain: generic.Any(flags, "--explain"),
+		Help:    fp.Any(flags, "--help"),
+		Hosts:   fp.Any(flags, "--hosts"),
+		Scripts: fp.Any(flags, "--scripts"),
+		Explain: fp.Any(flags, "--explain"),
 	}
 
 	sshRun, err := runner.Run(hostName, scriptName, sshRunFlags, getScriptArgs(args))
@@ -63,24 +63,24 @@ func getHomeDirFs() (fs.FS, error) {
 }
 
 func getCommands(args []string) []string {
-	return generic.Filter(args, isNotFlag)
+	return fp.Filter(args, isNotFlag)
 }
 
 func getScriptArgs(args []string) []string {
 	if len(args) > 2 {
-		generic.Filter(args[2:], isNotFlag)
+		fp.Filter(args[2:], isNotFlag)
 	}
 	return []string{}
 }
 
 func getFlags(args []string) []string {
-	return generic.Filter(args, isFlag)
+	return fp.Filter(args, isFlag)
 }
 
 var flags = []string{"--help", "--explain", "--hostName", "--scriptName"}
 
 func isFlag(s string) bool {
-	return generic.Any(flags, s)
+	return fp.Any(flags, s)
 }
 
 func isNotFlag(s string) bool {

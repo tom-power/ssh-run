@@ -1,4 +1,4 @@
-package generic
+package fp
 
 func KeyOr[V comparable, K comparable](val V, theMap map[K]V, defaultKey K) K {
 	for k, v := range theMap {

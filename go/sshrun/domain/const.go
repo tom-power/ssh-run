@@ -6,6 +6,6 @@ func commonDir() string {
 	return scriptsPath + "common"
 }
 
-func sharedDir() string {
-	return scriptsPath + "shared"
+func utilsDir() string {
+	return scriptsPath + "utils"
 }

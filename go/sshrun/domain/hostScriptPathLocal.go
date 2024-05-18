@@ -3,7 +3,7 @@ package domain
 import (
 	"io/fs"
 
-	"github.com/tom-power/ssh-run/sshrun/shared/generic"
+	"github.com/tom-power/ssh-run/sshrun/utils/fp"
 )
 
 func (h Host) pathLocal(fsys fs.FS, scriptName string) (string, error) {
@@ -15,10 +15,10 @@ func (h Host) pathLocal(fsys fs.FS, scriptName string) (string, error) {
 	for _, file := range hostFiles {
 		if file.IsDir() {
 			scriptPathSubDir, _ := pathInDir(fsys, h.Dir()+"/"+file.Name()+"/", scriptName)
-			generic.ReplaceIf(&script, scriptPathSubDir, fileExists(fsys))
+			fp.ReplaceIf(&script, scriptPathSubDir, fileExists(fsys))
 		}
 	}
 	scriptPath, _ := pathInDir(fsys, h.Dir()+"/", scriptName)
-	generic.ReplaceIf(&script, scriptPath, fileExists(fsys))
+	fp.ReplaceIf(&script, scriptPath, fileExists(fsys))
 	return script, nil
 }

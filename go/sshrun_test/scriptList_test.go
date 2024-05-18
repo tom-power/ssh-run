@@ -11,7 +11,7 @@ func Test_scripts(t *testing.T) {
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-		expected := "common sharedTest testSubDir test testType"
+		expected := "common utilsTest testSubDir test testType"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}

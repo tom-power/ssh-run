@@ -1,9 +1,10 @@
 package sshrun
 
 import (
-	"github.com/tom-power/ssh-run/sshrun/domain"
 	"io/fs"
 	"testing/fstest"
+
+	"github.com/tom-power/ssh-run/sshrun/domain"
 )
 
 var scriptsDir = ".config/ssh-run/scripts/"
@@ -18,9 +19,9 @@ var testFs = fstest.MapFS{
 	scriptsDir + "host/testHost/subDir/testSubDir.sh": {},
 	scriptsDir + "host/testHost/stuff":                {Mode: fs.ModeDir},
 	scriptsDir + "host/testHost/stuff/.keep":          {Mode: fs.ModeDir},
-	scriptsDir + "shared/stuff":                       {Mode: fs.ModeDir},
-	scriptsDir + "shared/stuff/sharedTest.sh":         {},
-	scriptsDir + "shared/stuff/rubbish":               {},
+	scriptsDir + "utils/stuff":                        {Mode: fs.ModeDir},
+	scriptsDir + "utils/stuff/utilsTest.sh":           {},
+	scriptsDir + "utils/stuff/rubbish":                {},
 }
 
 var testHost = domain.Host{Name: "testHost"}

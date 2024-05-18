@@ -1,4 +1,4 @@
-package shared
+package utils
 
 func DefaultString(v string, defaultV string) string {
 	if v == "" {

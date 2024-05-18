@@ -4,18 +4,18 @@ import (
 	"io/fs"
 	"strings"
 
-	"github.com/tom-power/ssh-run/sshrun/shared/generic"
+	"github.com/tom-power/ssh-run/sshrun/utils/fp"
 )
 
 func (h Host) Scripts(fsys fs.FS) (string, error) {
 	commonScripts, _ := scriptsCommon(fsys)
-	sharedScripts, _ := h.scriptsShared(fsys)
+	utilsScripts, _ := h.scriptsShared(fsys)
 	hostLocalScripts, _ := h.scriptsLocal(fsys)
 	hostRemoteScripts := ""
 	if h.CheckRemote {
 		hostRemoteScripts, _ = h.scriptsRemote()
 	}
-	out := strings.Join([]string{commonScripts, sharedScripts, hostLocalScripts, hostRemoteScripts}, " ")
+	out := strings.Join([]string{commonScripts, utilsScripts, hostLocalScripts, hostRemoteScripts}, " ")
 	return Cleaner{out}.dropNotSh().nameOnly().Scripts, nil
 }
 
@@ -25,7 +25,7 @@ type Cleaner struct {
 
 func (cleaner Cleaner) nameOnly() Cleaner {
 	split := strings.Split(cleaner.Scripts, " ")
-	mapped := generic.Map(split, nameOnly)
+	mapped := fp.Map(split, nameOnly)
 	join := strings.Join(mapped, " ")
 	return Cleaner{join}
 }
@@ -34,7 +34,7 @@ var nameOnly = func(script string) string { return strings.Split(script, ".")[0]
 
 func (cleaner Cleaner) dropNotSh() Cleaner {
 	split := strings.Split(cleaner.Scripts, " ")
-	filter := generic.Filter(split, noSh)
+	filter := fp.Filter(split, noSh)
 	join := strings.Join(filter, " ")
 	return Cleaner{join}
 }
@@ -47,5 +47,5 @@ type Files struct {
 
 func (files Files) names() string {
 	fileToFileName := func(dir fs.DirEntry) string { return dir.Name() }
-	return strings.Join(generic.Map(files.Files, fileToFileName), " ")
+	return strings.Join(fp.Map(files.Files, fileToFileName), " ")
 }

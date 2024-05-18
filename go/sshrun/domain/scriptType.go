@@ -1,6 +1,6 @@
 package domain
 
-import shared "github.com/tom-power/ssh-run/sshrun/shared/generic"
+import utils "github.com/tom-power/ssh-run/sshrun/utils/fp"
 
 type ScriptType int
 
@@ -19,7 +19,7 @@ var scriptTypes = map[ScriptType]string{
 }
 
 func (ScriptType) Parse(value string) ScriptType {
-	return shared.KeyOr(value, scriptTypes, Default)
+	return utils.KeyOr(value, scriptTypes, Default)
 }
 
 func (s ScriptType) String() string {
