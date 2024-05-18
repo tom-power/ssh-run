@@ -2,8 +2,6 @@ package domain
 
 import (
 	"io/fs"
-
-	"github.com/tom-power/ssh-run/sshrun/utils/fp"
 )
 
 func (h Host) pathLocal(fsys fs.FS, scriptName string) (string, error) {
@@ -15,10 +13,16 @@ func (h Host) pathLocal(fsys fs.FS, scriptName string) (string, error) {
 	for _, file := range hostFiles {
 		if file.IsDir() {
 			scriptPathSubDir, _ := pathInDir(fsys, h.Dir()+"/"+file.Name()+"/", scriptName)
-			fp.ReplaceIf(&script, scriptPathSubDir, fileExists(fsys))
+			replaceIf(&script, scriptPathSubDir, fileExists(fsys))
 		}
 	}
 	scriptPath, _ := pathInDir(fsys, h.Dir()+"/", scriptName)
-	fp.ReplaceIf(&script, scriptPath, fileExists(fsys))
+	replaceIf(&script, scriptPath, fileExists(fsys))
 	return script, nil
+}
+
+func replaceIf[V any](value *V, newValue V, predicate func(V) bool) {
+	if predicate(newValue) {
+		*value = newValue
+	}
 }
