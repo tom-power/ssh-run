@@ -67,8 +67,8 @@ func getCommands(args []string) []string {
 }
 
 func getScriptArgs(args []string) []string {
-	if len(args) > 2 {
-		fp.Filter(args[2:], isNotFlag)
+	if len(args) > 3 {
+		return fp.Filter(args[3:], isNotFlag)
 	}
 	return []string{}
 }
