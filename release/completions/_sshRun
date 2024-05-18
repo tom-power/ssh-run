@@ -2,40 +2,49 @@
 
 _completions=()
 
-_withExplain() {  
-  _completions+=('--explain')
+_withHostNames() {
+  _completions=$(~/bin/sshRun --hosts)
 }
 
-_withScriptArgs() {  
-  _completions+=('--scriptArgs=')
+host=""
+_withScriptNames() {
+  _completions=($(~/bin/sshRun $host --scripts))
+}
+
+_withSsh() {  
+  _completions+=('--ssh')
+}
+
+_withExplain() {  
+  _completions+=('--explain')
 }
 
 _addCompletions() {
   compadd - $_completions
 }
 
-_hostName() {
-  _completions=$(~/bin/sshRun --hosts)
+_hostNames() {
+  _withHostNames
   _addCompletions
 }
 
-_scriptName() {
+_scriptNamesAndhostNameOptions() {
   host=${words[2]}
-  _completions=($(~/bin/sshRun $host --scripts))
+  _withScriptNames
+  _withSsh
   _withExplain
   _addCompletions
 }
 
-_scriptArgs() {  
-  script=${words[3]}
-  if [[ $script != '--explain' ]]; then
-    _withScriptArgs
+_scriptNameOptions() {  
+  scriptName=${words[3]}
+  if [[ $scriptName != '--explain' ]]; then
     _withExplain
     _addCompletions
   fi
 }
 
 _arguments -s \
-  '1:hostName:_hostName' \
-  '2:scriptName:_scriptName' \
-  '3:scriptArgs:_scriptArgs'
+  '1:hostName:_hostNames' \
+  '2:scriptName:_scriptNamesAndhostNameOptions' \
+  '3:scriptNameOptions:_scriptNameOptions'
