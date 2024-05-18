@@ -38,13 +38,13 @@ func Test_scriptPath(t *testing.T) {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
 	})
-	t.Run("can get utils script path from fs", func(t *testing.T) {
-		actual, err := testHost.Path(testFs, "utilsTest")
+	t.Run("can get shared script path from fs", func(t *testing.T) {
+		actual, err := testHost.Path(testFs, "sharedTest")
 
 		if err != nil {
 			t.Errorf(err.Error())
 		}
-		expected := scriptsDir + "utils/stuff/utilsTest.sh"
+		expected := scriptsDir + "shared/stuff/sharedTest.sh"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}

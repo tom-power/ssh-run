@@ -19,9 +19,9 @@ var testFs = fstest.MapFS{
 	scriptsDir + "host/testHost/subDir/testSubDir.sh": {},
 	scriptsDir + "host/testHost/stuff":                {Mode: fs.ModeDir},
 	scriptsDir + "host/testHost/stuff/.keep":          {Mode: fs.ModeDir},
-	scriptsDir + "utils/stuff":                        {Mode: fs.ModeDir},
-	scriptsDir + "utils/stuff/utilsTest.sh":           {},
-	scriptsDir + "utils/stuff/rubbish":                {},
+	scriptsDir + "shared/stuff":                       {Mode: fs.ModeDir},
+	scriptsDir + "shared/stuff/sharedTest.sh":         {},
+	scriptsDir + "shared/stuff/rubbish":               {},
 }
 
 var testHost = domain.Host{Name: "testHost"}

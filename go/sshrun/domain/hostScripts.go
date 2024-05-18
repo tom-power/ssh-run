@@ -9,13 +9,13 @@ import (
 
 func (h Host) Scripts(fsys fs.FS) (string, error) {
 	commonScripts, _ := scriptsCommon(fsys)
-	utilsScripts, _ := h.scriptsShared(fsys)
+	sharedScripts, _ := h.scriptsShared(fsys)
 	hostLocalScripts, _ := h.scriptsLocal(fsys)
 	hostRemoteScripts := ""
 	if h.CheckRemote {
 		hostRemoteScripts, _ = h.scriptsRemote()
 	}
-	out := strings.Join([]string{commonScripts, utilsScripts, hostLocalScripts, hostRemoteScripts}, " ")
+	out := strings.Join([]string{commonScripts, sharedScripts, hostLocalScripts, hostRemoteScripts}, " ")
 	return Cleaner{out}.dropNotSh().nameOnly().Scripts, nil
 }
 

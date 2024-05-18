@@ -9,9 +9,9 @@ func (h Host) scriptsShared(fsys fs.FS) (string, error) {
 	hostFiles, _ := fs.ReadDir(fsys, h.Dir())
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
-			utilsDir := scriptsPath + "utils/" + hostFile.Name()
-			if fileExists(fsys)(utilsDir) {
-				err := fs.WalkDir(fsys, utilsDir, appendFiles(&files.Files))
+			sharedDir := scriptsPath + "shared/" + hostFile.Name()
+			if fileExists(fsys)(sharedDir) {
+				err := fs.WalkDir(fsys, sharedDir, appendFiles(&files.Files))
 				if err != nil {
 					return "", err
 				}
