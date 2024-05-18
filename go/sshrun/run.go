@@ -35,8 +35,9 @@ func (r Runner) Run(hostName string, scriptName string, flags RunFlags) (string,
 			if flags.Explain {
 				return host.ToString(), nil
 			}
-		case "ssh":
-			return host.Ssh(), nil
+			if flags.Ssh {
+				return host.Ssh(), nil
+			}
 		default:
 			script, err := host.Script(r.Fsys, scriptName)
 			if err != nil {
@@ -64,9 +65,9 @@ func (r Runner) getHost(hostName string) (domain.Host, error) {
 }
 
 type RunFlags struct {
-	Help       bool
-	Hosts      bool
-	Scripts    bool
-	Explain    bool
-	ScriptArgs []string
+	Help    bool
+	Hosts   bool
+	Scripts bool
+	Explain bool
+	Ssh     bool
 }

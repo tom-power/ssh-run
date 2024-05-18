@@ -37,6 +37,7 @@ func main() {
 		Hosts:   fp.Any(flags, fp.IsEqual("--hosts")),
 		Scripts: fp.Any(flags, fp.IsEqual("--scripts")),
 		Explain: fp.Any(flags, fp.IsEqual("--explain")),
+		Ssh:     fp.Any(flags, fp.IsEqual("--ssh")),
 	}
 
 	sshRun, err := runner.Run(hostName, scriptName, sshRunFlags)
@@ -70,7 +71,7 @@ func getFlags(args []string) []string {
 	return fp.Filter(args, isFlag)
 }
 
-var flags = []string{"--help", "--explain", "--hosts", "--scripts"}
+var flags = []string{"--help", "--explain", "--hosts", "--scripts", "--ssh"}
 
 func isFlag(s string) bool {
 	return fp.Any(flags, fp.IsEqual(s))

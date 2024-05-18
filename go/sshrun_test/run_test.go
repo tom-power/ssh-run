@@ -60,7 +60,7 @@ func Test_runFs(t *testing.T) {
 	})
 
 	t.Run("can ssh", func(t *testing.T) {
-		actual, _ := runner.Run("test", "ssh", sshrun.RunFlags{})
+		actual, _ := runner.Run("test", "", sshrun.RunFlags{Ssh: true})
 		expected := "ssh -p 22 user@192.0.2.1"
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
