@@ -20,13 +20,13 @@ Usage:
   sshRun --hosts                
   sshRun <hostName> (--scripts|--explain)
   sshRun <hostName> <scriptName> [--explain]
-  sshRun -h | --help
+  sshRun --help
 
 Options:
   --hosts         List hosts
   --scripts       List scripts for host
   --explain       Explain the host or script
-  -h --help       Show this screen
+  --help          Show this screen
 ```
 
 ## Configuration

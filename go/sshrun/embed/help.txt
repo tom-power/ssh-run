@@ -3,11 +3,11 @@ Run scripts against hosts over ssh
 Usage:
   sshRun --hosts                
   sshRun <hostName> (--scripts|--explain)
-  sshRun <hostName> <scriptName> [--explain] [<scriptArgs> ...]
-  sshRun -h | --help
+  sshRun <hostName> <scriptName> [--explain]
+  sshRun --help
 
 Options:
   --hosts         List hosts
   --scripts       List scripts for host
   --explain       Explain the host or script
-  -h --help       Show this screen
+  --help          Show this screen
