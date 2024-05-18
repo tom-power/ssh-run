@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/tom-power/ssh-run/sshrun/utils/fp"
+	. "github.com/tom-power/ssh-run/sshrun/utils/fp"
 )
 
 type Config struct {
@@ -18,7 +18,7 @@ func (c Config) HostNames() (string, error) {
 }
 
 func (c Config) Host(hostName string) (Host, error) {
-	host, err := fp.Single(c.Hosts, func(host Host) bool { return host.Name == hostName })
+	host, err := Single(c.Hosts, isHostName(hostName))
 	if err != nil {
 		return Host{}, errors.New("couldn't find host " + hostName + " in " + c.hostNames(", "))
 	}
@@ -26,8 +26,14 @@ func (c Config) Host(hostName string) (Host, error) {
 }
 
 func (c Config) hostNames(sep string) string {
-	names := fp.Map(c.Hosts, toName)
+	names := Map(c.Hosts, toHostName)
 	return strings.Join(names, sep)
 }
 
-func toName(host Host) string { return host.Name }
+var toHostName = func(host Host) string { return host.Name }
+
+var isHostName = func(hostName string) func(host Host) bool {
+	return func(host Host) bool {
+		return host.Name == hostName
+	}
+}
