@@ -1,9 +1,9 @@
 package fp
 
-func Map[V any, W any](values []V, fn func(V) W) []W {
+func Map[V any, W any](values []V, predicate func(V) W) []W {
 	tmp := make([]W, len(values))
 	for i, v := range values {
-		tmp[i] = fn(v)
+		tmp[i] = predicate(v)
 	}
 	return tmp
 }

@@ -10,3 +10,7 @@ func DefaultString(v string, defaultV string) string {
 func IsNotEmpty(value string) bool {
 	return len(value) > 0
 }
+
+func IsNotEmptyWithIndex(value string, index int) bool {
+	return IsNotEmpty(value)
+}

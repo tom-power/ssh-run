@@ -4,9 +4,16 @@ go 1.18
 
 require (
 	dario.cat/mergo v1.0.0
+	github.com/BooleanCat/go-functional v1.1.0
 	github.com/kevinburke/ssh_config v1.2.0
+	github.com/samber/lo v1.39.0
 	golang.org/x/crypto v0.18.0
 	gopkg.in/yaml.v2 v2.4.0
+	mtoohey.com/iter/v2 v2.0.1
 )
 
-require golang.org/x/sys v0.16.0 // indirect
+require (
+	github.com/barweiss/go-tuple v1.0.2 // indirect
+	golang.org/x/exp v0.0.0-20220314205449-43aec2f8a4e7 // indirect
+	golang.org/x/sys v0.16.0 // indirect
+)
