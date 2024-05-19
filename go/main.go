@@ -42,7 +42,7 @@ func main() {
 
 	sshRun, err := runner.Run(hostName, scriptName, sshRunFlags)
 	if err != nil {
-		log.Fatal("runner error:", err)
+		log.Fatal("sshRun error: ", err)
 	}
 	fmt.Println(sshRun)
 }

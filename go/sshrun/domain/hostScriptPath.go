@@ -18,7 +18,7 @@ func (h Host) Path(fsys fs.FS, scriptName string) (string, error) {
 	}
 	path := fp.LastOr(fp.Filter([]string{commonPath, utilsPath, hostPath, hostRemotePath}, utils.IsNotEmpty), "")
 	if path == "" {
-		return "", fmt.Errorf("couldn't find path %s.sh for h %s", scriptName, h.Name)
+		return "", fmt.Errorf("couldn't find path for script %s.sh on host %s", scriptName, h.Name)
 	}
 	return path, nil
 }
