@@ -13,7 +13,7 @@ func (h Host) pathShared(fsys fs.FS, scriptName string) (string, error) {
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
 			scriptPathShared, _ := pathInDir(fsys, sharedDir()+"/"+hostFile.Name()+"/", scriptName)
-			if fileExists(fsys)(scriptPathShared) {
+			if fileExistsIn(fsys)(scriptPathShared) {
 				return scriptPathShared, nil
 			}
 

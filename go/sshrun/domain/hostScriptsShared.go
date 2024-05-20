@@ -10,7 +10,7 @@ func (h Host) scriptsShared(fsys fs.FS) (string, error) {
 	for _, hostFile := range hostFiles {
 		if hostFile.IsDir() {
 			sharedDir := scriptsPath + "shared/" + hostFile.Name()
-			if fileExists(fsys)(sharedDir) {
+			if fileExistsIn(fsys)(sharedDir) {
 				err := fs.WalkDir(fsys, sharedDir, appendFiles(&files.Files))
 				if err != nil {
 					return "", err
