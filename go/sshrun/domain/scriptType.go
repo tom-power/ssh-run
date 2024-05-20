@@ -1,7 +1,5 @@
 package domain
 
-import utils "github.com/tom-power/ssh-run/sshrun/fp"
-
 type ScriptType int
 
 const (
@@ -19,9 +17,18 @@ var scriptTypes = map[ScriptType]string{
 }
 
 func (ScriptType) Parse(value string) ScriptType {
-	return utils.KeyOr(value, scriptTypes, Default)
+	return keyOr(value, scriptTypes, Default)
 }
 
 func (s ScriptType) String() string {
 	return scriptTypes[s]
+}
+
+func keyOr[V comparable, K comparable](val V, theMap map[K]V, defaultKey K) K {
+	for k, v := range theMap {
+		if v == val {
+			return k
+		}
+	}
+	return defaultKey
 }
