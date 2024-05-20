@@ -5,7 +5,8 @@ import (
 	"strings"
 
 	"github.com/jucardi/go-streams/v2/streams"
-	"github.com/tom-power/ssh-run/sshrun/utils/fp"
+
+	fp "github.com/rjNemo/underscore"
 )
 
 type Config struct {

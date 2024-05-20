@@ -34,11 +34,11 @@ func main() {
 	flags := getFlags(os.Args)
 
 	sshRunFlags := sshrun.RunFlags{
-		Help:    u.Any(flags, fp.IsEqual("--help")),
-		Hosts:   u.Any(flags, fp.IsEqual("--hosts")),
-		Scripts: u.Any(flags, fp.IsEqual("--scripts")),
-		Explain: u.Any(flags, fp.IsEqual("--explain")),
-		Ssh:     u.Any(flags, fp.IsEqual("--ssh")),
+		Help:    u.Any(flags, fp.IsEqualFn("--help")),
+		Hosts:   u.Any(flags, fp.IsEqualFn("--hosts")),
+		Scripts: u.Any(flags, fp.IsEqualFn("--scripts")),
+		Explain: u.Any(flags, fp.IsEqualFn("--explain")),
+		Ssh:     u.Any(flags, fp.IsEqualFn("--ssh")),
 	}
 
 	sshRun, err := runner.Run(hostName, scriptName, sshRunFlags)
@@ -75,7 +75,7 @@ func getFlags(args []string) []string {
 var flags = []string{"--help", "--explain", "--hosts", "--scripts", "--ssh"}
 
 func isFlag(s string) bool {
-	return u.Any(flags, fp.IsEqual(s))
+	return u.Any(flags, fp.IsEqualFn(s))
 }
 
 func isNotFlag(s string) bool {

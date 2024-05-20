@@ -4,7 +4,7 @@ import (
 	"io/fs"
 	"strings"
 
-	"github.com/tom-power/ssh-run/sshrun/utils/fp"
+	fp "github.com/rjNemo/underscore"
 )
 
 func (h Host) Scripts(fsys fs.FS) (string, error) {

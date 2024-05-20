@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	fp "github.com/rjNemo/underscore"
 	"github.com/tom-power/ssh-run/sshrun/utils"
-	"github.com/tom-power/ssh-run/sshrun/utils/fp"
 )
 
 func (h Host) Ssh() string {
