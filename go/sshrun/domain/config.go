@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strings"
 
+	"github.com/jucardi/go-streams/v2/streams"
 	"github.com/tom-power/ssh-run/sshrun/utils/fp"
 )
 
@@ -18,11 +19,11 @@ func (c Config) HostNames() (string, error) {
 }
 
 func (c Config) Host(hostName string) (Host, error) {
-	host, err := fp.Single(c.Hosts, isHostName(hostName))
-	if err != nil {
+	host := streams.From[Host](c.Hosts).Filter(isHostName(hostName)).Distinct().First()
+	if host.Ip == "" {
 		return Host{}, errors.New("couldn't find host " + hostName + " in " + c.hostNames(", "))
 	}
-	return *host, nil
+	return host, nil
 }
 
 func (c Config) hostNames(sep string) string {
