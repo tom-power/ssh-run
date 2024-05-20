@@ -6,7 +6,7 @@ import (
 
 	"github.com/jucardi/go-streams/v2/streams"
 
-	fp "github.com/rjNemo/underscore"
+	u "github.com/rjNemo/underscore"
 )
 
 type Config struct {
@@ -28,7 +28,7 @@ func (c Config) Host(hostName string) (Host, error) {
 }
 
 func (c Config) hostNames(sep string) string {
-	names := fp.Map(c.Hosts, toHostName)
+	names := u.Map(c.Hosts, toHostName)
 	return strings.Join(names, sep)
 }
 

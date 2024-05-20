@@ -4,7 +4,7 @@ import (
 	"io/fs"
 	"strings"
 
-	fp "github.com/rjNemo/underscore"
+	u "github.com/rjNemo/underscore"
 )
 
 func (h Host) Scripts(fsys fs.FS) (string, error) {
@@ -25,7 +25,7 @@ type Cleaner struct {
 
 func (cleaner Cleaner) nameOnly() Cleaner {
 	split := strings.Split(cleaner.Scripts, " ")
-	mapped := fp.Map(split, nameOnly)
+	mapped := u.Map(split, nameOnly)
 	join := strings.Join(mapped, " ")
 	return Cleaner{join}
 }
@@ -34,7 +34,7 @@ var nameOnly = func(script string) string { return strings.Split(script, ".")[0]
 
 func (cleaner Cleaner) dropNotSh() Cleaner {
 	split := strings.Split(cleaner.Scripts, " ")
-	filter := fp.Filter(split, noSh)
+	filter := u.Filter(split, noSh)
 	join := strings.Join(filter, " ")
 	return Cleaner{join}
 }
@@ -47,5 +47,5 @@ type Files struct {
 
 func (files Files) names() string {
 	fileToFileName := func(dir fs.DirEntry) string { return dir.Name() }
-	return strings.Join(fp.Map(files.Files, fileToFileName), " ")
+	return strings.Join(u.Map(files.Files, fileToFileName), " ")
 }

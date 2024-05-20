@@ -4,7 +4,7 @@ import (
 	"io/fs"
 
 	"github.com/kevinburke/ssh_config"
-	fp "github.com/rjNemo/underscore"
+	u "github.com/rjNemo/underscore"
 	"github.com/tom-power/ssh-run/sshrun/domain"
 	"github.com/tom-power/ssh-run/sshrun/fp/pred"
 )
@@ -34,7 +34,7 @@ func toHosts(config *ssh_config.Config) []domain.Host {
 					Ip:   key,
 					User: user,
 					Name: name,
-					Port: fp.Ternary(pred.IsNotEmpty(port), port, "22"),
+					Port: u.Ternary(pred.IsNotEmpty(port), port, "22"),
 				})
 			}
 		}

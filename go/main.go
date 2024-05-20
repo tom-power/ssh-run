@@ -9,8 +9,8 @@ import (
 	u "github.com/rjNemo/underscore"
 	"github.com/tom-power/ssh-run/sshrun"
 	"github.com/tom-power/ssh-run/sshrun/config"
-	"github.com/tom-power/ssh-run/sshrun/fp"
 	"github.com/tom-power/ssh-run/sshrun/fp/pred"
+	"github.com/tom-power/ssh-run/sshrun/fp/stream"
 )
 
 func main() {
@@ -29,8 +29,8 @@ func main() {
 
 	args := os.Args
 
-	hostName := fp.Stream(getCommands(args)).At(1, "")
-	scriptName := fp.Stream(getCommands(args)).At(2, "")
+	hostName := stream.From(getCommands(args)).At(1, "")
+	scriptName := stream.From(getCommands(args)).At(2, "")
 
 	flags := getFlags(os.Args)
 
