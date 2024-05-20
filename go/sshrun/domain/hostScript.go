@@ -9,7 +9,7 @@ func (h Host) Script(fsys fs.FS, scriptName string) (Script, error) {
 	if err != nil {
 		return Script{}, err
 	}
-	scriptType, err := h.Type(fsys, scriptName)
+	scriptType, err := h.ScriptTypeFor(fsys, scriptName)
 	if err != nil {
 		return Script{}, err
 	}

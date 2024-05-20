@@ -5,15 +5,15 @@ import (
 	"strings"
 )
 
-func (h Host) Type(fsys fs.FS, scriptName string) (ScriptType, error) {
+func (h Host) ScriptTypeFor(fsys fs.FS, scriptName string) (ScriptType, error) {
 	path, err := h.Path(fsys, scriptName)
 	if err != nil {
 		return Default, err
 	}
-	return Default.Parse(scriptTypeFrom(path)), nil
+	return ScriptTypeFrom(scriptTypeExtensionFor(path)), nil
 }
 
-func scriptTypeFrom(scriptPath string) string {
+func scriptTypeExtensionFor(scriptPath string) string {
 	fileName := scriptPath[strings.LastIndex(scriptPath, "/")+1:]
 	fileNameParts := strings.Split(fileName, ".")
 	if len(fileNameParts) == 3 {

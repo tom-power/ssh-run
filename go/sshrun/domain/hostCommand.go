@@ -18,7 +18,7 @@ func (h Host) Command(script Script) (string, error) {
 	case Local:
 		return command, nil
 	default:
-		return "", errors.New("unknown scriptType " + script.Type.String())
+		return "", errors.New("unknown scriptType " + script.Type.Extension())
 	}
 }
 

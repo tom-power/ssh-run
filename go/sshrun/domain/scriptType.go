@@ -9,26 +9,22 @@ const (
 	Local
 )
 
-var scriptTypes = map[ScriptType]string{
+var scriptTypeToExtension = map[ScriptType]string{
 	Default: "",
 	Pty:     "pty",
 	X11:     "x11",
 	Local:   "local",
 }
 
-func (ScriptType) Parse(value string) ScriptType {
-	return keyOr(value, scriptTypes, Default)
-}
-
-func (s ScriptType) String() string {
-	return scriptTypes[s]
-}
-
-func keyOr[V comparable, K comparable](val V, theMap map[K]V, defaultKey K) K {
-	for k, v := range theMap {
-		if v == val {
+func ScriptTypeFrom(extension string) ScriptType {
+	for k, v := range scriptTypeToExtension {
+		if v == extension {
 			return k
 		}
 	}
-	return defaultKey
+	return Default
+}
+
+func (s ScriptType) Extension() string {
+	return scriptTypeToExtension[s]
 }
