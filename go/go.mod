@@ -6,8 +6,12 @@ require (
 	dario.cat/mergo v1.0.0
 	github.com/jucardi/go-streams/v2 v2.0.2
 	github.com/kevinburke/ssh_config v1.2.0
+	github.com/rjNemo/underscore v0.4.0
 	golang.org/x/crypto v0.18.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
-require golang.org/x/sys v0.16.0 // indirect
+require (
+	golang.org/x/exp v0.0.0-20220314205449-43aec2f8a4e7 // indirect
+	golang.org/x/sys v0.16.0 // indirect
+)
