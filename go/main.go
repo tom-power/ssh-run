@@ -9,7 +9,8 @@ import (
 	u "github.com/rjNemo/underscore"
 	"github.com/tom-power/ssh-run/sshrun"
 	"github.com/tom-power/ssh-run/sshrun/config"
-	"github.com/tom-power/ssh-run/sshrun/utils/fp"
+	"github.com/tom-power/ssh-run/sshrun/fp"
+	"github.com/tom-power/ssh-run/sshrun/fp/pred"
 )
 
 func main() {
@@ -34,11 +35,11 @@ func main() {
 	flags := getFlags(os.Args)
 
 	sshRunFlags := sshrun.RunFlags{
-		Help:    u.Any(flags, fp.IsEqualFn("--help")),
-		Hosts:   u.Any(flags, fp.IsEqualFn("--hosts")),
-		Scripts: u.Any(flags, fp.IsEqualFn("--scripts")),
-		Explain: u.Any(flags, fp.IsEqualFn("--explain")),
-		Ssh:     u.Any(flags, fp.IsEqualFn("--ssh")),
+		Help:    u.Any(flags, pred.IsEqualFn("--help")),
+		Hosts:   u.Any(flags, pred.IsEqualFn("--hosts")),
+		Scripts: u.Any(flags, pred.IsEqualFn("--scripts")),
+		Explain: u.Any(flags, pred.IsEqualFn("--explain")),
+		Ssh:     u.Any(flags, pred.IsEqualFn("--ssh")),
 	}
 
 	sshRun, err := runner.Run(hostName, scriptName, sshRunFlags)
@@ -75,7 +76,7 @@ func getFlags(args []string) []string {
 var flags = []string{"--help", "--explain", "--hosts", "--scripts", "--ssh"}
 
 func isFlag(s string) bool {
-	return u.Any(flags, fp.IsEqualFn(s))
+	return u.Any(flags, pred.IsEqualFn(s))
 }
 
 func isNotFlag(s string) bool {

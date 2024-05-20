@@ -4,8 +4,9 @@ import (
 	"io/fs"
 
 	"github.com/kevinburke/ssh_config"
+	fp "github.com/rjNemo/underscore"
 	"github.com/tom-power/ssh-run/sshrun/domain"
-	"github.com/tom-power/ssh-run/sshrun/utils"
+	"github.com/tom-power/ssh-run/sshrun/fp/pred"
 )
 
 func (c ConfigFs) getHostsFromSshConfig() ([]domain.Host, error) {
@@ -33,7 +34,7 @@ func toHosts(config *ssh_config.Config) []domain.Host {
 					Ip:   key,
 					User: user,
 					Name: name,
-					Port: utils.DefaultString(port, "22"),
+					Port: fp.Ternary(pred.IsNotEmpty(port), port, "22"),
 				})
 			}
 		}

@@ -1,6 +1,6 @@
 package domain
 
-import utils "github.com/tom-power/ssh-run/sshrun/utils/fp"
+import utils "github.com/tom-power/ssh-run/sshrun/fp"
 
 type ScriptType int
 

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io/fs"
 
-	"github.com/tom-power/ssh-run/sshrun/utils"
-	"github.com/tom-power/ssh-run/sshrun/utils/fp"
+	"github.com/tom-power/ssh-run/sshrun/fp"
+	"github.com/tom-power/ssh-run/sshrun/fp/pred"
 )
 
 func (h Host) Path(fsys fs.FS, scriptName string) (string, error) {
@@ -17,7 +17,7 @@ func (h Host) Path(fsys fs.FS, scriptName string) (string, error) {
 		hostRemotePath, _ = h.pathRemote(scriptName)
 	}
 	paths := []string{commonPath, utilsPath, hostPath, hostRemotePath}
-	path := fp.Stream(paths).Filter(utils.IsNotEmpty).Last("")
+	path := fp.Stream(paths).Filter(pred.IsNotEmpty).Last("")
 	if path == "" {
 		return "", fmt.Errorf("couldn't find path for script %s.sh on host %s", scriptName, h.Name)
 	}
