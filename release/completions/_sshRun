@@ -3,7 +3,7 @@
 _completions=()
 
 _withHosts() {
-  _completions=$(~/bin/sshRun --hosts)
+  _completions=($(~/bin/sshRun --hosts))
 }
 
 host=""
@@ -11,11 +11,11 @@ _withScripts() {
   _completions=($(~/bin/sshRun $host --scripts))
 }
 
-_withSsh() {  
+_withSshOption() {  
   _completions+=('--ssh')
 }
 
-_withExplain() {  
+_withExplainOption() {  
   _completions+=('--explain')
 }
 
@@ -31,15 +31,15 @@ _hosts() {
 _scriptsAndHostOptions() {
   host=${words[2]}
   _withScripts
-  _withSsh
-  _withExplain
+  _withSshOption
+  _withExplainOption
   _addCompletions
 }
 
 _scriptOptions() {  
   script=${words[3]}
   if [[ $script != '--explain' ]]; then
-    _withExplain
+    _withExplainOption
     _addCompletions
   fi
 }
