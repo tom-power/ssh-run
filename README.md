@@ -111,3 +111,5 @@ All the commands `sshRun` generate use [ssh](https://www.openssh.com/), so it sh
 
 - `release/completions/_sshRun` completions for hosts/scripts.
 - `release/completions/settings.aliases.sshRun.zsh` adding aliases for your hosts.
+- [fzf-tab](https://github.com/Aloxaf/fzf-tab) is awesome!
+
