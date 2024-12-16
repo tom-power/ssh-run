@@ -1,13 +1,11 @@
-# read/write/**_RUN_** scripts over ssh 
+# Run scripts against hosts over ssh
 
 [![ci status][badge]][workflow]
 
 [workflow]: https://github.com/tom-power/ssh-run/actions/workflows/go.yml
 [badge]: https://img.shields.io/github/actions/workflow/status/tom-power/ssh-run/go.yml?style=flat-round&logo=github&label=CI%20status
 
-You have some **hosts**, and some **scripts** you want to run against them without remembering many/any details..
-
-..me too, so wrote this nonsense and use it most days now, **ymmv**!
+Binary and zsh completions to help running **scripts** against **hosts** without remembering many/any details, I use it most days, **ymmv**!
 
 ![demo](https://github.com/tom-power/ssh-run/blob/main/assets/demo.gif)
 
