@@ -13,11 +13,19 @@ func (h Host) Ssh() string {
 }
 
 func (h Host) SshWith(command string, option string) string {
-	sshCommandParts := []string{h.Ssh(), option, inQuotes(command)}
+	sshCommandParts := []string{h.Ssh(), option, inDoubleQuotes(withBashLogin(inSingleQuotes(command)))}
 	filter := u.Filter(sshCommandParts, pred.IsNotEmpty)
 	return strings.Join(filter, " ")
 }
 
-func inQuotes(value string) string {
+func withBashLogin(value string) string {
+	return "bash --login -c " + value
+}
+
+func inDoubleQuotes(value string) string {
 	return "\"" + value + "\""
+}
+
+func inSingleQuotes(value string) string {
+	return "'" + value + "'"
 }

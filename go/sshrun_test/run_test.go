@@ -85,7 +85,7 @@ func Test_runFs(t *testing.T) {
 
 	t.Run("can run script", func(t *testing.T) {
 		actual, _ := runner.Run("test", "remote", sshrun.RunFlags{})
-		expected := "ssh -p 22 user@192.0.2.1 \"command\""
+		expected := "ssh -p 22 user@192.0.2.1 \"bash --login -c 'command'\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
@@ -93,7 +93,7 @@ func Test_runFs(t *testing.T) {
 
 	t.Run("can explain script", func(t *testing.T) {
 		actual, _ := runner.Run("test", "remote", sshrun.RunFlags{Explain: true})
-		expected := "ssh -p 22 user@192.0.2.1 \"command\""
+		expected := "ssh -p 22 user@192.0.2.1 \"bash --login -c 'command'\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
@@ -101,7 +101,7 @@ func Test_runFs(t *testing.T) {
 
 	t.Run("can run script with pty", func(t *testing.T) {
 		actual, _ := runner.Run("test", "pty", sshrun.RunFlags{})
-		expected := "ssh -p 22 user@192.0.2.1 -t \"pty command\""
+		expected := "ssh -p 22 user@192.0.2.1 -t \"bash --login -c 'pty command'\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
@@ -110,7 +110,7 @@ func Test_runFs(t *testing.T) {
 	t.Run("can run script x11", func(t *testing.T) {
 		actual, _ := runner.Run("test", "x11", sshrun.RunFlags{})
 
-		expected := "ssh -p 22 user@192.0.2.1 -Y \"x11 command\""
+		expected := "ssh -p 22 user@192.0.2.1 -Y \"bash --login -c 'x11 command'\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
@@ -119,7 +119,7 @@ func Test_runFs(t *testing.T) {
 	t.Run("can run script local", func(t *testing.T) {
 		actual, _ := runner.Run("test", "local", sshrun.RunFlags{})
 		if actual != "command" {
-			t.Errorf("'%v' should equal '%v'", actual, "command")
+			t.Errorf("'%v' should equal '%v'", actual, "bash --login -c 'command'")
 		}
 	})
 
@@ -142,7 +142,7 @@ func Test_runFs(t *testing.T) {
 	t.Run("can delegate using LocalhostIs", func(t *testing.T) {
 		testConfig.LocalhostIs = "test"
 		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("localhost", "remote", sshrun.RunFlags{})
-		expected := "ssh -p 22 user@192.0.2.1 \"command\""
+		expected := "ssh -p 22 user@192.0.2.1 \"bash --login -c 'command'\""
 		if actual != expected {
 			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
