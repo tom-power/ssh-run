@@ -20,12 +20,12 @@ _withExplainOption() {
 }
 
 _addCompletions() {
-  compadd - $_completions
+  _describe -t _completions $1 _completions && ret=0     
 }
 
 _hosts() {
   _withHosts
-  _addCompletions
+  _addCompletions "hosts"
 }
 
 _scriptsAndHostOptions() {
@@ -33,14 +33,14 @@ _scriptsAndHostOptions() {
   _withScripts
   _withSshOption
   _withExplainOption
-  _addCompletions
+  _addCompletions "script"
 }
 
 _scriptOptions() {  
   script=${words[3]}
   if [[ $script != '--explain' ]]; then
     _withExplainOption
-    _addCompletions
+    _addCompletions "scriptOptions"
   fi
 }
 
