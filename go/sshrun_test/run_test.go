@@ -139,6 +139,14 @@ func Test_runFs(t *testing.T) {
 		}
 	})
 
+	t.Run("localhost should be configured or delegated", func(t *testing.T) {
+		_, err := runner.Run("localhost", "remote", sshrun.RunFlags{})
+
+		if !strings.Contains(err.Error(), "localhost should be configured or delegated") {
+			t.Errorf("error should contain 'localhost should be configured or delegated'")
+		}
+	})
+
 	t.Run("can delegate using LocalhostIs", func(t *testing.T) {
 		testConfig.LocalhostIs = "test"
 		actual, _ := sshrun.Runner{Config: testConfig, Fsys: testFs}.Run("localhost", "remote", sshrun.RunFlags{})

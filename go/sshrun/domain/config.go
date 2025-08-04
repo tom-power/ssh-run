@@ -22,6 +22,9 @@ func (c Config) HostNames() (string, error) {
 func (c Config) Host(hostName string) (Host, error) {
 	host := streams.From[Host](c.Hosts).Filter(isHostName(hostName)).Distinct().First()
 	if host.Ip == "" {
+		if hostName == "localhost" {
+			return Host{}, errors.New("localhost should be configured or delegated")
+		}
 		return Host{}, errors.New("couldn't find host " + hostName + " in " + c.hostNames(", "))
 	}
 	return host, nil
