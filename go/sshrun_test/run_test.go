@@ -139,11 +139,14 @@ func Test_runFs(t *testing.T) {
 		}
 	})
 
-	t.Run("localhost should be configured or delegated", func(t *testing.T) {
+	t.Run("host should be configured or delegated", func(t *testing.T) {
 		_, err := runner.Run("localhost", "remote", sshrun.RunFlags{})
 
-		if !strings.Contains(err.Error(), "localhost should be configured or delegated") {
-			t.Errorf("error should contain 'localhost should be configured or delegated'")
+		actual := err.Error()
+		expected := "localhost not found, please configure or delegate"
+
+		if actual != expected {
+			t.Errorf("'%v' should equal '%v'", actual, expected)
 		}
 	})
 
