@@ -3,16 +3,20 @@
 _completions=()
 
 _withHosts() {
-  _completions=($(~/bin/sshRun --hosts))
+  _completions=($(~/bin/sshRun --hosts) '--hosts')
 }
 
 host=""
 _withScripts() {
-  _completions=($(~/bin/sshRun $host --scripts))
+  _completions=($(~/bin/sshRun $_host --scripts))
 }
 
-_withSshOption() {  
-  _completions+=('--ssh')
+_withHostsOption() {  
+  _completions+=('--hosts' '--help')
+}
+
+_withScriptsOption() {  
+  _completions+=('--ssh' '--scripts')
 }
 
 _withExplainOption() {  
@@ -20,25 +24,38 @@ _withExplainOption() {
 }
 
 _addCompletions() {
-  _describe -t _completions $1 _completions && ret=0     
+  if [[ -n $_completions ]]; then
+    _describe -t _completions $1 _completions && ret=0
+  fi
 }
 
 _hosts() {
   _withHosts
+  _withHostsOption
   _addCompletions "hosts"
 }
 
+_isOption() {
+  if [[ $1 == --* ]]; then
+    return 0
+  else 
+    return 1
+  fi
+}
+
 _scriptsAndHostOptions() {
-  host=${words[2]}
-  _withScripts
-  _withSshOption
-  _withExplainOption
-  _addCompletions "script"
+  _host=${words[2]}
+  if ! _isOption $_host; then
+    _withScripts
+    _withScriptsOption
+    _withExplainOption
+    _addCompletions "script"
+  fi  
 }
 
 _scriptOptions() {  
-  script=${words[3]}
-  if [[ $script != '--explain' ]]; then
+  _script=${words[3]}
+  if ! _isOption $_script; then
     _withExplainOption
     _addCompletions "scriptOptions"
   fi
